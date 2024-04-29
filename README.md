@@ -4,7 +4,7 @@
 
 Project [SMART(PLD)](riccardotommasini.com/teaching/smart) is provided by [INSA Lyon](https://www.insa-lyon.fr/).
 
-Students: **[To be assigned]**
+Students: Elvi Lehtonen, Euiyoung Jin, Otso Luukkanen, Gabriel Díaz, Misaki Matsuura and Diego Campos-Velasquez
 
 ### Abstract
 
