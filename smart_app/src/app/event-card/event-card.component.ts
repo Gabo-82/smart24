@@ -11,6 +11,6 @@ import { Router } from '@angular/router';
 export class EventCardComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private router: Router) { }
   redirect():void{
-    this.router.navigate(["/"+ this.data.title]);
+    this.router.navigate(["events/"+ this.data.title]);
   }
 }

@@ -4,6 +4,11 @@
   <body>
     <app-navbar></app-navbar>
     <div id="main-content">
+      <div *ngFor="let article of articles">
+        <h2>{{ article.title }}</h2>
+        <p>{{ article.abstract }}</p>
+        <!-- Add more details as needed -->
+      </div>
     </div>
     <footer id="footer">
       <p id="footer-text">Built and designed by Elvi Lehtonen, Euiyoung Jin, Gabriel Díaz, Otso Luukkanen, Misaki Matsuura, Diego Campos-Velasquez
