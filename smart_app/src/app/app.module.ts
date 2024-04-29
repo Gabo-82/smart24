@@ -14,12 +14,16 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { EventCardComponent } from './event-card/event-card.component';
+import { NewsMapComponent } from './news-map/news-map.component';
+import { HomeComponent } from './home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     TimelineComponent,
-    EventCardComponent
+    EventCardComponent,
+    NewsMapComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
