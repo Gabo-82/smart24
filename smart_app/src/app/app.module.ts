@@ -16,6 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { EventCardComponent } from './event-card/event-card.component';
 import { NewsMapComponent } from './news-map/news-map.component';
 import { HomeComponent } from './home/home.component';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +36,8 @@ import { HomeComponent } from './home/home.component';
     BrowserAnimationsModule,
     FormsModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    HttpClientModule,
   ],
   providers: [
     provideAnimationsAsync()

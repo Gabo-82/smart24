@@ -10,8 +10,7 @@ import { EventCardComponent } from '../event-card/event-card.component';
 })
 export class TimelineComponent implements OnInit{
   constructor(public dialog: MatDialog){}
-  gfg: any[] = [];
-     
+  gfg: any[] = [];   
   ngOnInit() {
       this.gfg = [
           {
@@ -24,7 +23,7 @@ export class TimelineComponent implements OnInit{
             }
           },
           {
-            title: "2.",
+            title: "Event2",
             date: "22 May 2004 to 26 May 2014",
             description: "A brief description",
             ButtonColor: "p-button-rounded p-button-warning",
