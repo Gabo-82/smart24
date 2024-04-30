@@ -15,4 +15,8 @@ export class NavbarComponent {
     this.router.navigate(["/about"]);
   }
 
+  redirectProducts(){
+    this.router.navigate(["products"]) // for now it just takes you to the About-page
+  }
+
 }
