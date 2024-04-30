@@ -323,10 +323,10 @@
     // For example, you can add an arrow within an SVG like this:
     var svg = document.getElementById('worldMapImage');
     var arrow = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    arrow.setAttribute("x1", parseFloat(long)*2.8 + 350);
-    arrow.setAttribute("y1", -parseFloat(lat)+300);
-    arrow.setAttribute("x2", parseFloat(long)*2.8 + 360); 
-    arrow.setAttribute("y2", -parseFloat(lat)+310); 
+    arrow.setAttribute("x1", parseFloat(long)*3.2+470);
+    arrow.setAttribute("y1", -parseFloat(lat)*3.2+430);
+    arrow.setAttribute("x2", parseFloat(long)*3.2+470); 
+    arrow.setAttribute("y2", -parseFloat(lat)*3.2+440); 
     arrow.setAttribute("stroke", "black"); 
     arrow.setAttribute("stroke-width", "10"); 
     svg.appendChild(arrow);
