@@ -11,9 +11,11 @@ def get_news(keyword, api_key):
         for article in articles:
             title = article.get("title", "Title not available")
             countries = article.get("country", ["Country not available"])
+            url = article.get("link", "URL not available")
             print("Title:", title)
             print("Country:", ", ".join(countries))
-            print()
+            print("URL:", url)
+            
 
 api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
 keyword = input("Enter a keyword: ")

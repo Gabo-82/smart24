@@ -1,7 +1,7 @@
 import nltk
 from newspaper import Article
 
-url = 'https://www.biobiochile.cl/noticias/nacional/chile/2024/04/29/orsini-no-da-unanimidad-para-votar-ruf-hasta-total-despacho-en-comisiones-pidio-discutir-con-tiempo.shtml'
+url = 'https://www.aljazeera.com/news/2024/4/29/columbia-university-threatens-suspension-over-pro-palestinian-protests'
 article = Article(url)
 
 #NLP
