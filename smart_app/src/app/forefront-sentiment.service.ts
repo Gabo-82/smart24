@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class ForerontSentimentService {
+export class ForefrontSentimentService {
 
   private apiUrl = 'https://api.forefront.ai/v1/chat/completions';
   // client = new Forefront("sk-9tH5F6Q3n7hhPleQKn8sL8polTEe711T");

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ForerontSentimentService } from './foreront-sentiment.service';
+import { ForefrontSentimentService } from './forefront-sentiment.service';
 
 describe('ForerontSentimentService', () => {
-  let service: ForerontSentimentService;
+  let service: ForefrontSentimentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ForerontSentimentService);
+    service = TestBed.inject(ForefrontSentimentService);
   });
 
   it('should be created', () => {
