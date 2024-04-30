@@ -7,7 +7,9 @@ import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // Define AppComponent as the component for the root path
-  { path: 'events/:title', component: NewsMapComponent }
+  { path: 'events/:title', component: NewsMapComponent },
+  { path: 'about', component: NewsMapComponent },
+
 ];
 
 @NgModule({
