@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NyTimesService } from '../ny-times.service';
+import { ForefrontSentimentService } from '../foreront-sentiment.service';
 
 @Component({
   selector: 'app-news-map',
@@ -9,7 +10,7 @@ import { NyTimesService } from '../ny-times.service';
 export class NewsMapComponent {
   articles: any[] = [];
 
-  constructor(private nyTimesService: NyTimesService) { }
+  constructor(private nyTimesService: NyTimesService, private forefrontService: ForefrontSentimentService) { }
 
   ngOnInit(): void {
     this.loadArticles();
@@ -19,5 +20,9 @@ export class NewsMapComponent {
     this.nyTimesService.getArticles().subscribe(response => {
       console.log(response.response.docs[0]);
     });
+  }
+
+  loadSentimentAnalysis(): void{
+    console.log(this.forefrontService.getSentiment());
   }
 }
