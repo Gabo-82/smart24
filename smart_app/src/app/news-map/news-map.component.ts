@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NyTimesService } from '../ny-times.service';
 
-declare var ml5: any;
-
 @Component({
   selector: 'app-news-map',
   templateUrl: './news-map.component.html',
@@ -17,7 +15,6 @@ export class NewsMapComponent implements OnInit {
 
   ngOnInit(): void {
     // this.loadArticles();
-    console.log('ml5 version: ', ml5.version);
   }
 
   loadArticles(): void {
