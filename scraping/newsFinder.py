@@ -1,5 +1,6 @@
 #This code is for extracting the Title, Body, Country, URL and Summary of the news obtained after searching based on keywords.
 
+import sqlite3
 import requests
 import nltk
 from newspaper import Article
@@ -41,6 +42,7 @@ def newsExtractContent(url):
         article.parse()
         article.nlp()
 
+<<<<<<< HEAD
         date = article.publish_date
         body = article.text
         summary = article.summary
@@ -56,6 +58,14 @@ def newsExtractContent(url):
 nltk.download('punkt')
 
 keywords = "Labor Day" #Input by the user
+=======
+    #print(article.authors)
+    #print(article.publish_date)
+    #print(article.top_image)
+    return(article.text)
+
+keywords = "Palestine" #Input by the user
+>>>>>>> f188365e06caddaea7c7b1a87f25fc53a1c04450
 api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
 newData = newsFinder(keywords, api_key) #Arrays with all the URLs collected
 
@@ -72,8 +82,28 @@ for newsItem in newData:
 
 print(len(completeData))
 
+<<<<<<< HEAD
+
+=======
+#connect to database
+conn = sqlite3.connect('news_articles.db')
+cursor = conn.cursor()
+
+# Create table if not exists
+cursor.execute('''CREATE TABLE IF NOT EXISTS Articles
+                  (id INTEGER PRIMARY KEY,
+                   url TEXT,
+                   content TEXT,
+                   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+>>>>>>> f188365e06caddaea7c7b1a87f25fc53a1c04450
 
 
+# Extract content from each URL and store in the database
+for url in urls:
+    content = newsExtractContent(url)
+    cursor.execute("INSERT INTO Articles (url, content) VALUES (?, ?)", (url, content))
+    conn.commit()
 
-
+# Close connection
+conn.close()
 

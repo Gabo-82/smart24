@@ -1,7 +1,7 @@
 import nltk
 from newspaper import Article
 
-url = 'https://www.aljazeera.com/news/2024/4/29/columbia-university-threatens-suspension-over-pro-palestinian-protests'
+url = 'https://www.lavozdegalicia.es/noticia/deza/2024/04/30/precaridad-laboral-centra-lucha-sindical-zona-1-mayo/0003_202404D30C19932.htm'
 article = Article(url)
 
 #NLP
