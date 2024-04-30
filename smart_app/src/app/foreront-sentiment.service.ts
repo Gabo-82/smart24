@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Forefront from "forefront"
+import Forefront from 'forefront';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {CompletionResponse} from "forefront/build/chat/completion";
@@ -10,8 +10,9 @@ import {CompletionResponse} from "forefront/build/chat/completion";
 export class ForerontSentimentService {
 
   private apiUrl = 'http://localhost:8080/api/';
+  client = new Forefront("sk-9tH5F6Q3n7hhPleQKn8sL8polTEe711T");
 
-  constructor(private client = new Forefront("sk-9tH5F6Q3n7hhPleQKn8sL8polTEe711T")) { }
+  constructor() { }
 
   getSentiment(): Promise<CompletionResponse> {
     const completion = this.client.chat.completions.create({
