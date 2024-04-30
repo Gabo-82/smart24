@@ -17,6 +17,7 @@ export class NewsMapComponent {
 
   ngOnInit(): void {
     this.loadArticles();
+    this.testApiHttp();
   }
 
   loadArticles(): void {
@@ -30,7 +31,8 @@ export class NewsMapComponent {
   // }
   testApiHttp(): void {
     this.forefrontSentimentService.getSentimentHttp().subscribe( response => {
-      console.log(response)
+      console.log(response);
+      console.log("hello");
     });
   }
 }
