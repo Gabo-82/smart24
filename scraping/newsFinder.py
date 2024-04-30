@@ -1,5 +1,6 @@
 #This code is for extracting the Title, Body, Country, URL and Summary of the news obtained after searching based on keywords.
 
+import sqlite3
 import requests
 import nltk
 from newspaper import Article
@@ -59,6 +60,9 @@ keywords = "Labor Day" #Input by the user
 api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
 newData = newsFinder(keywords, api_key) #Arrays with all the URLs collected
 
+""" dat = newsExtractContent(newData[2][2])
+print(dat) """
+
 completeData = []
 for newsItem in newData:
     title, country, url = newsItem
@@ -67,4 +71,8 @@ for newsItem in newData:
         completeNewsItem = [title, country, url] + contentData
         completeData.append(completeNewsItem)
 
-print(len(completeData))
+print(len(completeData)) #completedata is an array of arrays [[title, country, url, date, body, summary],...]
+
+
+
+
