@@ -17,6 +17,7 @@ import { EventCardComponent } from './event-card/event-card.component';
 import { NewsMapComponent } from './news-map/news-map.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
     TimelineComponent,
     EventCardComponent,
     NewsMapComponent,
-    HomeComponent
+    HomeComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
