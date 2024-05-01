@@ -71,15 +71,23 @@ for newsItem in newData:
         completeNewsItem = [title, country, url] + contentData
         completeData.append(completeNewsItem)
 
+print("The amount of news: ")
 print(len(completeData)) #completedata is an array of arrays [[title, country, url, date, body, summary],...]
 
 
-#connect to database
-conn = sqlite3.connect('news_articles.db')
-cursor = conn.cursor()
 
- # Create table if not exists
-cursor.execute('''CREATE TABLE IF NOT EXISTS Articles
+#Flask & connection to database
+from flask import Flask, jsonify
+import sqlite3
+
+app = Flask(__name__)
+
+
+# Connect to database (create if doesn't), create table, and insert data
+def setup_database():
+    conn = sqlite3.connect('scraping/news_articles.db')
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Articles
                    (id INTEGER PRIMARY KEY,
                     title TEXT,
                     country TEXT,
@@ -88,13 +96,27 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS Articles
                     body TEXT,
                     summary TEXT)''')
 
- # Extract content from each URL and store in the databas
-for newsItem in completeData:
-    title, country, url, date, body, summary = newsItem
-    cursor.execute("INSERT INTO Articles (title, country, url, date, body, summary) VALUES (?, ?, ?, ?, ?, ?)",
-                   (title, country, url, date, body, summary))
-    conn.commit()
+    for newsItem in completeData:
+        title, country, url, date, body, summary = newsItem
+        cursor.execute("INSERT INTO Articles (title, country, url, date, body, summary) VALUES (?, ?, ?, ?, ?, ?)",
+                    (title, country, url, date, body, summary))
+        conn.commit()
 
-# Close connection
-conn.close()
+    conn.close()
+
+# Call the setup_database function when the Flask app starts
+setup_database()
+
+#Route
+@app.route('/api/articles')
+def get_articles():
+    conn = sqlite3.connect('news_articles.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT title, country, body FROM Articles")
+    articles = cursor.fetchall()
+    conn.close()
+    return jsonify(articles)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
