@@ -56,7 +56,7 @@ def newsExtractContent(url):
 
 nltk.download('punkt')
 
-keywords = "Labor Day" #Input by the user
+keywords = "Palestine" #Input by the user
 api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
 newData = newsFinder(keywords, api_key) #Arrays with all the URLs collected
 
@@ -74,5 +74,27 @@ for newsItem in newData:
 print(len(completeData)) #completedata is an array of arrays [[title, country, url, date, body, summary],...]
 
 
+#connect to database
+conn = sqlite3.connect('news_articles.db')
+cursor = conn.cursor()
 
+ # Create table if not exists
+cursor.execute('''CREATE TABLE IF NOT EXISTS Articles
+                   (id INTEGER PRIMARY KEY,
+                    title TEXT,
+                    country TEXT,
+                    url TEXT,
+                    date TEXT,
+                    body TEXT,
+                    summary TEXT)''')
+
+ # Extract content from each URL and store in the databas
+for newsItem in completeData:
+    title, country, url, date, body, summary = newsItem
+    cursor.execute("INSERT INTO Articles (title, country, url, date, body, summary) VALUES (?, ?, ?, ?, ?, ?)",
+                   (title, country, url, date, body, summary))
+    conn.commit()
+
+# Close connection
+conn.close()
 
