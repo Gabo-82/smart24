@@ -16,34 +16,37 @@ import { MatButtonModule } from '@angular/material/button';
 import { EventCardComponent } from './event-card/event-card.component';
 import { NewsMapComponent } from './news-map/news-map.component';
 import { HomeComponent } from './home/home.component';
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AboutComponent } from './about/about.component';
+import { AmChartsModule } from "@amcharts/amcharts3-angular";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    TimelineComponent,
-    EventCardComponent,
-    NewsMapComponent,
-    HomeComponent,
-    AboutComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    TimelineModule,
-    CardModule,
-    ButtonModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MatDialogModule,
-    MatButtonModule,
-    HttpClientModule,
-  ],
-  providers: [
-    provideAnimationsAsync()
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        TimelineComponent,
+        EventCardComponent,
+        NewsMapComponent,
+        HomeComponent,
+        AboutComponent
+
+    ],
+    providers: [
+        provideAnimationsAsync()
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        TimelineModule,
+        CardModule,
+        ButtonModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MatDialogModule,
+        MatButtonModule,
+        HttpClientModule,
+        AmChartsModule
+    ]
 })
 export class AppModule {}
