@@ -14,7 +14,7 @@ export class NewsMapComponent implements OnInit {
   constructor(private nyTimesService: NyTimesService) { }
 
   ngOnInit(): void {
-    // this.loadArticles();
+    this.loadArticles();
   }
 
   loadArticles(): void {
