@@ -4,10 +4,13 @@ import { NewsMapComponent } from './news-map/news-map.component';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // Define AppComponent as the component for the root path
-  { path: 'events/:title', component: NewsMapComponent }
+  { path: 'events/:title', component: NewsMapComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'products', component: AboutComponent }, // for now it just takes you to the About-page
 ];
 
 @NgModule({

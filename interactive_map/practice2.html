@@ -10,7 +10,7 @@
   }
   path {
     fill: white;
-    stroke: rgb(94, 78, 78);
+    stroke: rgb(188, 64, 115);
   }
 </style>
 </head>
@@ -277,61 +277,34 @@
   </svg>
 
 <script type="text/javascript">
-  document.getElementById("worldMapImage").addEventListener("click", function(event) {
-    if (event.target.classList.contains('land')) {
-        alert(event.target.getAttribute('countryname'));
-        var clickedCountry = event.target;
-        clickedCountry.style.fill = "rgb(94, 78, 78)";
-        
-        var clickedCountryName = event.target.getAttribute('countryname');
-        loadXML('ajax.countriesTP.xml', clickedCountryName);
+ var predefinedCountries = ["Finland", "South Korea", "Chile", "Canada", "Japan"];
+
+// SVG를 클릭할 때의 동작을 정의
+document.getElementById("worldMapImage").addEventListener("click", function(event) {
+  // 클릭한 요소가 SVG 내의 국가인지 확인
+  if (event.target.classList.contains('land')) {
+    // 클릭한 국가의 이름을 가져와서 표시
+    var clickedCountryName = event.target.getAttribute('countryname');
+    alert("You clicked on: " + clickedCountryName);
+  }
+});
+
+// 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
+function highlightCountries() {
+  // SVG 내의 모든 국가들을 가져옴
+  var countries = document.querySelectorAll('path.land');
+  countries.forEach(function(country) {
+    var countryName = country.getAttribute('countryname');
+    // 미리 정의된 국가 배열에 해당 국가가 포함되어 있는지 확인
+    if (predefinedCountries.includes(countryName)) {
+      // 미리 정의된 국가를 강조하기 위해 색상을 변경
+      country.style.fill = "yellow";
     }
-    
-    setTimeout(function() {
-        clickedCountry.style.fill = "white";
-    }, 1300)
   });
+}
 
-  function loadXML(xmlFile, countryName) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            parseXML(this, countryName);
-        }
-    };
-    xhttp.open("GET", xmlFile, true);
-    xhttp.send();
-  }
-
-  function parseXML(xml, countryName) {
-    var xmlDoc = xml.responseXML;
-    var countries = xmlDoc.getElementsByTagName("country");
-    for (var i=0; i < countries.length; i++) {
-        var commonName = countries[i].getElementsByTagName("common_name")[0].textContent;
-        if (commonName === countryName) {
-            var lat= countries[i].getElementsByTagName("coordinates")[0].getAttribute("lat");
-            var long = countries[i].getElementsByTagName("coordinates")[0].getAttribute("long");
-            drawArrow(lat, long);
-            break;
-        }
-    }
-    console.log(name, lat, long);
-  }
-
-  function drawArrow(lat, long) {
-    // Write code to draw an arrow
-    // For example, you can add an arrow within an SVG like this:
-    var svg = document.getElementById('worldMapImage');
-    var arrow = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    arrow.setAttribute("x1", parseFloat(long)*3.2+470);
-    arrow.setAttribute("y1", -parseFloat(lat)*3.2+430);
-    arrow.setAttribute("x2", parseFloat(long)*3.2+470); 
-    arrow.setAttribute("y2", -parseFloat(lat)*3.2+440); 
-    arrow.setAttribute("stroke", "black"); 
-    arrow.setAttribute("stroke-width", "10"); 
-    svg.appendChild(arrow);
-  }
-
+// 미리 정의된 국가들을 강조하는 함수 호출
+highlightCountries();
 </script>
 
 </body>

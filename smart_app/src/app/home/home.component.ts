@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  title = 'smart_app';
 }

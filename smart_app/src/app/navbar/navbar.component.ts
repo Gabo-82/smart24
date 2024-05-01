@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-navbar',
@@ -6,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
+  constructor(private router: Router){}
+
+  redirectAbout(){
+    this.router.navigate(["/about"]);
+  }
+
+  redirectProducts(){
+    this.router.navigate(["products"]) // for now it just takes you to the About-page
+  }
 
 }
