@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NyTimesService } from '../ny-times.service';
 import { ForefrontSentimentService } from '../forefront-sentiment.service';
+import { OpenaiSentimentService} from "../openai-sentiment.service";
 
 @Component({
   selector: 'app-news-map',
@@ -10,11 +11,12 @@ import { ForefrontSentimentService } from '../forefront-sentiment.service';
 export class NewsMapComponent {
   articles: any[] = [];
 
-  constructor(private nyTimesService: NyTimesService, private forefrontSentimentService: ForefrontSentimentService) { }
+  constructor(private nyTimesService: NyTimesService, private forefrontSentimentService: ForefrontSentimentService, private openaiSentimentService: OpenaiSentimentService) { }
 
   ngOnInit(): void {
     this.loadArticles();
-    this.testApiHttp();
+    // this.testApiHttp();
+    // this.testOpenAISentiment();
   }
 
   loadArticles(): void {
@@ -28,5 +30,12 @@ export class NewsMapComponent {
       console.log(response);
       console.log("hello");
     });
+  }
+
+  testOpenAISentiment(): void {
+    this.openaiSentimentService.getOpenAISentiment().then( response => {
+      console.log("hello");
+      console.log(response.choices);
+    })
   }
 }
