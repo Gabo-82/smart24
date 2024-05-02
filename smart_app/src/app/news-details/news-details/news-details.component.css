@@ -1,0 +1,38 @@
+html, body{
+    min-height:100%;
+}
+
+body{
+    height:200vh;
+    justify-content: center;
+    background-color: #e6f1ff;
+
+}
+
+
+#main-content{
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    margin: auto;
+    padding-left: 5vw;
+    padding-right: 5vw;
+}
+
+#footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: 4rem;
+    justify-content: center;
+    align-content: center;
+    background-color: #30323a;
+    color: #e6f1ff;
+    padding-top: 1.5vw;
+}
+
+
+#footer-text{
+    display: flex;
+    justify-content: center;
+}
