@@ -3,9 +3,6 @@ import sqlite3
 import pandas as pd
 import os
 
-# or
-# openai.api_key = os.environ["address"]
-
 
 def get_sentiment(text):
     response = openai.ChatCompletion.create(
@@ -16,6 +13,7 @@ def get_sentiment(text):
 
 
 db_file = '/Users/jineuiyoung/Downloads/news_articles.sqlite'
+
 
 conn = sqlite3.connect(db_file)
 query = "SELECT title, country, body FROM Articles"
