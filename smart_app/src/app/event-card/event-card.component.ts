@@ -14,5 +14,9 @@ export class EventCardComponent {
     this.router.navigate(["details"]);
   }
 
-
+  onClickSubtopic(subtopic: string): void {
+    // Implement logic based on the clicked subtopic (e.g., navigate, show content, etc.)
+    console.log(`Clicked on subtopic: ${subtopic}`);
+    // Add more logic as needed based on the clicked subtopic
+  }
 }

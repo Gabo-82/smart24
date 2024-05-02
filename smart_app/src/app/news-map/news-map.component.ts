@@ -48,10 +48,11 @@ export class NewsMapComponent implements OnInit {
    openDialog(countryName: string){
     const dialogRef = this.dialog.open(EventCardComponent, {
       data: {
-        title: countryName,
+        title: "News artiles from " + countryName,
         date: "Dummy date",
         description: "Dummy description"
       }
     });
   }
   }
+

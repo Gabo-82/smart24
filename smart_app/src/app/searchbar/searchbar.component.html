@@ -4,8 +4,11 @@
     <option value="" disabled>Select Country</option>
     <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>
   </select>
-  <button (click)="performSearch()">Search</button>
+  <button class="search_button" (click)="redirectToWorldMap()">Search for news</button> 
 </div>
+
+
+
 
 <div class="search-results" *ngIf="newsArticles.length > 0">
   <h2>Search Results</h2>

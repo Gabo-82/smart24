@@ -1,3 +1,4 @@
+
 #This code is for extracting the Title, Body, Country, URL and Summary of the news obtained after searching based on keywords.
 
 import sqlite3
