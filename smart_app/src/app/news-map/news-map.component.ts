@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { NyTimesService } from '../ny-times.service';
 import { EventCardComponent } from '../event-card/event-card.component';
 import { MatDialog } from '@angular/material/dialog';
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
@@ -14,14 +15,16 @@ export class NewsMapComponent implements OnInit {
   ml5Version: string = "";
   articles: any[] = [];
   countryName: string | null = "hello";
+  currentRoute: string;
 
-  constructor(private nyTimesService: NyTimesService, public dialog: MatDialog) { }
+  constructor(private nyTimesService: NyTimesService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
+    this.currentRoute = router.url.split('/').pop()!;
+  }
 
   ngOnInit(): void {
     // this.loadArticles();
     this.highlightCountries();
   }
-
   onRegionClick(event: MouseEvent){
     const target = event.target as HTMLButtonElement;
     let clickedCountryName = target.getAttribute('countryName');
