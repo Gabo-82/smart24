@@ -6,7 +6,9 @@ import nltk
 from newspaper import Article
 from newspaper.article import ArticleException
 
-def newsFinder(keywords, api_key): #This function returns an array with [[Title1, Country1, Url1],[Title2, Country2, Url2],...]
+
+def newsFinder(keywords,
+               api_key):  #This function returns an array with [[Title1, Country1, Url1],[Title2, Country2, Url2],...]
     url = f"https://newsdata.io/api/1/news?apikey={api_key}&q={keywords}"
     response = requests.get(url)
     data = response.json()
@@ -31,8 +33,9 @@ def newsFinder(keywords, api_key): #This function returns an array with [[Title1
             newdat.append(country)
             newdat.append(url)
             newsData.append(newdat)
-    
-    return(newsData)
+
+    return (newsData)
+
 
 def newsExtractContent(url):
     data = []
@@ -52,13 +55,14 @@ def newsExtractContent(url):
     except ArticleException as e:
         print(f"Error downloading article from {url}: {e}")
         data = None
-    return(data)
+    return (data)
+
 
 nltk.download('punkt')
 
-keywords = "Palestine" #Input by the user
+keywords = "Palestine"  #Input by the user
 api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
-newData = newsFinder(keywords, api_key) #Arrays with all the URLs collected
+newData = newsFinder(keywords, api_key)  #Arrays with all the URLs collected
 
 """ dat = newsExtractContent(newData[2][2])
 print(dat) """
@@ -72,9 +76,7 @@ for newsItem in newData:
         completeData.append(completeNewsItem)
 
 print("The amount of news: ")
-print(len(completeData)) #completedata is an array of arrays [[title, country, url, date, body, summary],...]
-
-
+print(len(completeData))  #completedata is an array of arrays [[title, country, url, date, body, summary],...]
 
 #Flask & connection to database
 from flask import Flask, jsonify
@@ -84,6 +86,7 @@ import sqlite3
 app = Flask(__name__)
 
 cors = CORS(app, origins=['http://localhost:4200', 'https://example.com'])
+
 
 # Connect to database (create if doesn't), create table, and insert data
 def setup_database():
@@ -101,13 +104,15 @@ def setup_database():
     for newsItem in completeData:
         title, country, url, date, body, summary = newsItem
         cursor.execute("INSERT INTO Articles (title, country, url, date, body, summary) VALUES (?, ?, ?, ?, ?, ?)",
-                    (title, country, url, date, body, summary))
+                       (title, country, url, date, body, summary))
         conn.commit()
 
     conn.close()
 
+
 # Call the setup_database function when the Flask app starts
 setup_database()
+
 
 #Route
 @app.route('/api/articles')
@@ -118,6 +123,7 @@ def get_articles():
     articles = cursor.fetchall()
     conn.close()
     return jsonify(articles)
+
 
 @app.route('/api/article/<id>')
 def get_single_article(id):
@@ -140,6 +146,6 @@ def get_single_article(id):
     print(article)
     return jsonify(article)
 
+
 if __name__ == '__main__':
     app.run(debug=True)
-
