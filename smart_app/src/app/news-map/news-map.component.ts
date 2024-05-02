@@ -13,6 +13,7 @@ export class NewsMapComponent implements OnInit {
   predefinedCountries = ["Finland", "South Korea", "Chile", "Canada", "Japan"];
   ml5Version: string = "";
   articles: any[] = [];
+  countryName: string | null = "hello";
 
   constructor(private nyTimesService: NyTimesService, public dialog: MatDialog) { }
 
@@ -23,7 +24,8 @@ export class NewsMapComponent implements OnInit {
 
   onRegionClick(event: MouseEvent){
     const target = event.target as HTMLButtonElement;
-    var clickedCountryName = target.getAttribute('countryName');
+    let clickedCountryName = target.getAttribute('countryName');
+    this.countryName = clickedCountryName;
     alert("You clicked on: " + clickedCountryName);
     if(clickedCountryName){
       this.openDialog(clickedCountryName);
