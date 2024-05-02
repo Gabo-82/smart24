@@ -30,6 +30,7 @@ export class NewsMapComponent implements OnInit {
     // Redirect to Otso's component that presents data
     }
   }
+  
 
    // 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
   highlightCountries() {
@@ -48,10 +49,11 @@ export class NewsMapComponent implements OnInit {
    openDialog(countryName: string){
     const dialogRef = this.dialog.open(EventCardComponent, {
       data: {
-        title: countryName,
+        title: "News artiles from " + countryName,
         date: "Dummy date",
         description: "Dummy description"
       }
     });
   }
   };
+

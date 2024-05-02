@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-searchbar',
@@ -38,12 +39,15 @@ export class SearchbarComponent implements OnInit {
     // Add more countries as needed
   ];
 
-  constructor(private http: HttpClient) { }
+  // constructor(private http: HttpClient) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  performSearch(): void {
+  //here used to be this:
+  /*
+performSearch(): void {
     // Implement your search logic using this.searchQuery and this.selectedCountry
     const query = this.searchQuery.trim();
     const country = this.selectedCountry;
@@ -71,10 +75,17 @@ export class SearchbarComponent implements OnInit {
       );
     }
   }
+ */
 
   onCountryChange(): void {
     // Handle logic when the selected country changes
     console.log('Selected country:', this.selectedCountry);
     // You can trigger additional actions here based on the selected country
+  }
+
+  redirectToWorldMap(): void {
+    if (this.searchQuery.trim() !== '') {
+      this.router.navigate(['/worldmap', this.searchQuery.trim()]); // Redirect to localhost:4200/worldmap/<inputted_word>
+    }
   }
 }
