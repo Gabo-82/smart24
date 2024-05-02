@@ -1,12 +1,11 @@
-<h1 mat-dialog-title>{{data.title}}</h1>
+<h1 mat-dialog-title>News articles from {{ selectedArticle?.country }} </h1>
 <mat-dialog-content class="mat-typography">
     <img src="../../assets/images/image.jpg" alt="Description of the image">
-    <h2>Date</h2>
-    <p>{{data.date}}</p>
-    <h2>Location</h2>
-    <p>{{data.location}}</p>
-    <h2>Description</h2>
-    <p>{{data.description}}</p>
+    
+    <h2></h2>
+    <p>An artile title: {{selectedArticle?.title}}</p>
+    <h2>Something else here ?</h2>
+    
     
 </mat-dialog-content>
 <mat-dialog-actions align="end">

@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { NyTimesService } from '../ny-times.service';
 import { EventCardComponent } from '../event-card/event-card.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CardOfNewsComponent } from '../card-of-news/card-of-news.component';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class NewsMapComponent implements OnInit {
    }
 
    openDialog(countryName: string){
-    const dialogRef = this.dialog.open(EventCardComponent, {
+    const dialogRef = this.dialog.open(CardOfNewsComponent, {
       data: {
         title: "News artiles from " + countryName,
         date: "Dummy date",
