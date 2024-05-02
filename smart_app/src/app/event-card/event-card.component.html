@@ -1,15 +1,15 @@
-<h1 mat-dialog-title>{{data.title}}</h1>
+<h1 mat-dialog-title>{{ data.title }}</h1>
 <mat-dialog-content class="mat-typography">
-    <img src="../../assets/images/image.jpg" alt="Description of the image">
-    <h2>Date</h2>
-    <p>{{data.date}}</p>
-    <h2>Location</h2>
-    <p>{{data.location}}</p>
+    <img [src]="data.imageUrl" alt="{{ data.title }} Image" style="max-width: 100%;">
     <h2>Description</h2>
-    <p>{{data.description}}</p>
-    
+    <p>{{ data.description }}</p>
+    <div *ngIf="data.subtopics && data.subtopics.length > 0">
+        <h2 class="section-title">Suggested Keyword Searches</h2>
+        <div class="subtopic-buttons">
+            <button *ngFor="let subtopic of data.subtopics" mat-raised-button (click)="onClickSubtopic(subtopic)">{{ subtopic }}</button>
+        </div>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Return</button>
-  <button mat-button (click)="redirect()" [mat-dialog-close]="true" cdkFocusInitial>Learn More</button>
+    <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

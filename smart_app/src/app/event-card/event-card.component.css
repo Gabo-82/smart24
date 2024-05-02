@@ -1,0 +1,23 @@
+.section-title {
+    font-size: 1.2em;
+    color: #333; /* Customize color as needed */
+    margin-bottom: 10px;
+}
+
+.subtopic-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.subtopic-buttons button {
+    min-width: 120px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: #007bff; /* Customize button background color */
+    color: #fff; /* Button text color */
+}
+
+.subtopic-buttons button:hover {
+    background-color: #0056b3; /* Hover state color */
+}

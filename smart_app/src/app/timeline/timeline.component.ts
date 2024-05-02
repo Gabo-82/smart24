@@ -14,113 +14,75 @@ export class TimelineComponent implements OnInit{
   ngOnInit() {
       this.gfg = [
           {
-            title: "Event",
-            date: "26 May 2014 - Present",
-            description: "A brief description",
-            ButtonColor: "p-button-rounded p-button-warning",
+            title: "Israel-Palestine Conflict",
+            description: "Stay informed about the complex and evolving dynamics of the Israel-Palestine conflict, with in-depth coverage of geopolitical tensions, peace efforts, and humanitarian issues affecting the region. Explore diverse perspectives and ongoing developments shaping this enduring conflict.",
+            ButtonColor: "custom-button-israel",
+            imageUrl: "../../assets/images/israel-palestine.jpg",
+            subtopics: ["Gaza Strip", "West Bank", "Two-state solution", "Jerusalem tensions", "Palestinian refugee crisis"],
             onClick: () => {
               this.openDialog(0);
             }
           },
           {
-            title: "Event2",
-            date: "22 May 2004 to 26 May 2014",
-            description: "A brief description",
+            title: "Technology",
+            description: "Explore the forefront of technology with updates on artificial intelligence, cybersecurity, and the latest achievements in space exploration!",
             ButtonColor: "p-button-rounded p-button-warning",
+            imageUrl: "../../assets/images/technology.jpeg",
+            subtopics: ["Artificial intelligence", "Cybersecurity", "Tech startups", "Blockchain developments", "Internet of Things"],
             onClick: () => {
               this.openDialog(1);
             }
           },
           {
-            title: "3.",
-            date: "19 March 1998 to 22 May 2004",
-            description: "A brief description",
+            title: "Politics",
+            description: "Delve into the world of politics with insights into elections, diplomatic relations, and discussions on government policies reshaping societies!",
             ButtonColor: "p-button-rounded p-button-warning",
+            imageUrl: "../../assets/images/politics.png",
+            subtopics: ["Global diplomacy", "Election updates", "Government policies", "International relations", "Political scandals"],
             onClick: () => {
               this.openDialog(2);
             }
           },
           {
-            title: "4.",
-            date: "21 April 1997 to 19 March 1998",
-            description: "A brief description",
+            title: "Business",
+            description: "Navigate the world of finance with in-depth analyses of stock market trends, entrepreneurial success stories, and global economic developments!",
             ButtonColor: "p-button-rounded p-button-warning",
+            imageUrl: "../../assets/images/business.jpeg",
+            subtopics: ["Stock market", "Entrepreneurship", "Corporate sustainability", "Economic forecasts", "Business mergers"],
             onClick: () => {
               this.openDialog(3);
             }
           },
           {
-            title: "5.",
-            date: "1 June 1996 to 21 April 1997",
-            description: "A brief description",
+            title: "Arts and Culture",
+            description: "Immerse yourself in the realm of arts and culture with highlights on film, literature, and captivating exhibitions from around the world!",
             ButtonColor: "p-button-rounded p-button-warning",
+            imageUrl: "../../assets/images/arts-culture.png",
+            subtopics: ["Film  industry", "Art exhibitions", "Cultural festivals", "Book releases", "Music industry"],
             onClick: () => {
               this.openDialog(4);
             }
           },
           {
-            title: "6.",
-            date: "16 May 1996 to 1 June 1996",
-            description: "A brief description",
+            title: "Science and Discoveries",
+            description: "Uncover fascinating scientific breakthroughs, from discoveries in physics and chemistry to exciting archaeological findings and biodiversity updates!",
             ButtonColor: "p-button-rounded p-button-warning",
+            imageUrl: "../../assets/images/science.jpg",
+            subtopics: ["Space exploration", "Climate change", "Medical science", "Archaeological discoveries", "Renewable energy"],
             onClick: () => {
               this.openDialog(5);
             }
           },
           {
-            title: "7.",
-            date: "26 May 2014 - Present",
-            description: "A brief description",
+            title: "Sports",
+            description: "Get in the game with the latest updates on major sporting events, athlete profiles, and controversies rocking the sports world!",
             ButtonColor: "p-button-rounded p-button-warning",
+            imageUrl: "../../assets/images/sports.png",
+            subtopics: ["Sporting events", "Athlete interviews", "Sports team trades", "Olympic Games", "Sports industry controversies"],
             onClick: () => {
               this.openDialog(6);
             }
         },
-        {
-            title: "8.",
-            date: "22 May 2004 to 26 May 2014",
-            description: "A brief description",
-            ButtonColor: "p-button-rounded p-button-warning",
-            onClick: () => {
-              this.openDialog(7);
-            }
-        },
-        {
-            title: "9.",
-            date: "19 March 1998 to 22 May 2004",
-            description: "A brief description",
-            ButtonColor: "p-button-rounded p-button-warning",
-            onClick: () => {
-              this.openDialog(8);
-            }
-        },
-        {
-            title: "10.",
-            date: "21 April 1997 to 19 March 1998",
-            description: "A brief description",
-            ButtonColor: "p-button-rounded p-button-warning",
-            onClick: () => {
-              this.openDialog(9);
-            }
-        },
-        {
-            title: "11.",
-            date: "1 June 1996 to 21 April 1997",
-            description: "A brief description",
-            ButtonColor: "p-button-rounded p-button-warning",
-            onClick: () => {
-              this.openDialog(10);
-            }
-        },
-        {
-            title: "12.",
-            date: "16 May 1996 to 1 June 1996",
-            description: "A brief description",
-            ButtonColor: "p-button-rounded p-button-warning",
-            onClick: () => {
-              this.openDialog(11);
-            }
-        }
       ];
   }
 
@@ -128,8 +90,9 @@ export class TimelineComponent implements OnInit{
     const dialogRef = this.dialog.open(EventCardComponent, {
       data: {
         title: this.gfg[index].title,
-        date: this.gfg[index].date,
-        description: this.gfg[index].description
+        description: this.gfg[index].description,
+        imageUrl: this.gfg[index].imageUrl,
+        subtopics: this.gfg[index].subtopics
       }
     });
   }

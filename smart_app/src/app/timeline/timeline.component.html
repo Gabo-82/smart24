@@ -1,20 +1,11 @@
-<p-timeline [value]="gfg" align="alternate"
-    styleClass="customized-timeline"
-    [style]="{ 'width': '100%'}"
-    >
+<p-timeline [value]="gfg" align="alternate" styleClass="customized-timeline" [style]="{ 'width': '100%'}">
     <ng-template pTemplate="marker" let-event>
-        <span
-            class="custom-marker p-shadow-2"
-            [style.backgroundColor]="event.color">
+        <span class="custom-marker p-shadow-2">
             <i [ngClass]="event.Icon"></i>
         </span>
     </ng-template>
- 
+
     <ng-template pTemplate="content" let-event>
-        <button pButton pRipple type="button"
-            label="{{event.title}}"
-            class="{{event.ButtonColor}}"
-            (click)="event.onClick()">
-        </button>
+        <button pButton pRipple type="button" label="{{event.title}}" class="{{event.ButtonColor}}" (click)="event.onClick()"></button>
     </ng-template>
 </p-timeline>
