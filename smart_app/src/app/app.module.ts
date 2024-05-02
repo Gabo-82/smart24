@@ -19,6 +19,7 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { AboutComponent } from './about/about.component';
 import {NewsDetailsComponent} from "./news-details/news-details/news-details.component";
+import { SearchbarComponent } from './searchbar/searchbar.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {NewsDetailsComponent} from "./news-details/news-details/news-details.com
     EventCardComponent,
     NewsMapComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    SearchbarComponent
   ],
     imports: [
         BrowserModule,
