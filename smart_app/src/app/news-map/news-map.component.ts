@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { NyTimesService } from '../ny-times.service';
 import { EventCardComponent } from '../event-card/event-card.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CardOfNewsComponent } from '../card-of-news/card-of-news.component';
 import {ActivatedRoute, Router} from "@angular/router";
 
 
