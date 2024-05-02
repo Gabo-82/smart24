@@ -8,7 +8,7 @@ import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // Define AppComponent as the component for the root path
-  { path: 'events/:title', component: NewsMapComponent },
+  { path: 'worldmap/:keyword', component: NewsMapComponent },
   { path: 'about', component: AboutComponent },
   { path: 'products', component: AboutComponent }, // for now it just takes you to the About-page
 ];
