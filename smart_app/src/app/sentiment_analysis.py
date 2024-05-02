@@ -1,8 +1,6 @@
 import openai
 import os
 
-openai.api_key = os.environ["KEY"]
-
 def get_sentiment(key, text):
     response = openai.Completion.create(
         engine="text-davinci-002",
@@ -21,6 +19,8 @@ def get_sentiment(key, text):
 
 if __name__ == "__main__":
     text = "I am happy"
-    key = input("WHAT IS YOUR KEY?")
+    # key = input("WHAT IS YOUR KEY?")
+    key = ""
+
     sentiment = get_sentiment(key, text)
     print(sentiment)
