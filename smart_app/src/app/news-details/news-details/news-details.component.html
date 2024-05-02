@@ -1,7 +1,26 @@
-<h2>{{ selectedArticle?.title }}</h2>
-<p>news-details works!</p>
-<ul>
-  <li>{{selectedArticle?.summary}}</li>
-  <li><a>{{selectedArticle?.url}}</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+  <header></header>
+  <body>
+    
+    <div id="main-content">
+      <h1>Here is a piece of news about your topic!</h1>
 
+    <h2>{{ selectedArticle?.title }}</h2>
+      
+      <ul>
+        <p id="header">Summary of the article: </p>
+          <p>{{selectedArticle?.summary}}</p><br>
+        <li><a href="{{selectedArticle?.url}}">Link to the article</a></li>
+      </ul>
+<br>
+     <h3>Okay, let's dive deeper.</h3> 
+     <ul>Sentimental analysis on this article:</ul>
+    </div>
+
+    <footer id="footer">
+      <p id="footer-text">Built and designed by Elvi Lehtonen, Euiyoung Jin, Gabriel Díaz, Otso Luukkanen, Misaki Matsuura, Diego Campos-Velasquez
+      </p>
+    </footer>
+  </body>
+</html>
