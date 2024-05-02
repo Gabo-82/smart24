@@ -25,8 +25,10 @@ export class NewsMapComponent implements OnInit {
     const target = event.target as HTMLButtonElement;
     var clickedCountryName = target.getAttribute('countryName');
     alert("You clicked on: " + clickedCountryName);
-    this.openDialog();
+    if(clickedCountryName){
+      this.openDialog(clickedCountryName);
     // Redirect to Otso's component that presents data
+    }
   }
 
    // 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
@@ -43,10 +45,10 @@ export class NewsMapComponent implements OnInit {
     })
    }
 
-   openDialog(){
+   openDialog(countryName: string){
     const dialogRef = this.dialog.open(EventCardComponent, {
       data: {
-        title: "Dummy title",
+        title: countryName,
         date: "Dummy date",
         description: "Dummy description"
       }
