@@ -17,12 +17,8 @@ export class NewsMapComponent implements OnInit {
   constructor(private nyTimesService: NyTimesService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-<<<<<<< .merge_file_4FIY5d
-    this.loadArticles();
-=======
     // this.loadArticles();
     this.highlightCountries();
->>>>>>> .merge_file_adhPpG
   }
 
   onRegionClick(event: MouseEvent){
