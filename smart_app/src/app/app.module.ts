@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { EventCardComponent } from './event-card/event-card.component';
 import { NewsMapComponent } from './news-map/news-map.component';
 import { HomeComponent } from './home/home.component';
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AboutComponent } from './about/about.component';
 import {NewsDetailsComponent} from "./news-details/news-details/news-details.component";
 import { SearchbarComponent } from './searchbar/searchbar.component';
