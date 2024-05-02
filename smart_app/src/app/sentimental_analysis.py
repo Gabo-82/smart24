@@ -1,7 +1,7 @@
 import openai
 import os
 
-openai.api_key = os.environ["sk-proj-20rtVhZIVkulq1hhRY0ET3BlbkFJqqbkO2RjBR55nLr2vktp"]
+openai.api_key = os.environ["KEY"]
 
 def get_sentiment(text):
     response = openai.Completion.create(
