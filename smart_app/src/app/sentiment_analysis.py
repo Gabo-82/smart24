@@ -1,25 +1,20 @@
-import openai
+from openai import OpenAI
 import os
 
-openai.api_key = ""
+client = OpenAI()
 # or
 # openai.api_key = os.environ["address"]
 
 
 def get_sentiment(text):
-    response = openai.Completion.create(
-        engine="text-davinci-002",
-        prompt=text,
-        temperature=0.5,
-        max_tokens=1,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0,
-        stop=["\n"]
+    response = client.chat.completions.create(
+      model="gpt-3.5-turbo",
+      messages=[
+        {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
+        {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
+      ]
     )
-
-    sentiment = response.choices[0].text.strip()
-    return sentiment
+    return response
 
 
 text = "I am happy"
