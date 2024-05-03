@@ -25,6 +25,8 @@ def newsFinder(keywords, api_key):
             pub_date = article.get("pubDate", "Published date not available")
             image_url = article.get("image_url", "Image URL not available")
             category = article.get("category", "Category not available")
+            description = article.get("description", "Description not available")
+            language = article.get("language", "Language nos available")
 
 
             if isinstance(title, list) and len(title) == 1:
@@ -41,6 +43,10 @@ def newsFinder(keywords, api_key):
                 image_url = image_url[0]
             if isinstance(category, list) and len(category) == 1:
                 category = category[0]
+            if isinstance(description, list) and len(description) == 1:
+                description = description[0]
+            if isinstance(language, list) and len(language) == 1:
+                language = language[0]
 
             newdat.append(title)
             newdat.append(country)
@@ -49,6 +55,8 @@ def newsFinder(keywords, api_key):
             newdat.append(pub_date)
             newdat.append(image_url)
             newdat.append(category)
+            newdat.append(description)
+            newdat.append(language)
             newsData.append(newdat)
 
     return newsData
@@ -77,10 +85,10 @@ def getCompleteNewsData(keywords, api_key):
     newData = newsFinder(keywords, api_key)
     completeData = []
     for newsItem in newData:
-        title, country, url, key_words, pub_date, image_url, category = newsItem
+        title, country, url, key_words, pub_date, image_url, category, description, language = newsItem
         contentData = newsExtractContent(url)
         if contentData:
-            completeNewsItem = [title, country, url, key_words, pub_date, image_url, category] + contentData
+            completeNewsItem = [title, country, url, key_words, pub_date, image_url, category, description, language] + contentData
             completeData.append(completeNewsItem)
     return completeData
 

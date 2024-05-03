@@ -20,7 +20,9 @@ def setup_database():
                     keyWords TEXT,
                     imgUrl TEXT,
                     date TEXT,
-                    category TEXT)""")
+                    category TEXT,
+                   description TEXT,
+                   language TEXT)""")
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS Keywords (
                     KeywordID INTEGER PRIMARY KEY,
@@ -46,7 +48,7 @@ def setup_database():
     for newsItem in short_data:
         print(newsItem)
         # 485 is last proper row
-        title, country, url, key_words, date, img_url, category = newsItem
+        title, country, url, key_words, date, img_url, category, description, language = newsItem
         # THIS FAILS sometimes because country is a list sometimes, news_finder has to be edited
         try:
             cursor.execute("""INSERT INTO Keywords (Keyword) VALUES (?)""", (keywords,))
@@ -54,8 +56,8 @@ def setup_database():
             print(er.sqlite_errorcode)
             print(er.sqlite_errorname)
         try:
-            cursor.execute("""INSERT INTO Articles (title, country, url, keyWords, imgUrl, date, category)
-                VALUES (?, ?, ?, ?, ?, ?, ?)""", (title, country, url, str(key_words), date, img_url, category))
+            cursor.execute("""INSERT INTO Articles (title, country, url, keyWords, imgUrl, date, category, description, language)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (title, str(country), url, str(key_words), date, img_url, category, description, language))
         except sqlite3.ProgrammingError as er:
             print(er.sqlite_errorcode)
             print(er.sqlite_errorname)
@@ -95,7 +97,7 @@ def get_single_article(id):
     cursor.execute(sql_query, (id,))
     article = {}
     for row in cursor.fetchall():
-        id, title, country, url, key_words, date, img_url, category = row
+        id, title, country, url, key_words, date, img_url, category, description, language = row
         if id is not None:
             article["id"] = id
             article["title"] = title
@@ -105,11 +107,14 @@ def get_single_article(id):
             article["date"] = date
             article["imgUrl"] = img_url
             article["category"] = category
+            article["description"] = description
+            article["language"] = language
+
     conn.close()
     # print(article)
     return jsonify(article)
 
-@app.route('/api/articles/<country>/<keyword>')
+@app.route('/api/articles/<country>/<keyword>') #This one is for the worldmap
 def get_articles_by_country_keyword(country, keyword):
     conn = sqlite3.connect("news_articles2.db")
     cursor = conn.cursor()
@@ -122,7 +127,7 @@ def get_articles_by_country_keyword(country, keyword):
     list_of_articles = []
     for row in cursor.fetchall():
         article = {}
-        id, title, country, url, key_words, date, img_url, category = row
+        id, title, country, url, key_words, date, img_url, category, description, language = row
         if id is not None:
             article["id"] = id
             article["title"] = title
@@ -132,6 +137,8 @@ def get_articles_by_country_keyword(country, keyword):
             article["date"] = date
             article["imgUrl"] = img_url
             article["category"] = category
+            article["description"] = description
+            article["language"] = language
             list_of_articles.append(article)
     conn.close()
     # print(list_of_articles)
