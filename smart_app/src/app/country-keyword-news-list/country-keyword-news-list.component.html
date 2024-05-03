@@ -30,3 +30,9 @@
   </table>
 
 </div>
+
+<div class="sentiment-bubbles">
+  <div *ngFor="let sentiment of sentimentCategories" class="bubble" [style.width.%]="getBubbleSize(sentiment)">
+    {{ sentiment }} ({{ sentimentCounts[sentiment] }})
+  </div>
+</div>
