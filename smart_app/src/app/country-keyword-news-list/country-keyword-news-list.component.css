@@ -1,3 +1,8 @@
 table {
   width: 100%;
 }
+
+.mat-elevation-z8{
+  padding: 3vw;
+  background-color:rgb(231, 232, 192)
+}
