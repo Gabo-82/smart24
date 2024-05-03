@@ -47,15 +47,8 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
 }
 
 const NEWS_DATA: PieceOfNews[] = [
-  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 2, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 3, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 4, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 5, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 6, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 7, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 8, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 9, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 10, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 11, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
+  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello"},
+  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello"},
+  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello"},
+  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello"},
 ]
