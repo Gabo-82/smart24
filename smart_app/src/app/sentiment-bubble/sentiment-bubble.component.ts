@@ -23,8 +23,8 @@ export class SentimentBubbleComponent implements OnInit {
     // Add more sentiment-color mappings as needed
   };
 
-  // Adjust this value to control the maximum size of the bubble
-  MAX_BUBBLE_SIZE = 100; // Example: Maximum bubble size in pixels
+  defaultBubbleSize = 40; // Set a default bubble size for sentiments with count 1
+  selectedSentiment: string | null = null;
 
   constructor() { }
 
@@ -39,7 +39,7 @@ export class SentimentBubbleComponent implements OnInit {
     });
 
     // Calculate sentiment counts based on NEWS_DATA
-    NEWS_DATA.forEach(article => {
+    NEWS_DATA.forEach((article : PieceOfNews) => {
       const sentiment = article.sentiment?.toLowerCase();
       if (sentiment && this.sentimentCategories.includes(sentiment)) {
         this.sentimentCounts[sentiment] += 1;
@@ -49,22 +49,31 @@ export class SentimentBubbleComponent implements OnInit {
 
   getBubbleSize(sentiment: string): number {
     const count = this.sentimentCounts[sentiment] || 0;
-
+    
     // Calculate bubble size based on the count of articles for the given sentiment
-    // Use a logarithmic scaling factor to determine the bubble size
-    const maxSize = Math.log(this.getMaxCount() + 1); // Apply logarithm to ensure scaling is more even
-    const size = (Math.log(count + 1) / maxSize) * this.MAX_BUBBLE_SIZE;
+    // Use a larger default size for sentiments with count 1
+    const size = count > 0 ? this.defaultBubbleSize + (count - 1) * 10 : this.defaultBubbleSize;
 
     return size;
   }
 
-  getMaxCount(): number {
-    // Find the maximum count among all sentiment categories
-    return Math.max(...this.sentimentCategories.map(sentiment => this.sentimentCounts[sentiment] || 0));
-  }
-
   getBubbleColor(sentiment: string): string {
     return this.sentimentColors[sentiment] || 'gray'; // Return color based on sentiment
+  }
+
+  onSelectSentiment(sentiment: string) {
+    this.selectedSentiment = sentiment;
+  }
+
+  resetSelection() {
+    this.selectedSentiment = null;
+  }
+
+  getArticlesBySentiment(sentiment: string): PieceOfNews[] {
+    if (!sentiment) {
+      return []; // Return an empty array if sentiment is null or undefined
+    }
+    return NEWS_DATA.filter(article => article.sentiment?.toLowerCase() === sentiment);
   }
 
 }

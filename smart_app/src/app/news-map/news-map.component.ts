@@ -38,7 +38,7 @@ export class NewsMapComponent implements OnInit {
     if(clickedCountryName){
        this.openDialog(clickedCountryName);
     // Redirect to Otso's component that presents data
-      
+
     }
   }
 
@@ -46,7 +46,7 @@ export class NewsMapComponent implements OnInit {
     const target = event.target as HTMLElement;
     let clickedCountryName = target.getAttribute('countryName');
     this.countryName = clickedCountryName;
-  
+
     if (clickedCountryName) {
       //this.openDialog(clickedCountryName);
       // Scroll to the component
@@ -57,18 +57,15 @@ export class NewsMapComponent implements OnInit {
     }
   }
 
-  
-  
+
+
 
    // 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
   highlightCountries(countryList: string[]) {
-    // SVG 내의 모든 국가들을 가져옴
     const countries = document.querySelectorAll<SVGPathElement>('path.land');
     countries.forEach((country)=>{
       const countryName = country.getAttribute('countryName');
-      // 미리 정의된 국가 배열에 해당 국가가 포함되어 있는지 확인
       if ((countryName) && (countryList.includes(countryName.toLowerCase()))){
-        // 미리 정의된 국가를 강조하기 위해 색상을 변경
         country.style.fill = 'yellow';
       }
     })
@@ -84,7 +81,8 @@ export class NewsMapComponent implements OnInit {
     });
   }
 
- 
+
+
     //clicking the button to show sentimental clustering
     showSentimentalContent: boolean = false;
     showFactCheck: boolean = false;
@@ -96,24 +94,23 @@ export class NewsMapComponent implements OnInit {
       this.showFactCheck = false;
       this.showNewsList = false;
     }
-  
+
     goBack() {
       this.showSentimentalContent = false;
       this.showFactCheck = false;
       this.showNewsList = true;
     }
-  
+
     openFactCheck() {
       this.showFactCheck = true;
       this.showSentimentalContent = false;
       this.showNewsList = false;
     }
-  
+
     goBackfromFact() {
       this.showFactCheck = false;
       this.showSentimentalContent = false;
       this.showNewsList = true;
     }
 }
-
 

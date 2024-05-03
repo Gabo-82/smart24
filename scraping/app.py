@@ -24,9 +24,13 @@ def setup_database():
                    description TEXT,
                    language TEXT)""")
 
+
+
     cursor.execute("""CREATE TABLE IF NOT EXISTS Keywords (
                     KeywordID INTEGER PRIMARY KEY,
                     Keyword TEXT)""")
+    cursor.execute("""
+    CREATE UNIQUE INDEX IF NOT EXISTS uniq_keyword ON Keywords(Keyword);""")
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS ArticleKeywords (
                     id INTEGER,

@@ -7,6 +7,8 @@ export interface PieceOfNews {
   date: Date;
   imgUrl: string;
   category: string;
+  description: string;
+  language: string;
   body: string;
   sentiment: string;
 }
