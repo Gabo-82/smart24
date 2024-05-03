@@ -26,10 +26,10 @@ new_conn = sqlite3.connect(new_db_file)
 new_cursor = new_conn.cursor()
 
 
-# try:
-#     cursor.execute("ALTER TABLE Articles ADD COLUMN sentiment TEXT")
-# except sqlite3.OperationalError:
-#     pass
+try:
+    new_cursor.execute("ALTER TABLE Articles ADD COLUMN sentiment TEXT")
+except sqlite3.OperationalError:
+    pass
 
 new_cursor.execute("""CREATE TABLE IF NOT EXISTS Articles (
                     id INTEGER PRIMARY KEY,
