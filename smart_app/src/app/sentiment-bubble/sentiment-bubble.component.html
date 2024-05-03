@@ -1,1 +1,28 @@
-<p>sentiment-bubble works!</p>
+<!-- sentiment-bubble.component.html -->
+
+<div class="sentiment-bubbles">
+  <ng-container *ngIf="!selectedSentiment; else newsList">
+    <!-- Display sentiment bubbles with raw sentiment counts -->
+    <div *ngFor="let sentiment of sentimentCategories" class="bubble" 
+         [style.width.px]="sentimentCounts[sentiment] * 10"
+         [style.height.px]="sentimentCounts[sentiment] * 10"
+         [style.background-color]="getBubbleColor(sentiment)"
+         (click)="onSelectSentiment(sentiment)">
+      <span>{{ sentiment }}</span>
+      <span class="bubble-size">{{ sentimentCounts[sentiment] }}</span> <!-- Display raw sentiment count -->
+    </div>
+  </ng-container>
+
+  <!-- Display list of articles for selected sentiment -->
+  <ng-template #newsList>
+    <div class="news-list" *ngIf="selectedSentiment">
+      <h3>List of {{ selectedSentiment }} news:</h3>
+      <ul>
+        <li *ngFor="let article of getArticlesBySentiment(selectedSentiment!)">
+          {{ article.title }}
+        </li>
+      </ul>
+      <button (click)="resetSelection()">Back to Sentiments</button>
+    </div>
+  </ng-template>
+</div>

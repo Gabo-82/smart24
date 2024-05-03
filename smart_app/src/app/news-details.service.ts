@@ -8,7 +8,7 @@ import { PieceOfNews} from "./piece-of-news";
 })
 export class NewsDetailsService {
 
-  private apiUrl = 'http://127.0.0.1:5000' // flask get_articles endpoint
+  private apiUrl = 'http://localhost:5000' // flask get_articles endpoint
 
 
 
@@ -24,8 +24,8 @@ export class NewsDetailsService {
     )
   }
 
-  getShortArticles(country: string = "india", keyword: string = "Palestine"): Observable<PieceOfNews[]> {
-    const url = `${this.apiUrl}/api/articles/${country}/${keyword}`;
+  getShortArticles(country: string = "mexico", keyword: string = "Palestine"): Observable<PieceOfNews[]> {
+    const url = `${this.apiUrl}/api/searchOnline/${keyword}`;
     const articleList = this.http.get<any>(url);
     articleList.subscribe(response => {console.log(response)})
     return this.http.get<PieceOfNews[]>(url).pipe(
