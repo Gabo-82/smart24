@@ -9,7 +9,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 
 def newsFinder(keywords, api_key):
-    url = f"https://newsdata.io/api/1/news?apikey={api_key}&q={keywords}"
+    url = f"https://newsdata.io/api/1/news?apikey={api_key}&q={keywords}&language=en"
     response = requests.get(url)
     data = response.json()
     newsData = []
