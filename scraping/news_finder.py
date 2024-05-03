@@ -7,6 +7,7 @@ import sys
 # Cambia la codificación de salida a UTF-8
 sys.stdout.reconfigure(encoding='utf-8')
 
+
 def newsFinder(keywords, api_key):
     url = f"https://newsdata.io/api/1/news?apikey={api_key}&q={keywords}"
     response = requests.get(url)
@@ -34,6 +35,7 @@ def newsFinder(keywords, api_key):
             newsData.append(newdat)
 
     return newsData
+
 
 def newsExtractContent(url):
     data = []
@@ -67,11 +69,10 @@ def getCompleteNewsData(keywords, api_key):
             completeData.append(completeNewsItem)
     return completeData
 
+
 if __name__ == "__main__":
     # Ejemplo de uso de las funciones si se ejecuta este archivo directamente
     keywords = "Palestine"
     api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
     completeData = getCompleteNewsData(keywords, api_key)
     print(completeData)
-
-

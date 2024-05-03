@@ -21,6 +21,7 @@ import { AboutComponent } from './about/about.component';
 import {NewsDetailsComponent} from "./news-details/news-details/news-details.component";
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { CardOfNewsComponent } from './card-of-news/card-of-news.component';
+import {CountryKeywordNewsListComponent} from "./country-keyword-news-list/country-keyword-news-list.component";
 
 @NgModule({
   declarations: [
@@ -34,19 +35,20 @@ import { CardOfNewsComponent } from './card-of-news/card-of-news.component';
     SearchbarComponent,
     CardOfNewsComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        TimelineModule,
-        CardModule,
-        ButtonModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        MatDialogModule,
-        MatButtonModule,
-        HttpClientModule,
-        NewsDetailsComponent,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    TimelineModule,
+    CardModule,
+    ButtonModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    HttpClientModule,
+    NewsDetailsComponent,
+    CountryKeywordNewsListComponent,
+  ],
   providers: [
     provideAnimationsAsync()
   ],
