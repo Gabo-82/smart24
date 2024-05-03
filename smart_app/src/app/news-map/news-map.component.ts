@@ -19,7 +19,8 @@ export class NewsMapComponent implements OnInit {
   currentRoute: string;
 
   constructor(private nyTimesService: NyTimesService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
-    this.currentRoute = router.url.split('/').pop()!;
+    //this.currentRoute = router.url.split('/').pop()!;
+    this.currentRoute = decodeURIComponent(router.url.split('/').pop()!);
   }
 
   ngOnInit(): void {
@@ -53,8 +54,6 @@ export class NewsMapComponent implements OnInit {
       }
     }
   }
-
-  
   
 
    // 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
