@@ -1,13 +1,18 @@
-<h1 mat-dialog-title>News articles from {{ selectedArticle?.country }} </h1>
+<h1 mat-dialog-title>{{ selectedArticle?.title }} </h1>
 <mat-dialog-content class="mat-typography">
     <img src="../../assets/images/image.jpg" alt="Description of the image">
 
+    <h2> </h2>
+    <p>Date: {{selectedArticle?.date}}</p>
     <h2></h2>
-    <p>An artile title: {{selectedArticle?.title}}</p>
-    <h2>Something else here ?</h2>
+    <p>From: {{selectedArticle?.country}}</p>
+    <!-- the return button here: <button (click)="redirect()">Return</button> -->
+    <button (click)="redirect()">Read the article & learn more</button>
 
 
 </mat-dialog-content>
+
+
 <!--<mat-dialog-actions align="end">-->
 <!--  <button mat-button mat-dialog-close>Return</button>-->
 <!--  <button mat-button (click)="redirect()" [mat-dialog-close]="true" cdkFocusInitial>Learn More</button>-->
