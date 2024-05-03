@@ -21,7 +21,9 @@ export class NewsMapComponent implements OnInit {
   currentRoute: string;
 
   constructor(private nyTimesService: NyTimesService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
-    this.currentRoute = router.url.split('/').pop()!;
+    //this.currentRoute = router.url.split('/').pop()!;
+    this.currentRoute = decodeURIComponent(router.url.split('/').pop()!);
+
   }
 
   ngOnInit(): void {
@@ -81,6 +83,19 @@ export class NewsMapComponent implements OnInit {
       }
     });
   }
-  }
+
+ 
+    //clicking the button to show sentimental clustering
+    showSentimentalContent: boolean = false;
+
+    openSentimental() {
+      this.showSentimentalContent = true;
+    }
+  
+    goBack() {
+      this.showSentimentalContent = false;
+    }
+
+}
 
 
