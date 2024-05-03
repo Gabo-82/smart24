@@ -10,7 +10,7 @@
                  -4px -4px 8px #f7e5cc;
   }
   #neubar .dropdown-menu a:hover {
-    color: #00851d;
+    color: #ffff7a;
     background-color: #30323a;
   }
   #neubar .nav-item {
@@ -23,7 +23,7 @@
   }
 
   #neubar a:hover {
-    color: #00851d
+    color: #ffff7a;
   }
 
   #neubar .dropdown-menu {
