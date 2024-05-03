@@ -21,17 +21,34 @@ def newsFinder(keywords, api_key):
             title = article.get("title", "Title not available")
             country = article.get("country", "Country not available")
             url = article.get("link", "URL not available")
+            key_words = article.get("keywords", "Keywords not available")
+            pub_date = article.get("pubDate", "Published date not available")
+            image_url = article.get("image_url", "Image URL not available")
+            category = article.get("category", "Category not available")
+
 
             if isinstance(title, list) and len(title) == 1:
                 title = title[0]
             if isinstance(country, list) and len(country) == 1:
-                country = country[0]  # Esto asegura que country sea un string en lugar de una lista
+                country = country[0]  
             if isinstance(url, list) and len(url) == 1:
                 url = url[0]
+            if isinstance(key_words, list) and len(key_words) == 1:
+                key_words = key_words[0]
+            if isinstance(pub_date, list) and len(pub_date) == 1:
+                pub_date = pub_date[0]
+            if isinstance(image_url, list) and len(image_url) == 1:
+                image_url = image_url[0]
+            if isinstance(category, list) and len(category) == 1:
+                category = category[0]
 
             newdat.append(title)
             newdat.append(country)
             newdat.append(url)
+            newdat.append(key_words)
+            newdat.append(pub_date)
+            newdat.append(image_url)
+            newdat.append(category)
             newsData.append(newdat)
 
     return newsData
@@ -45,13 +62,11 @@ def newsExtractContent(url):
         article.parse()
         article.nlp()
 
-        date = article.publish_date
         body = article.text
         summary = article.summary
 
-        data.append(date)
         data.append(body)
-        data.append(summary)
+        #data.append(summary) Maybe we'll use the short description provided by the api instead of this summary
     except ArticleException as e:
         print(f"Error downloading an article")
         data = None
@@ -62,10 +77,10 @@ def getCompleteNewsData(keywords, api_key):
     newData = newsFinder(keywords, api_key)
     completeData = []
     for newsItem in newData:
-        title, country, url = newsItem
+        title, country, url, key_words, pub_date, image_url, category = newsItem
         contentData = newsExtractContent(url)
         if contentData:
-            completeNewsItem = [title, country, url] + contentData
+            completeNewsItem = [title, country, url, key_words, pub_date, image_url, category] + contentData
             completeData.append(completeNewsItem)
     return completeData
 
@@ -76,3 +91,5 @@ if __name__ == "__main__":
     api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
     completeData = getCompleteNewsData(keywords, api_key)
     print(completeData)
+
+#bonjour
