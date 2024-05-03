@@ -32,6 +32,7 @@ def setup_database():
                     FOREIGN KEY (KeywordID) REFERENCES Keywords(KeywordID),
                     PRIMARY KEY (id, KeywordID))""")
 
+
     # for i in range(2, 486):
     #     cursor.execute("""
     #     INSERT INTO ArticleKeywords VALUES (?, 1)""", (i,))
