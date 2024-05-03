@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AboutComponent } from './about/about.component';
 import {NewsDetailsComponent} from "./news-details/news-details/news-details.component";
 import { SearchbarComponent } from './searchbar/searchbar.component';
+import { CardOfNewsComponent } from './card-of-news/card-of-news.component';
 import {CountryKeywordNewsListComponent} from "./country-keyword-news-list/country-keyword-news-list.component";
 
 @NgModule({
@@ -31,7 +32,8 @@ import {CountryKeywordNewsListComponent} from "./country-keyword-news-list/count
     NewsMapComponent,
     HomeComponent,
     AboutComponent,
-    SearchbarComponent
+    SearchbarComponent,
+    //CardOfNewsComponent,
   ],
   imports: [
     BrowserModule,

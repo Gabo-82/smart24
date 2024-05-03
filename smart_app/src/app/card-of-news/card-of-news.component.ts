@@ -41,7 +41,6 @@ export class CardOfNewsComponent implements OnInit{
 
   redirect():void{
     this.router.navigate(["details"]);
-    /*why doesn't this work?*/
   }
 }
 

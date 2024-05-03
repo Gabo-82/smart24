@@ -34,6 +34,17 @@ export class NewsDetailsService {
     )
   }
 
+  getArticleByCountry(country: string): Observable<PieceOfNews> {
+    const url = `${this.apiUrl}/country`;
+    const first = this.http.get<any>(url);
+    first.subscribe(response => {console.log(response)})
+    return this.http.get<PieceOfNews>(url).pipe(
+      tap(_ => console.log(_)),
+      catchError(this.handleError<PieceOfNews>("getHeroes", ))
+    )
+
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
