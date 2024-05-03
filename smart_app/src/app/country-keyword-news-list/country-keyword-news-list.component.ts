@@ -41,21 +41,21 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
     this.newsDetailsService.getShortArticles(this.countryStr, this.keywordStr)
       .subscribe(response => {
         this.articles = response;
-        this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
+        // this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
       })
   }
 }
 
 const NEWS_DATA: PieceOfNews[] = [
-  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 2, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 3, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 4, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 5, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 6, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 7, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 8, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 9, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 10, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
-  {id: 11, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi"},
+  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "angry"},
+  {id: 2, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "sad"},
+  {id: 3, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "hopeful"},
+  {id: 4, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "hopeful"},
+  {id: 5, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "angry"},
+  {id: 6, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "angry"},
+  {id: 7, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "angry"},
+  {id: 8, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "angry"},
+  {id: 9, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "angry"},
+  {id: 10, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "angry"},
+  {id: 11, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", date: new Date("2024-05-01 09:05:32+05:30"), body: "Hello", summary: "Hi", senti: "angry"},
 ]

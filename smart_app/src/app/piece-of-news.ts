@@ -6,4 +6,5 @@ export interface PieceOfNews {
   date: Date;
   body: string;
   summary: string;
+  senti: string;
 }
