@@ -37,7 +37,7 @@ def setup_database():
     #     cursor.execute("""
     #     INSERT INTO ArticleKeywords VALUES (?, 1)""", (i,))
 
-    keywords = "Russia"
+    keywords = "Palestine"
     api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
     complete_data = getCompleteNewsData(keywords, api_key)
 
@@ -102,7 +102,7 @@ def get_single_article(id):
             article["body"] = body
             article["summary"] = summary
     conn.close()
-    print(article)
+    # print(article)
     return jsonify(article)
 
 @app.route('/api/articles/<country>/<keyword>')
@@ -129,7 +129,7 @@ def get_articles_by_country_keyword(country, keyword):
             article["summary"] = summary
             list_of_articles.append(article)
     conn.close()
-    print(list_of_articles)
+    # print(list_of_articles)
     return jsonify(list_of_articles)
 
 if __name__ == '__main__':
