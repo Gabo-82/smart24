@@ -1,14 +1,10 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 import {PieceOfNews} from "../piece-of-news";
 import {NewsDetailsService} from "../news-details.service";
-import {DatePipe, SlicePipe} from "@angular/common";
-
 @Component({
   selector: 'app-country-keyword-news-list',
-  standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, SlicePipe, DatePipe],
   templateUrl: './country-keyword-news-list.component.html',
   styleUrl: './country-keyword-news-list.component.css'
 })
@@ -35,7 +31,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator!;
     console.log("PAGINATOR:")
     console.log(this.paginator)
-    this.articles = NEWS_DATA;
+    this.articles = NEWS_DATA; //Using the dummy to test the highlighting function
     //this.getArticles();
     if (this.articles){
       for (const article of this.articles){

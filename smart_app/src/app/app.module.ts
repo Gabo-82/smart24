@@ -18,10 +18,12 @@ import { NewsMapComponent } from './news-map/news-map.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AboutComponent } from './about/about.component';
-import {NewsDetailsComponent} from "./news-details/news-details/news-details.component";
+import { NewsDetailsComponent } from "./news-details/news-details/news-details.component";
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { CardOfNewsComponent } from './card-of-news/card-of-news.component';
-import {CountryKeywordNewsListComponent} from "./country-keyword-news-list/country-keyword-news-list.component";
+import { CountryKeywordNewsListComponent } from "./country-keyword-news-list/country-keyword-news-list.component";
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import {CountryKeywordNewsListComponent} from "./country-keyword-news-list/count
     HomeComponent,
     AboutComponent,
     SearchbarComponent,
+    CountryKeywordNewsListComponent
     //CardOfNewsComponent,
   ],
   imports: [
@@ -47,7 +50,8 @@ import {CountryKeywordNewsListComponent} from "./country-keyword-news-list/count
     MatButtonModule,
     HttpClientModule,
     NewsDetailsComponent,
-    CountryKeywordNewsListComponent,
+    MatPaginatorModule,
+    MatTableModule
   ],
   providers: [
     provideAnimationsAsync()
