@@ -2,17 +2,18 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import sqlite3
 from news_finder import getCompleteNewsData, newsFinder
+from fact_check import fact_check
 
 app = Flask(__name__)
 
 cors = CORS(app, origins=['http://localhost:4200', 'https://example.com'])
 
 
-# Connect to database (create if doesn't), create table, and insert data
+# Connect to database (create if doesn't), create table, and insert data (MAIN TABLE)
 def setup_database():
     conn = sqlite3.connect('news_articles2.db')
     cursor = conn.cursor()
-    cursor.execute("""CREATE TABLE IF NOT EXISTS Articles (
+    cursor.execute("""CREATE TABLE IF NOT EXISTS Articles ( 
                     id INTEGER PRIMARY KEY,
                     title TEXT,
                     country TEXT,
@@ -23,35 +24,37 @@ def setup_database():
                     category TEXT,
                    description TEXT,
                    language TEXT)""")
-
+    #KEYWORD TABLE
     cursor.execute("""CREATE TABLE IF NOT EXISTS Keywords (
                     KeywordID INTEGER PRIMARY KEY,
                     Keyword TEXT)""")
-
+    cursor.execute("""
+    CREATE UNIQUE INDEX IF NOT EXISTS uniq_keyword ON Keywords(Keyword);""")
+    #LINK KEYWORD AND ARTICLE IDS
     cursor.execute("""CREATE TABLE IF NOT EXISTS ArticleKeywords (
                     id INTEGER,
                     KeywordID INTEGER,
                     FOREIGN KEY (id) REFERENCES Articles(id),
                     FOREIGN KEY (KeywordID) REFERENCES Keywords(KeywordID),
                     PRIMARY KEY (id, KeywordID))""")
-
-
-    # for i in range(2, 486):
-    #     cursor.execute("""
-    #     INSERT INTO ArticleKeywords VALUES (?, 1)""", (i,))
-
+    #FACTCHECK SCORE TABLE
+    cursor.execute("""CREATE TABLE IF NOT EXISTS FactCheckScore (
+                    id INTEGER PRIMARY KEY,
+                    score FLOAT)""")
+    #FULL BODY TABLE:
+    #NEWSFINDER:
     keywords = "Palestine"
-    api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
+    api_key = 'pub_43440822cefee6d609bd2dafaa5eb09b7415c'
     complete_data = getCompleteNewsData(keywords, api_key)
     short_data = newsFinder(keywords, api_key)
 
     for newsItem in short_data:
-        print(newsItem)
+        #print(newsItem)
         # 485 is last proper row
         title, country, url, key_words, date, img_url, category, description, language = newsItem
         # THIS FAILS sometimes because country is a list sometimes, news_finder has to be edited
         try:
-            cursor.execute("""INSERT INTO Keywords (Keyword) VALUES (?)""", (keywords,))
+            cursor.execute("""INSERT OR IGNORE INTO Keywords (Keyword) VALUES (?)""", (keywords,))
         except sqlite3.Error as er:
             print(er.sqlite_errorcode)
             print(er.sqlite_errorname)
@@ -61,22 +64,31 @@ def setup_database():
         except sqlite3.ProgrammingError as er:
             print(er.sqlite_errorcode)
             print(er.sqlite_errorname)
-            for item in newsItem:
-                print(item)
-        cursor.execute("""INSERT INTO ArticleKeywords (id, KeywordID)
-        SELECT last_insert_rowid(), k.KeywordID
-        FROM Keywords as k
-        WHERE k.Keyword = ?;
-        """, (keywords,))
+            #for item in newsItem:
+                #print(item)
+        try:
+            cursor.execute("""INSERT OR IGNORE INTO ArticleKeywords (id, KeywordID)
+            SELECT last_insert_rowid(), k.KeywordID
+            FROM Keywords as k
+            WHERE k.Keyword = ?;
+            """, (keywords,))
+        except sqlite3.IntegrityError as er:
+            print(er.sqlite_errorcode)
+            print(er.sqlite_errorname)
+            
+        print(description)
+        
+        score = fact_check(description)
+        cursor.execute("""INSERT INTO FactCheckScore (score)
+        VALUES (?)""", (score,))
+        print(score)
 
         conn.commit()
 
     conn.close()
 
-
 # Call the setup_database function when the Flask app starts
 setup_database()
-
 
 #Route
 @app.route('/api/articles')
