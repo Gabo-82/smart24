@@ -87,15 +87,33 @@ export class NewsMapComponent implements OnInit {
  
     //clicking the button to show sentimental clustering
     showSentimentalContent: boolean = false;
+    showFactCheck: boolean = false;
+    showNewsList: boolean = true;
+
 
     openSentimental() {
       this.showSentimentalContent = true;
+      this.showFactCheck = false;
+      this.showNewsList = false;
     }
   
     goBack() {
       this.showSentimentalContent = false;
+      this.showFactCheck = false;
+      this.showNewsList = true;
     }
-
+  
+    openFactCheck() {
+      this.showFactCheck = true;
+      this.showSentimentalContent = false;
+      this.showNewsList = false;
+    }
+  
+    goBackfromFact() {
+      this.showFactCheck = false;
+      this.showSentimentalContent = false;
+      this.showNewsList = true;
+    }
 }
 
 
