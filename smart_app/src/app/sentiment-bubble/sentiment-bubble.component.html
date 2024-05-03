@@ -1,0 +1,7 @@
+<!-- sentiment-bubble.component.html -->
+
+<div class="sentiment-bubbles">
+  <div *ngFor="let sentiment of sentimentCategories" class="bubble" [style.width.px]="getBubbleSize(sentiment)" [style.height.px]="getBubbleSize(sentiment)" [style.background-color]="getBubbleColor(sentiment)">
+    {{ sentiment }} ({{ sentimentCounts[sentiment] || 0 }})
+  </div>
+</div>

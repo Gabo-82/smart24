@@ -10,4 +10,5 @@ export interface PieceOfNews {
   description: string;
   language: string;
   body: string;
+  sentiment: string;
 }
