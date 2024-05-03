@@ -1,28 +1,29 @@
+
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource">
 
     <!-- Position Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      <td mat-cell *matCellDef="let element" [attr.data-senti]="element.senti"> {{element.id}} </td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef> Title </th>
-      <td mat-cell *matCellDef="let element"> {{(element.title.length>20)? (element.title | slice:0:60)+'...':(element.title)}} </td>
+      <td mat-cell *matCellDef="let element" [attr.data-senti]="element.senti"> {{(element.title.length>20)? (element.title | slice:0:60)+'...':(element.title)}} </td>
     </ng-container>
 
     <!-- Weight Column -->
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef> Date </th>
-      <td mat-cell *matCellDef="let element"> {{element.date | date:'short'}} </td>
+      <td mat-cell *matCellDef="let element" [attr.data-senti]="element.senti"> {{element.date | date:'short'}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="url">
       <th mat-header-cell *matHeaderCellDef> Url </th>
-      <td mat-cell *matCellDef="let element"><a href="{{ element.url }}">{{(element.url.length>20)? (element.url | slice:0:20)+'...':(element.url)}}</a>  </td>
+      <td mat-cell *matCellDef="let element" [attr.data-senti]="element.senti"><a href="{{ element.url }}">{{(element.url.length>20)? (element.url | slice:0:20)+'...':(element.url)}}</a>  </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
