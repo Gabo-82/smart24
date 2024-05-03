@@ -286,7 +286,7 @@
       <button class="sentibutton">Sentimental clustering</button>
      </div>
       <div class="table">
-      <app-country-keyword-news-list>
+      <app-country-keyword-news-list (sendCountryToMap)="highlightCountries($event)">
         ['keyword']={{currentRoute}}
         ['country']={{ countryName }}
       </app-country-keyword-news-list>

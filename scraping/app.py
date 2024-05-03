@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 import sqlite3
-from news_finder import getCompleteNewsData
+from news_finder import getCompleteNewsData, newsFinder
 
 app = Flask(__name__)
 
@@ -10,16 +10,19 @@ cors = CORS(app, origins=['http://localhost:4200', 'https://example.com'])
 
 # Connect to database (create if doesn't), create table, and insert data
 def setup_database():
-    conn = sqlite3.connect('news_articles.db')
+    conn = sqlite3.connect('news_articles2.db')
     cursor = conn.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS Articles (
                     id INTEGER PRIMARY KEY,
                     title TEXT,
                     country TEXT,
                     url TEXT,
+                    keyWords TEXT,
+                    imgUrl TEXT,
                     date TEXT,
-                    body TEXT,
-                    summary TEXT)""")
+                    category TEXT,
+                   description TEXT,
+                   language TEXT)""")
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS Keywords (
                     KeywordID INTEGER PRIMARY KEY,
@@ -37,13 +40,15 @@ def setup_database():
     #     cursor.execute("""
     #     INSERT INTO ArticleKeywords VALUES (?, 1)""", (i,))
 
-    keywords = "Russia"
+    keywords = "Palestine"
     api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
     complete_data = getCompleteNewsData(keywords, api_key)
+    short_data = newsFinder(keywords, api_key)
 
-    for newsItem in complete_data:
+    for newsItem in short_data:
+        print(newsItem)
         # 485 is last proper row
-        title, country, url, date, body, summary = newsItem
+        title, country, url, key_words, date, img_url, category, description, language = newsItem
         # THIS FAILS sometimes because country is a list sometimes, news_finder has to be edited
         try:
             cursor.execute("""INSERT INTO Keywords (Keyword) VALUES (?)""", (keywords,))
@@ -51,8 +56,8 @@ def setup_database():
             print(er.sqlite_errorcode)
             print(er.sqlite_errorname)
         try:
-            cursor.execute("""INSERT INTO Articles (title, country, url, date, body, summary)
-                VALUES (?, ?, ?, ?, ?, ?)""", (title, country, url, date, body, summary))
+            cursor.execute("""INSERT INTO Articles (title, country, url, keyWords, imgUrl, date, category, description, language)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (title, str(country), url, str(key_words), date, img_url, category, description, language))
         except sqlite3.ProgrammingError as er:
             print(er.sqlite_errorcode)
             print(er.sqlite_errorname)
@@ -76,7 +81,7 @@ setup_database()
 #Route
 @app.route('/api/articles')
 def get_articles():
-    conn = sqlite3.connect('news_articles.db')
+    conn = sqlite3.connect('news_articles2.db')
     cursor = conn.cursor()
     cursor.execute("SELECT id, title, country, body FROM Articles")
     articles = cursor.fetchall()
@@ -86,28 +91,32 @@ def get_articles():
 
 @app.route('/api/article/<id>')
 def get_single_article(id):
-    conn = sqlite3.connect("news_articles.db")
+    conn = sqlite3.connect("news_articles2.db")
     cursor = conn.cursor()
     sql_query = "SELECT * FROM Articles where id = ?"
     cursor.execute(sql_query, (id,))
     article = {}
     for row in cursor.fetchall():
-        id, title, country, url, date, body, summary = row
+        id, title, country, url, key_words, date, img_url, category, description, language = row
         if id is not None:
             article["id"] = id
             article["title"] = title
             article["country"] = country
             article["url"] = url
+            article["keyWords"] = key_words
             article["date"] = date
-            article["body"] = body
-            article["summary"] = summary
+            article["imgUrl"] = img_url
+            article["category"] = category
+            article["description"] = description
+            article["language"] = language
+
     conn.close()
-    print(article)
+    # print(article)
     return jsonify(article)
 
-@app.route('/api/articles/<country>/<keyword>')
+@app.route('/api/articles/<country>/<keyword>') #This one is for the worldmap
 def get_articles_by_country_keyword(country, keyword):
-    conn = sqlite3.connect("news_articles.db")
+    conn = sqlite3.connect("news_articles2.db")
     cursor = conn.cursor()
     sql_query = """SELECT a.*
     FROM Articles as a
@@ -118,18 +127,21 @@ def get_articles_by_country_keyword(country, keyword):
     list_of_articles = []
     for row in cursor.fetchall():
         article = {}
-        id, title, country, url, date, body, summary = row
+        id, title, country, url, key_words, date, img_url, category, description, language = row
         if id is not None:
             article["id"] = id
             article["title"] = title
             article["country"] = country
             article["url"] = url
+            article["keyWords"] = key_words
             article["date"] = date
-            article["body"] = body
-            article["summary"] = summary
+            article["imgUrl"] = img_url
+            article["category"] = category
+            article["description"] = description
+            article["language"] = language
             list_of_articles.append(article)
     conn.close()
-    print(list_of_articles)
+    # print(list_of_articles)
     return jsonify(list_of_articles)
 
 if __name__ == '__main__':
