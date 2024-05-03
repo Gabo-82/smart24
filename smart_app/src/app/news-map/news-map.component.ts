@@ -15,7 +15,7 @@ export class NewsMapComponent implements OnInit {
   predefinedCountries = ["Finland", "South Korea", "Chile", "Canada", "Japan"];
   ml5Version: string = "";
   articles: any[] = [];
-  countryName: string | null = "India";
+  countryName: string | null = "mexico";
   currentRoute: string;
 
   constructor(private nyTimesService: NyTimesService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
@@ -36,7 +36,7 @@ export class NewsMapComponent implements OnInit {
     if(clickedCountryName){
        this.openDialog(clickedCountryName);
     // Redirect to Otso's component that presents data
-      
+
     }
   }
 
@@ -44,7 +44,7 @@ export class NewsMapComponent implements OnInit {
     const target = event.target as HTMLElement;
     let clickedCountryName = target.getAttribute('countryName');
     this.countryName = clickedCountryName;
-  
+
     if (clickedCountryName) {
       //this.openDialog(clickedCountryName);
       // Scroll to the component
@@ -54,7 +54,7 @@ export class NewsMapComponent implements OnInit {
       }
     }
   }
-  
+
 
    // 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
   highlightCountries() {
