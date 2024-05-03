@@ -24,6 +24,8 @@ import { CardOfNewsComponent } from './card-of-news/card-of-news.component';
 import { CountryKeywordNewsListComponent } from "./country-keyword-news-list/country-keyword-news-list.component";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { SentimentBubbleComponent } from './sentiment-bubble/sentiment-bubble.component';
+import { FactCheckComponent } from './fact-check/fact-check.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +37,10 @@ import { MatTableModule } from '@angular/material/table';
     HomeComponent,
     AboutComponent,
     SearchbarComponent,
-    CountryKeywordNewsListComponent
-    //CardOfNewsComponent,
+    CountryKeywordNewsListComponent,
+    CardOfNewsComponent,
+    SentimentBubbleComponent,
+    FactCheckComponent,
   ],
   imports: [
     BrowserModule,

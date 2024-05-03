@@ -10,16 +10,12 @@ import { PieceOfNews } from '../piece-of-news';
   selector: 'app-card-of-news',
   templateUrl: './card-of-news.component.html',
   styleUrls: ['./card-of-news.component.css'],
-  imports: [
-    MatDialogContent
-  ],
-  standalone: true
 })
 /*export class CardOfNewsComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private router: Router) { }
 
-
 }*/
+
 export class CardOfNewsComponent implements OnInit{
   selectedArticle: PieceOfNews | undefined;
  // router: any;
