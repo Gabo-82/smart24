@@ -1,7 +1,8 @@
 // sentiment-bubble.component.ts
 
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { PieceOfNews } from '../piece-of-news';
+import { NEWS_DATA } from '../country-keyword-news-list/country-keyword-news-list.component'; // Import NEWS_DATA from the appropriate file
 
 @Component({
   selector: 'app-sentiment-bubble',
@@ -22,26 +23,44 @@ export class SentimentBubbleComponent implements OnInit {
     // Add more sentiment-color mappings as needed
   };
 
-  constructor(private http: HttpClient) { }
+  // Adjust this value to control the maximum size of the bubble
+  MAX_BUBBLE_SIZE = 100; // Example: Maximum bubble size in pixels
+
+  constructor() { }
 
   ngOnInit(): void {
-    this.loadSentimentCounts();
+    this.calculateSentimentCounts();
   }
 
-  loadSentimentCounts() {
-    // Make HTTP request to fetch sentiment counts from backend API
-    this.http.get<any>('/api/sentiment').subscribe(
-      (sentimentData: any) => {
-        this.sentimentCounts = sentimentData; // Assuming sentimentData is in the format { "hopeful": 10, "celebratory": 5, ... }
-      },
-      (error) => {
-        console.error('Error fetching sentiment counts:', error);
+  calculateSentimentCounts() {
+    // Initialize counts for each sentiment category
+    this.sentimentCategories.forEach(sentiment => {
+      this.sentimentCounts[sentiment] = 0;
+    });
+
+    // Calculate sentiment counts based on NEWS_DATA
+    NEWS_DATA.forEach(article => {
+      const sentiment = article.sentiment?.toLowerCase();
+      if (sentiment && this.sentimentCategories.includes(sentiment)) {
+        this.sentimentCounts[sentiment] += 1;
       }
-    );
+    });
   }
 
   getBubbleSize(sentiment: string): number {
-    return this.sentimentCounts[sentiment] || 0; // Return count of articles for the given sentiment
+    const count = this.sentimentCounts[sentiment] || 0;
+
+    // Calculate bubble size based on the count of articles for the given sentiment
+    // Use a logarithmic scaling factor to determine the bubble size
+    const maxSize = Math.log(this.getMaxCount() + 1); // Apply logarithm to ensure scaling is more even
+    const size = (Math.log(count + 1) / maxSize) * this.MAX_BUBBLE_SIZE;
+
+    return size;
+  }
+
+  getMaxCount(): number {
+    // Find the maximum count among all sentiment categories
+    return Math.max(...this.sentimentCategories.map(sentiment => this.sentimentCounts[sentiment] || 0));
   }
 
   getBubbleColor(sentiment: string): string {

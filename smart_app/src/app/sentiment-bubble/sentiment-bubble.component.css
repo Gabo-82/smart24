@@ -1,17 +1,16 @@
 /* sentiment-bubble.component.css */
 
 .sentiment-bubbles {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .bubble {
-    border-radius: 50%;
-    padding: 20px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    transition: width 0.5s, background-color 0.5s;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bubble {
+  border-radius: 50%; /* Make the bubble circular */
+  padding: 20px; /* Adjust padding as needed */
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  transition: width 0.5s, height 0.5s, background-color 0.5s;
+}
