@@ -15,7 +15,7 @@ export class NewsMapComponent implements OnInit {
   predefinedCountries = ["Finland", "South Korea", "Chile", "Canada", "Japan"];
   ml5Version: string = "";
   articles: any[] = [];
-  countryName: string | null = "hello";
+  countryName: string | null = "India";
   currentRoute: string;
 
   constructor(private nyTimesService: NyTimesService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {

@@ -282,7 +282,10 @@
       </svg>
       <h2>Keyword: {{ currentRoute }}</h2>
       <h2>Country: {{ countryName }}</h2>
-      <app-country-keyword-news-list></app-country-keyword-news-list>
+      <app-country-keyword-news-list>
+        ['keyword']={{currentRoute}}
+        ['country']={{ countryName }}
+      </app-country-keyword-news-list>
     </div>
 <!--    <footer id="footer">-->
 <!--      <p id="footer-text">Built and designed by Elvi Lehtonen, Euiyoung Jin, Gabriel Díaz, Otso Luukkanen, Misaki Matsuura, Diego Campos-Velasquez-->

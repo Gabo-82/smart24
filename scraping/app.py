@@ -104,6 +104,32 @@ def get_single_article(id):
     print(article)
     return jsonify(article)
 
+@app.route('/api/articles/<country>/<keyword>')
+def get_articles_by_country_keyword(country, keyword):
+    conn = sqlite3.connect("news_articles.db")
+    cursor = conn.cursor()
+    sql_query = """SELECT a.*
+    FROM Articles as a
+    JOIN ArticleKeywords as ak ON a.id = ak.id
+    JOIN Keywords as k ON ak.KeywordID = k.KeywordID
+    WHERE k.Keyword = ? AND a.country = ?"""
+    cursor.execute(sql_query, (keyword, country))
+    list_of_articles = []
+    for row in cursor.fetchall():
+        article = {}
+        id, title, country, url, date, body, summary = row
+        if id is not None:
+            article["id"] = id
+            article["title"] = title
+            article["country"] = country
+            article["url"] = url
+            article["date"] = date
+            article["body"] = body
+            article["summary"] = summary
+            list_of_articles.append(article)
+    conn.close()
+    print(list_of_articles)
+    return jsonify(list_of_articles)
 
 if __name__ == '__main__':
     app.run(debug=True)

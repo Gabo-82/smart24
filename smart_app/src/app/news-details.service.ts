@@ -24,7 +24,7 @@ export class NewsDetailsService {
     )
   }
 
-  getShortArticles(country: string, keyword: string): Observable<PieceOfNews[]> {
+  getShortArticles(country: string = "india", keyword: string = "Palestine"): Observable<PieceOfNews[]> {
     const url = `${this.apiUrl}/api/articles/${country}/${keyword}`;
     const articleList = this.http.get<any>(url);
     articleList.subscribe(response => {console.log(response)})
