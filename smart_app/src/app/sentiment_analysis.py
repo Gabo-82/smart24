@@ -14,7 +14,7 @@ def get_sentiment(text):
 
 
 db_file = '/Users/jineuiyoung/Downloads/news_articles2_.sqlite'
-new_db_file = '/Users/jineuiyoung/Downloads/news_articles2_ai.sqlite'
+new_db_file = '/Users/jineuiyoung/Downloads/news_articles2_ai_test.sqlite'
 
 
 conn = sqlite3.connect(db_file)
@@ -33,10 +33,14 @@ new_cursor = new_conn.cursor()
 
 new_cursor.execute("""CREATE TABLE IF NOT EXISTS Articles (
                     id INTEGER PRIMARY KEY,
-                    title TEXT,
-                    country TEXT,
-                    body TEXT,
                     sentiment TEXT)""")
+
+# new_cursor.execute("""CREATE TABLE IF NOT EXISTS Articles (
+                    # id INTEGER PRIMARY KEY,
+                    # title TEXT,
+                    # country TEXT,
+                    # body TEXT,
+                    # sentiment TEXT)""")
 
 for index, row in df.iterrows():
     sentiment = get_sentiment(row['body'])
@@ -44,14 +48,15 @@ for index, row in df.iterrows():
     country = row['country']
     body = row['body']
     
-    # print(sentiment)
-    new_cursor.execute("INSERT INTO Articles (title, country, body, sentiment) VALUES (?, ?, ?, ?)",
-                   (title, country, body, sentiment))
+    new_cursor.execute("INSERT INTO Articles (sentiment) VALUES (?)",
+                   (sentiment))
+    # new_cursor.execute("INSERT INTO Articles (title, country, body, sentiment) VALUES (?, ?, ?, ?)",
+                #    (title, country, body, sentiment))
     new_conn.commit()
 
 new_conn.close()
 
-print("godd")
+print("gooooood")
 
 
 for index, row in df.iterrows():
