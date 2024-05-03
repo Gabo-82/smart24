@@ -8,4 +8,5 @@ export interface PieceOfNews {
   imgUrl: string;
   category: string;
   body: string;
+  sentiment: string;
 }
