@@ -60,15 +60,11 @@ export class NewsMapComponent implements OnInit {
   
   
 
-   // 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
   highlightCountries(countryList: string[]) {
-    // SVG 내의 모든 국가들을 가져옴
     const countries = document.querySelectorAll<SVGPathElement>('path.land');
     countries.forEach((country)=>{
       const countryName = country.getAttribute('countryName');
-      // 미리 정의된 국가 배열에 해당 국가가 포함되어 있는지 확인
       if ((countryName) && (countryList.includes(countryName.toLowerCase()))){
-        // 미리 정의된 국가를 강조하기 위해 색상을 변경
         country.style.fill = 'yellow';
       }
     })
