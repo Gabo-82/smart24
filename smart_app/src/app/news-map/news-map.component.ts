@@ -26,16 +26,36 @@ export class NewsMapComponent implements OnInit {
     // this.loadArticles();
     this.highlightCountries();
   }
-  onRegionClick(event: MouseEvent){
+
+  onRegionClick_first_version(event: MouseEvent){
     const target = event.target as HTMLButtonElement;
     let clickedCountryName = target.getAttribute('countryName');
     this.countryName = clickedCountryName;
-    alert("You clicked on: " + clickedCountryName);
+    // alert("You clicked on: " + clickedCountryName);
     if(clickedCountryName){
-      this.openDialog(clickedCountryName);
+       this.openDialog(clickedCountryName);
     // Redirect to Otso's component that presents data
+      
     }
   }
+
+  onRegionClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    let clickedCountryName = target.getAttribute('countryName');
+    this.countryName = clickedCountryName;
+  
+    if (clickedCountryName) {
+      //this.openDialog(clickedCountryName);
+      // Scroll to the component
+      const element = document.querySelector('app-country-keyword-news-list');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }
+
+  
+  
 
    // 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
   highlightCountries() {
@@ -52,7 +72,7 @@ export class NewsMapComponent implements OnInit {
    }
 
    openDialog(countryName: string){
-    const dialogRef = this.dialog.open(EventCardComponent, {
+    const dialogRef = this.dialog.open(CardOfNewsComponent, {
       data: {
         title: "News artiles from " + countryName,
         date: "Dummy date",
