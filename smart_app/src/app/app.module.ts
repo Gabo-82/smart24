@@ -22,6 +22,8 @@ import {NewsDetailsComponent} from "./news-details/news-details/news-details.com
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { CardOfNewsComponent } from './card-of-news/card-of-news.component';
 import {CountryKeywordNewsListComponent} from "./country-keyword-news-list/country-keyword-news-list.component";
+import { SentimentBubbleComponent } from './sentiment-bubble/sentiment-bubble.component';
+import { FactCheckComponent } from './fact-check/fact-check.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import {CountryKeywordNewsListComponent} from "./country-keyword-news-list/count
     HomeComponent,
     AboutComponent,
     SearchbarComponent,
-    //CardOfNewsComponent,
+    CardOfNewsComponent,
+    SentimentBubbleComponent,
+    FactCheckComponent,
   ],
   imports: [
     BrowserModule,

@@ -285,21 +285,22 @@
       <h2>Country of news: {{ countryName }}</h2>
 
 <!-- Using if-statements to show correct components based on what button is clicked -->
-      <div class="sentidiv">
-        <button class="sentibutton" (click)="openSentimental()" *ngIf="!showSentimentalContent">Try sentimental clustering!</button>
-        
-       </div>
-        <div class="table">
-        <app-country-keyword-news-list *ngIf="!showSentimentalContent" (sendCountryToMap)="highlightCountries($event)">
-          ['keyword']={{currentRoute}}
-          ['country']={{ countryName }}
-        </app-country-keyword-news-list>
       
-        <button class="sentibutton" (click)="goBack()" *ngIf="showSentimentalContent">Return to list of news</button>
-        <app-sentiment-bubble *ngIf="showSentimentalContent"></app-sentiment-bubble>
+    <div class="sentidiv">
+      <button class="sentibutton" (click)="openSentimental()" *ngIf="showNewsList">Try sentimental clustering!</button>
+      <button class="sentibutton" (click)="openFactCheck()" *ngIf="showNewsList">See fact checking</button>
+    </div>
+    <div class="table">
+      <app-country-keyword-news-list (sendCountryToMap)="highlightCountries($event)" *ngIf="showNewsList">
+        ['keyword']={{currentRoute}}
+        ['country']={{ countryName }}
+      </app-country-keyword-news-list>
+      <app-sentiment-bubble *ngIf="showSentimentalContent"></app-sentiment-bubble>
+      <app-fact-check *ngIf="showFactCheck"></app-fact-check>
+      <button class="sentibutton" (click)="goBack()" *ngIf="showSentimentalContent || showFactCheck">Return to list of news</button>
+    </div>
 
-
-      </div>
+      
    
     </div>
 
