@@ -33,6 +33,7 @@ import {CountryKeywordNewsListComponent} from "./country-keyword-news-list/count
     HomeComponent,
     AboutComponent,
     SearchbarComponent,
+    CardOfNewsComponent,
   ],
   imports: [
     BrowserModule,
