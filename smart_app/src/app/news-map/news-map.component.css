@@ -17,9 +17,10 @@ body{
 
 #main-content{
     position: absolute;
-    top: 40%;
+    top: 20%;
     width: 100%;
-    margin: auto;;
+    margin: auto;
+    
 }
 
 #footer {
@@ -43,4 +44,15 @@ body{
 #footer-text{
     display: flex;
     justify-content: center;
+}
+
+h2{
+    padding-left: 5vw;
+    font-weight: bold;
+
+}
+
+.table{
+    padding-left: 3vw;
+    padding-right: 3vw;
 }
