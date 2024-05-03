@@ -1,9 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NyTimesService } from '../ny-times.service';
 import { EventCardComponent } from '../event-card/event-card.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CardOfNewsComponent } from '../card-of-news/card-of-news.component';
 import {ActivatedRoute, Router} from "@angular/router";
+import { CountryKeywordNewsListComponent } from '../country-keyword-news-list/country-keyword-news-list.component';
 
 
 @Component({
@@ -12,7 +13,8 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrl: './news-map.component.css'
 })
 export class NewsMapComponent implements OnInit {
-  predefinedCountries = ["Finland", "South Korea", "Chile", "Canada", "Japan"];
+  @ViewChild(CountryKeywordNewsListComponent) KeyWordListComponent: CountryKeywordNewsListComponent | undefined;
+  predefinedCountries = new Set<string>();
   ml5Version: string = "";
   articles: any[] = [];
   countryName: string | null = "India";
@@ -21,11 +23,11 @@ export class NewsMapComponent implements OnInit {
   constructor(private nyTimesService: NyTimesService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
     //this.currentRoute = router.url.split('/').pop()!;
     this.currentRoute = decodeURIComponent(router.url.split('/').pop()!);
+
   }
 
   ngOnInit(): void {
     // this.loadArticles();
-    this.highlightCountries();
   }
 
   onRegionClick_first_version(event: MouseEvent){
@@ -54,16 +56,18 @@ export class NewsMapComponent implements OnInit {
       }
     }
   }
+
+  
   
 
    // 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
-  highlightCountries() {
+  highlightCountries(countryList: string[]) {
     // SVG 내의 모든 국가들을 가져옴
     const countries = document.querySelectorAll<SVGPathElement>('path.land');
     countries.forEach((country)=>{
       const countryName = country.getAttribute('countryName');
       // 미리 정의된 국가 배열에 해당 국가가 포함되어 있는지 확인
-      if ((countryName) && (this.predefinedCountries.includes(countryName))){
+      if ((countryName) && (countryList.includes(countryName.toLowerCase()))){
         // 미리 정의된 국가를 강조하기 위해 색상을 변경
         country.style.fill = 'yellow';
       }
@@ -79,5 +83,37 @@ export class NewsMapComponent implements OnInit {
       }
     });
   }
-  }
+
+ 
+    //clicking the button to show sentimental clustering
+    showSentimentalContent: boolean = false;
+    showFactCheck: boolean = false;
+    showNewsList: boolean = true;
+
+
+    openSentimental() {
+      this.showSentimentalContent = true;
+      this.showFactCheck = false;
+      this.showNewsList = false;
+    }
+  
+    goBack() {
+      this.showSentimentalContent = false;
+      this.showFactCheck = false;
+      this.showNewsList = true;
+    }
+  
+    openFactCheck() {
+      this.showFactCheck = true;
+      this.showSentimentalContent = false;
+      this.showNewsList = false;
+    }
+  
+    goBackfromFact() {
+      this.showFactCheck = false;
+      this.showSentimentalContent = false;
+      this.showNewsList = true;
+    }
+}
+
 

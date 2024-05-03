@@ -6,3 +6,18 @@ table {
   padding: 3vw;
   background-color:rgb(231, 232, 192)
 }
+
+
+/* Rows with senti="happy" will have a green background */
+tr[data-senti="angry"] {
+  background-color: rgb(248, 48, 48);
+}
+
+/* Rows with senti="happy" will have a green background */
+tr[data-senti="hopeful"] {
+  background-color: green;
+}
+
+tr[data-senti="sad"] {
+  background-color: rgb(38, 12, 184);
+}

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {PieceOfNews} from "../piece-of-news";
@@ -13,6 +13,9 @@ import {DatePipe, SlicePipe} from "@angular/common";
   styleUrl: './country-keyword-news-list.component.css'
 })
 export class CountryKeywordNewsListComponent implements AfterViewInit {
+  @Output() sendCountryToMap = new EventEmitter<string[]>();
+  predefinedCountries = new Set<string>();
+  countriesToSend: string[] = [];
   displayedColumns: string[] = ['id', 'title', 'date', 'url'];
   dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
 
@@ -32,7 +35,17 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator!;
     console.log("PAGINATOR:")
     console.log(this.paginator)
-    this.getArticles();
+    this.articles = NEWS_DATA;
+    //this.getArticles();
+    if (this.articles){
+      for (const article of this.articles){
+        this.predefinedCountries.add(article.country);
+      }
+      for (const country of this.predefinedCountries){
+        this.countriesToSend.push(country.toLowerCase());
+      }
+      this.sendCountryToMap.emit(this.countriesToSend);
+    }
     console.log("ARTICLES:")
     console.log(this.articles);
   }
@@ -47,7 +60,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
 }
 
 const NEWS_DATA: PieceOfNews[] = [
-  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello"},
+  {id: 1, title: "US: New York Police", country: "finland", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello"},
   {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello"},
   {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello"},
   {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello"},

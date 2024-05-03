@@ -56,3 +56,28 @@ h2{
     padding-left: 3vw;
     padding-right: 3vw;
 }
+
+.sentidiv{
+    margin-left: 5vw;
+    padding-bottom: 3vw;
+}
+
+.sentibutton{
+    background-color: rgb(255, 172, 94);
+    border-radius: 1.5vw;
+    padding: 1.5vw;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.sentibutton:hover{
+    background-color: rgb(238, 205, 173);
+    border-radius: 1.5vw;
+}
+
+.factbutton{
+    background-color: rgb(255, 172, 94);
+    border-radius: 1.5vw;
+    padding: 1.5vw;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-left: 40vw;
+}
