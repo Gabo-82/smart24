@@ -283,7 +283,7 @@
       <h2>Your keyword: {{ currentRoute }}</h2>
       <h2>Country of news: {{ countryName }}</h2>
       <div class="table">
-      <app-country-keyword-news-list>
+      <app-country-keyword-news-list (sendCountryToMap)="highlightCountries($event)">
         ['keyword']={{currentRoute}}
         ['country']={{ countryName }}
       </app-country-keyword-news-list>
