@@ -79,6 +79,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
         this.articles = response;
         console.log("After subscribe")
         console.log(this.articles);
+        this.filteredArticles = this.articles;
         // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
         this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
         if (this.articles){
