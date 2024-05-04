@@ -7,6 +7,10 @@ table {
   background-color:rgb(231, 232, 192)
 }
 
+.mat-accordion{
+  background-color:rgb(231, 232, 192) ;
+}
+
 .sentiment-bubbles {
   display: flex;
   justify-content: space-between;

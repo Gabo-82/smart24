@@ -1,39 +1,43 @@
-
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let element of dataSource.data">
+      <app-news-details></app-news-details>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <ng-container *ngIf="element.title.length > 20; else fullTitle">{{ element.title | slice:0:60 }}...</ng-container>
+          <ng-template #fullTitle>{{ element.title }}</ng-template>
+        </mat-panel-title>
+        <mat-panel-description>ID: {{ element.id }}</mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let element" [attr.data-senti]="element.senti"> {{element.id}} </td>
-    </ng-container>
+      <table mat-table>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef> Title </th>
-      <td mat-cell *matCellDef="let element" [attr.data-senti]="element.senti"> {{(element.title.length>20)? (element.title | slice:0:60)+'...':(element.title)}} </td>
-    </ng-container>
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
 
-    <!-- Weight Column -->
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef> Date </th>
-      <td mat-cell *matCellDef="let element" [attr.data-senti]="element.senti"> {{element.date | date:'short'}} </td>
-    </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> Title </th>
+          <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
 
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="url">
-      <th mat-header-cell *matHeaderCellDef> Url </th>
-      <td mat-cell *matCellDef="let element" [attr.data-senti]="element.senti"><a href="{{ element.url }}">{{(element.url.length>20)? (element.url | slice:0:20)+'...':(element.url)}}</a>  </td>
-    </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Date </th>
+          <td mat-cell *matCellDef="let element" > {{element.date | date:'short'}} </td>
+        </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDialog()"></tr>
-  </table>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="url">
+          <th mat-header-cell *matHeaderCellDef> Url </th>
+          <td mat-cell *matCellDef="let element" ><a href="{{ element.url }}">{{element.url}}</a></td>
+        </ng-container>
 
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
-
-<!-- <div class="sentiment-bubbles">
-  <div *ngFor="let sentiment of sentimentCategories" class="bubble" [style.width.%]="getBubbleSize(sentiment)">
-    {{ sentiment }} ({{ sentimentCounts[sentiment] }})
-  </div>
-</div> -->
