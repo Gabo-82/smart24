@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import sqlite3
 from news_finder import getCompleteNewsData, newsFinder
-from db_wrapper import setup_database_tables, load_short_articles_to_db
+from db_wrapper import setup_database_tables, load_short_articles_to_db, SQL_FILE
 
 app = Flask(__name__)
 
@@ -29,7 +29,7 @@ setup_database()
 # Routing for API endpoints
 @app.route('/api/articles')
 def get_articles():
-    conn = sqlite3.connect('news_articles2.db')
+    conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
     cursor.execute("SELECT id, title, country FROM Articles")
     articles = cursor.fetchall()
@@ -39,7 +39,7 @@ def get_articles():
 
 @app.route('/api/article/<id>')
 def get_single_article(id):
-    conn = sqlite3.connect("news_articles2.db")
+    conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
     sql_query = "SELECT * FROM Articles where id = ?"
     cursor.execute(sql_query, (id,))
@@ -65,7 +65,7 @@ def get_single_article(id):
 
 @app.route('/api/articles/<keyword>') # This one is for the worldmap
 def get_articles_by_keyword(keyword):
-    conn = sqlite3.connect("news_articles2.db")
+    conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
     sql_query = """SELECT a.*
     FROM Articles as a
@@ -95,7 +95,7 @@ def get_articles_by_keyword(keyword):
 
 @app.route('/api/searchOnline/<keyword>') # This one is for the worldmap
 def search_articles_by_keyword(keyword):
-    conn = sqlite3.connect('news_articles2.db')
+    conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
 
     api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
