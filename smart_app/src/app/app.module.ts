@@ -26,6 +26,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { SentimentBubbleComponent } from './sentiment-bubble/sentiment-bubble.component';
 import { FactCheckComponent } from './fact-check/fact-check.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { FactCheckComponent } from './fact-check/fact-check.component';
     HttpClientModule,
     NewsDetailsComponent,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
+    MatExpansionModule
   ],
   providers: [
     provideAnimationsAsync()
