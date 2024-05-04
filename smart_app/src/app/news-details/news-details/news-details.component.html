@@ -18,22 +18,36 @@
 
     <br>
     <!--Fact checking-->
-    <p>Fact checking: hover over the summary below to see score.</p>
-     <p (mouseover)="factCheck(article.description)">
+    <h3 id="header">Fact checking: hover over a sentence from the summary to see its fack check score.</h3>
+     
+    <!--<p (mouseover)="factCheckSentence(article.description)">
       {{ article.description }}
     </p>
     <div>
       Fact check score: {{ factCheckScore }}
-    </div> 
-   
-    <!-- <p>Fact checking 2:</p>
+    </div> -->
+
+   <!--
+    <p>Fact checking 2:</p>
     <p (mouseover)="factCheck(sentence)" *ngFor="let sentence of (article.description)?.split('.')">
       {{ sentence }}
     </p>
     <div *ngIf="factCheckScore !== undefined">
       Fact check score: {{ factCheckScore }}
     </div> -->
+    
 
+    <div *ngFor="let sentence of article.description.split('.'); let i = index">
+      <p 
+        [style.color]="hoveredSentenceIndex === i ? 'orange' : 'black'"
+        (mouseover)="factCheck(sentence, i)" 
+        (mouseleave)="hoveredSentenceIndex = -1"
+      >
+      {{ sentence.trim() }}{{ i !== article.description.split('.').length - 1 ? '.' : '' }}
+    </div>
+    <div>
+      Fact check score of this sentence: {{ factCheckScore }}
+    </div>
     
     
     </div>

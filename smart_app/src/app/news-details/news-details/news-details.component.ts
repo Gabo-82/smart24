@@ -21,7 +21,10 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class NewsDetailsComponent implements OnInit{
   selectedArticle: PieceOfNews | undefined;
-  factCheckScore: number | undefined;
+  factCheckScore: number | null | undefined;
+  hoveredSentenceIndex: number = -1;
+  articleSentences: string[] = [];
+  hoveredSentence: string | null = null;
   @Input() article: any;
 
   constructor(private newsDetailsService: NewsDetailsService,
@@ -36,6 +39,7 @@ export class NewsDetailsComponent implements OnInit{
         this.selectedArticle = response;
       })
   }
+
   getArticle_dummy(): void {
     // Hard-coded dummy data
     const dummyData: PieceOfNews = {
@@ -50,7 +54,7 @@ export class NewsDetailsComponent implements OnInit{
       description: 'Finland is a country. We are happy.',
       language: 'English',
       body: 'This is a dummy article body.',
-      sentiment: 'Neutral'
+      sentiment: 'neutral'
     };
 
     // Assigning the dummy data to selectedArticle
@@ -58,7 +62,7 @@ export class NewsDetailsComponent implements OnInit{
   }
 
 
-  async factCheck(sentence: string| undefined): Promise<void> {
+  async factCheck(sentence: string| undefined, index: number): Promise<void> {
     // Check if sentence is not empty
     if (!sentence) {
       console.log('Sentence is empty');
@@ -83,5 +87,12 @@ export class NewsDetailsComponent implements OnInit{
     } catch (error) {
       console.error('Error while fact-checking:', error);
     }
+
+      this.hoveredSentenceIndex = index;
   }
+
+
+
+
 }
+
