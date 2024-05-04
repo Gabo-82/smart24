@@ -1,8 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import { PieceOfNews} from "../../piece-of-news";
 import { NewsDetailsService} from "../../news-details.service";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+
 
 @Component({
   selector: 'app-news-details',
@@ -14,19 +18,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class NewsDetailsComponent implements OnInit{
   selectedArticle: PieceOfNews | undefined;
   factCheckScore: number | undefined;
+  @Input() article: any;
 
   constructor(private newsDetailsService: NewsDetailsService,
     private http: HttpClient
     ) { }
   ngOnInit(): void {
-    this.getArticle_dummy();
+    this.getArticle();
   }
-  //getArticle(): void {
-  //  this.newsDetailsService.getArticle(1)
-    //  .subscribe(response => {
-      //  this.selectedArticle = response;
-      //})
-  //}
+  getArticle(): void {
+    this.newsDetailsService.getArticle(1)
+      .subscribe(response => {
+        this.selectedArticle = response;
+      })
+  }
   getArticle_dummy(): void {
     // Hard-coded dummy data
     const dummyData: PieceOfNews = {
