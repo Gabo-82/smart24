@@ -10,12 +10,35 @@
 
       <ul>
         <p id="header">Summary of the article: </p>
-          <p>{{selectedArticle?.body}}</p><br>
+          <p>{{selectedArticle?.description}}</p><br>
         <li><a href="{{selectedArticle?.url}}">Link to the article</a></li>
       </ul>
 <br>
      <h3 id="header">Okay, let's dive deeper.</h3>
      <ul>Sentimental analysis on this article:</ul>
+     <p>{{selectedArticle?.sentiment}}</p>
+    
+
+    <br>
+    <!--Fact checking-->
+    <p>Fact checking: hover over the summary below to see score.</p>
+    <p (mouseover)="factCheck(selectedArticle?.description)">
+      {{ selectedArticle?.description }}
+    </p>
+    <div>
+      Fact check score: {{ factCheckScore }}
+    </div>
+    
+    <!--<p>Fact checking 2:</p>
+    <p (mouseover)="factCheck(sentence)" *ngFor="let sentence of (selectedArticle?.description)?.split('.')">
+      {{ sentence }}
+    </p>
+    <div *ngIf="factCheckScore !== undefined">
+      Fact check score: {{ factCheckScore }}
+    </div>-->
+
+    
+    
     </div>
 
 
