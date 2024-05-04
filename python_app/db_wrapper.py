@@ -2,6 +2,7 @@ import os
 import sqlite3
 from fact_check import fact_check
 from news_finder import newsExtractContent
+from get_sentiment import get_sentiment
 
 current_directory = os.path.abspath(os.path.dirname(__file__))
 parent_directory = os.path.dirname(current_directory)
@@ -14,6 +15,9 @@ os.makedirs(os.path.dirname(SQL_FILE), exist_ok=True)
 
 # Connect to database (create if it doesn't exist), create table, and insert data (MAIN TABLE)
 def setup_database_tables():
+    print('Setting up database tables...')
+    os.makedirs(os.path.dirname(SQL_FILE), exist_ok=True)
+   
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS Articles ( 
@@ -49,7 +53,16 @@ def setup_database_tables():
                     id INTEGER PRIMARY KEY,
                     body TEXT,
                     summary TEXT)""")
+    # SENTIMENT TABLE
+    cursor.execute("""CREATE TABLE IF NOT EXISTS Sentiment (
+                    id INTEGER PRIMARY KEY,
+                    score INTEGER,
+                    sentiment TEXT,
+                    goodOrbad TEXT,
+                    bias TEXT)""")
+    
     conn.commit()
+    print('Database tables created successfully!')
     conn.close()
 
 
@@ -93,6 +106,7 @@ def load_short_articles_to_db(short_data, keywords):
     conn.close()
 
 def load_full_body_to_db():
+    print('Loading full body into database...')
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
 
@@ -108,14 +122,9 @@ def load_full_body_to_db():
 
         if content:
             body, summary = content
-            print(body)
-            print(summary)
-
-            # Insert full body and summary into the FullBody table
             try:
                 cursor.execute("""INSERT INTO FullBody (id, body, summary) 
                                   VALUES (?, ?, ?)""", (article_id, str(body), str(summary)))
-                print('Im putting the articles!')
             except sqlite3.Error as e:
                 print(f"Error inserting content into FullBody table: {e}")
                 continue
@@ -123,18 +132,55 @@ def load_full_body_to_db():
     conn.commit()
     conn.close()
 
+def load_sentiment_to_db():
+    print('Loading sentiment into database...')
+    conn = sqlite3.connect(SQL_FILE)
+    cursor = conn.cursor()
 
-#For testing:
-""" keywords = "Palestine"
+    # Select articles that don't have sentiment yet or have null values for sentiment fields
+    cursor.execute("""SELECT FullBody.id, FullBody.body FROM FullBody 
+                      LEFT JOIN Sentiment ON FullBody.id = Sentiment.id
+                      WHERE Sentiment.id IS NULL OR 
+                      Sentiment.score IS NULL OR 
+                      Sentiment.sentiment IS NULL OR 
+                      Sentiment.goodOrbad IS NULL OR 
+                      Sentiment.bias IS NULL""")
+
+    articles_to_process = cursor.fetchall()
+
+    for article_id, body in articles_to_process:
+        # Extract sentiment from the article's body
+        score, sentiment, goodOrbad, bias = get_sentiment(str(body))
+
+        # Insert sentiment into the Sentiment table
+        try:
+            cursor.execute("""INSERT INTO Sentiment (id, score, sentiment, goodOrbad, bias) 
+                              VALUES (?, ?, ?, ?, ?)""", (article_id, score, sentiment, goodOrbad, bias))
+        except sqlite3.Error as e:
+            print(f"Error inserting sentiment into Sentiment table: {e}")
+            continue
+
+    conn.commit()
+    conn.close()
+
+
+
+
+
+""" #For testing:
+keywords = "Football"
 api_key = 'pub_43440822cefee6d609bd2dafaa5eb09b7415c'
-from news_finder import getCompleteNewsData, newsFinder
-setup_database_tables()
+from news_finder import newsFinder
+#setup_database_tables()
 short_data = newsFinder(keywords, api_key)
 if (short_data[0] != ""):
     load_short_articles_to_db(short_data, keywords)
- """
 
-# load_full_body_to_db()
+load_full_body_to_db()
+load_sentiment_to_db() """
+setup_database_tables()
 
 
 
+if __name__ == "__main__":
+    setup_database_tables()

@@ -1,29 +1,32 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 import sqlite3
-from news_finder import getCompleteNewsData, newsFinder
-from db_wrapper import setup_database_tables, load_short_articles_to_db
+from news_finder import newsFinder
+from db_wrapper import setup_database_tables, load_short_articles_to_db, load_full_body_to_db, load_sentiment_to_db
 
 app = Flask(__name__)
-
 cors = CORS(app, origins=['http://localhost:5000', 'https://example.com', 'http://localhost:4200'])
 
+api_key = 'pub_43440822cefee6d609bd2dafaa5eb09b7415c'
 
-# Connect to database (create if doesn't), create table, and insert data (MAIN TABLE)
-def setup_database():
-    setup_database_tables()
-    # FULL BODY TABLE:
-    # NEWSFINDER:
-    keywords = "Palestine"
-    api_key = 'pub_43440822cefee6d609bd2dafaa5eb09b7415c'
-    complete_data = getCompleteNewsData(keywords, api_key)
-    short_data = newsFinder(keywords, api_key)
-    if (short_data[0] != ""):
-        load_short_articles_to_db(short_data, keywords)
+setup_database_tables()
 
+keywords = "Palestine"
 
-# Call the setup_database function when the Flask app starts
-setup_database()
+short_data = newsFinder(keywords, api_key)
+if (short_data[0] != ""):
+    load_short_articles_to_db(short_data, keywords)
+
+load_full_body_to_db()
+load_sentiment_to_db()
+
+keywords = "USA RIOTS"
+short_data = newsFinder(keywords, api_key)
+if (short_data[0] != ""):
+    load_short_articles_to_db(short_data, keywords)
+
+load_full_body_to_db()
+load_sentiment_to_db()
 
 
 # Routing for API endpoints
@@ -156,4 +159,4 @@ def search_articles_by_keyword(keyword):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False) #I changed it to false because if its in true it runs the app twice
