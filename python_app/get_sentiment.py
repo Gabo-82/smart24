@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = "API KEY HERE"
+openai.api_key = "sk-proj-9VlfKYGmwrsyjTy6mnPcT3BlbkFJlQAeSxcGvsLBUUwZgO83"
 
 
 def get_sentiment(text):

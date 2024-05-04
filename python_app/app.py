@@ -20,13 +20,13 @@ if (short_data[0] != ""):
 load_full_body_to_db()
 load_sentiment_to_db()
 
-keywords = "USA RIOTS"
+""" keywords = "USA RIOTS"
 short_data = newsFinder(keywords, api_key)
 if (short_data[0] != ""):
     load_short_articles_to_db(short_data, keywords)
 
 load_full_body_to_db()
-load_sentiment_to_db()
+load_sentiment_to_db() """
 
 
 # Routing for API endpoints
