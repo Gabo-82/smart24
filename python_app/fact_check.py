@@ -9,6 +9,9 @@ import json
 
 def fact_check(input):
 
+    # If Article has no description or description is ""
+    if (input==None or input==""):
+        return 0.0
     api_key = "4f80e4f3aaea4cb59be3a10d05dfd60d"
 
     api_endpoint = "https://idir.uta.edu/claimbuster/api/v2/score/text/"

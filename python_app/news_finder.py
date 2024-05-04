@@ -11,7 +11,10 @@ sys.stdout.reconfigure(encoding='utf-8')
 def newsFinder(keywords, api_key):
     url = f"https://newsdata.io/api/1/news?apikey={api_key}&q={keywords}&language=en"
     response = requests.get(url)
+    if response.status_code >= 400:
+        return ["", "", "", "", "", "", "", "", ""]
     data = response.json()
+
     newsData = []
 
     if "results" in data:
@@ -96,7 +99,7 @@ def getCompleteNewsData(keywords, api_key):
 if __name__ == "__main__":
     # Ejemplo de uso de las funciones si se ejecuta este archivo directamente
     keywords = "Palestine"
-    api_key = 'pub_43440822cefee6d609bd2dafaa5eb09b7415c'
+    api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
     completeData = getCompleteNewsData(keywords, api_key)
     print(completeData)
 
