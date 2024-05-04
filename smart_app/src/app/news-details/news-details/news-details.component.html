@@ -1,39 +1,38 @@
-
-  <body>
+<body>
   
     <div id="main-content">
       <!--<h1>Here is a piece of news about your topic!</h1>-->
 
-    <h2>{{ selectedArticle?.title }}</h2>
+    <h2>{{ article.title }}</h2>
 
       <ul>
         <p id="header">Summary of the article: </p>
-          <p>{{selectedArticle?.description}}</p><br>
-        <li><a href="{{selectedArticle?.url}}">Link to the article</a></li>
+          <p>{{article.description}}</p><br>
+        <li><a href="{{article.url}}">Link to the article</a></li>
       </ul>
 <br>
      <h3 id="header">Okay, let's dive deeper.</h3>
      <ul>Sentimental analysis on this article:</ul>
-     <p>{{selectedArticle?.sentiment}}</p>
+     <p>{{article.sentiment}}</p>
     
 
     <br>
     <!--Fact checking-->
     <p>Fact checking: hover over the summary below to see score.</p>
-    <p (mouseover)="factCheck(selectedArticle?.description)">
-      {{ selectedArticle?.description }}
+     <p (mouseover)="factCheck(article.description)">
+      {{ article.description }}
     </p>
     <div>
       Fact check score: {{ factCheckScore }}
-    </div>
-    
-    <p>Fact checking 2:</p>
-    <p (mouseover)="factCheck(sentence)" *ngFor="let sentence of (selectedArticle?.description)?.split('.')">
+    </div> 
+   
+    <!-- <p>Fact checking 2:</p>
+    <p (mouseover)="factCheck(sentence)" *ngFor="let sentence of (article.description)?.split('.')">
       {{ sentence }}
     </p>
     <div *ngIf="factCheckScore !== undefined">
       Fact check score: {{ factCheckScore }}
-    </div>
+    </div> -->
 
     
     

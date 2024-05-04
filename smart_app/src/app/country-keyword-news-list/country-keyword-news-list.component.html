@@ -8,7 +8,7 @@
 </div>
   <mat-accordion>
     <mat-expansion-panel *ngFor="let element of dataSource.data">
-      <app-news-details></app-news-details>
+      <app-news-details [article]="element"></app-news-details>
       <mat-expansion-panel-header>
         <mat-panel-title>
           <ng-container *ngIf="element.title.length > 20; else fullTitle">{{(element.url.length>60)? (element.title | slice:0:25)+'...':(element.url)}}.</ng-container>
