@@ -24,7 +24,8 @@ def fact_check(input):
     response_data = api_response.json()
 
     # Extract the score from the response
-    score = response_data['results'][0]['score']
+    if (response_data['results'][0]):
+        score = response_data['results'][0]['score']
 
     print(score)
     return score

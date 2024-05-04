@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, OnChanges} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {PieceOfNews} from "../piece-of-news";
@@ -10,7 +10,7 @@ import {DatePipe, SlicePipe} from "@angular/common";
   templateUrl: './country-keyword-news-list.component.html',
   styleUrl: './country-keyword-news-list.component.css'
 })
-export class CountryKeywordNewsListComponent implements AfterViewInit {
+export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges{
   @Output() sendCountryToMap = new EventEmitter<string[]>();
   sentimentCounts: { [key: string]: number } = {};
   predefinedCountries = new Set<string>();
@@ -22,8 +22,17 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
 
   constructor(private newsDetailsService: NewsDetailsService) { }
 
-  @Input("country") countryStr!: string;
-  @Input("keyword") keywordStr!: string;
+  @Input({required: true}) countryStr!: string;
+  @Input({required: true}) keywordStr!: string;
+
+  ngOnChanges(): void {
+    console.log("CountryKeywordNewsListComponent", this.countryStr);
+    this.dataSource.filter = (this.countryStr);
+    console.log(this.dataSource.filteredData)
+    // this.customFilter =
+    // this.dataSourcefilter(article => article.country === this.countryStr.toLowerCase()
+    // this.dataSource.filter((article: PieceOfNews) => article.country === this.countryStr.toLowerCase());
+  }
 
   ngOnInit(): void {
     this.loadArticles();
@@ -35,6 +44,10 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
     console.log("DATA SOURCE:")
     console.log(this.dataSource);
     this.dataSource.paginator = this.paginator!;
+    // this.dataSource.filterPredicate = (data:PieceOfNews, filter:string) => (data.country.trim().toLowerCase().indexOf(filter.trim().toLowerCase()) !== -1)
+    this.dataSource.filterPredicate = function (record : PieceOfNews,filter: string) {
+      return record.country === filter;
+    }
     console.log("PAGINATOR:")
     console.log(this.paginator)
     // this.articles = NEWS_DATA;
@@ -44,6 +57,15 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
     console.log("ARTICLES:")
     console.log(this.articles);
   }
+
+  customFilter(): (data: PieceOfNews, filter: string) => boolean {
+    let filterFunction = function (data: PieceOfNews, filter: string): boolean {
+      // return data.country.toLowerCase() == filter.toLowerCase();
+      return true;
+    }
+    return filterFunction
+  }
+
 
   getArticles(): void {
     this.newsDetailsService.getShortArticles(this.countryStr, this.keywordStr)
