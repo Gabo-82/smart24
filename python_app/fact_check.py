@@ -25,8 +25,4 @@ def fact_check(input):
 
     # Extract the score from the response
     score = response_data['results'][0]['score']
-
-    print(score)
     return score
-
-fact_check('Otso is dumb')
