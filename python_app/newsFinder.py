@@ -104,9 +104,13 @@ def setup_database():
 
     for newsItem in completeData:
         title, country, url, date, body, summary = newsItem
-        cursor.execute("INSERT INTO Articles (title, country, url, date, body, summary) VALUES (?, ?, ?, ?, ?, ?)",
-                       (title, country, url, date, body, summary))
-        conn.commit()
+        # Check if the item with the same URL already exists
+        cursor.execute("SELECT id FROM Articles WHERE url = ?", (url,))
+        existing_item = cursor.fetchone()
+        if not existing_item:
+            cursor.execute("INSERT INTO Articles (title, country, url, date, body, summary) VALUES (?, ?, ?, ?, ?, ?)",
+                        (title, country, url, date, body, summary))
+            conn.commit()
 
     conn.close()
 
