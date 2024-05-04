@@ -4,6 +4,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {PieceOfNews} from "../piece-of-news";
 import {NewsDetailsService} from "../news-details.service";
 import {DatePipe, SlicePipe} from "@angular/common";
+import { CardOfNewsComponent } from '../card-of-news/card-of-news.component';
 
 @Component({
   selector: 'app-country-keyword-news-list',
@@ -19,6 +20,8 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
 
   articles : PieceOfNews[] | undefined;
+  router: any;
+  dialog: any;
 
   constructor(private newsDetailsService: NewsDetailsService) { }
 
@@ -51,6 +54,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
         this.articles = response;
         console.log("After subscribe")
         console.log(this.articles);
+        // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
         this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
         if (this.articles){
           for (const article of this.articles){
@@ -98,6 +102,22 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
     // Adjust scaling factor based on desired visual representation
     return count * 10; // Example scaling factor (adjust as needed)
   }
+
+  clickNews(){
+    this.router.navigate(["/details"]);
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(CardOfNewsComponent, {
+      data: {
+        title: "News article with id",
+        date: "Dummy date",
+        description: "Dummy description"
+      }
+    });
+  }
+  
+
 }
 
 // const NEWS_DATA: PieceOfNews[] = [
