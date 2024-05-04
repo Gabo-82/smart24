@@ -1,9 +1,8 @@
-/* sentiment-bubble.component.css */
-
 .sentiment-bubbles {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  padding-bottom: 8vw;
 }
 
 .bubble {
@@ -12,12 +11,31 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%; /* Make it circular */
-  margin: 10px;
+  margin: 4vw;
   cursor: pointer;
   transition: all 0.3s ease; /* Add transition for smooth size changes */
+  text-align: center;
 }
+
 
 .bubble-size {
   font-size: 12px;
   margin-top: 5px;
+}
+
+button{
+    background-color: rgb(255, 172, 94);
+    border-radius: 1.5vw;
+    padding: 1vw;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+button:hover{
+  background-color: rgb(238, 205, 173);
+}
+
+.news-list{
+  background-color: antiquewhite;
+  text-align: center;
+  padding: 2vw;
 }
