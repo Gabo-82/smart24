@@ -3,11 +3,15 @@ import {Component, OnInit} from '@angular/core';
 import { PieceOfNews} from "../../piece-of-news";
 import { NewsDetailsService} from "../../news-details.service";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-news-details',
   standalone: true,
-  imports: [],
+  imports: [
+    NgForOf,
+    NgIf
+  ],
   templateUrl: './news-details.component.html',
   styleUrl: './news-details.component.css'
 })
@@ -43,7 +47,7 @@ export class NewsDetailsComponent implements OnInit{
       body: 'This is a dummy article body.',
       sentiment: 'Neutral'
     };
-    
+
     // Assigning the dummy data to selectedArticle
     this.selectedArticle = dummyData;
   }

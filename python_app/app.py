@@ -132,7 +132,8 @@ def search_articles_by_keyword(keyword):
     FROM Articles as a
     JOIN ArticleKeywords as ak ON a.id = ak.id
     JOIN Keywords as k ON ak.KeywordID = k.KeywordID
-    WHERE k.Keyword = ?"""
+    WHERE k.Keyword = ?
+    LIMIT 25"""
     cursor.execute(sql_query, (keyword,))
     list_of_articles = []
     for row in cursor.fetchall():
