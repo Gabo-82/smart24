@@ -20,6 +20,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
 
   articles : PieceOfNews[] | undefined;
+  filteredArticles : PieceOfNews[] | undefined;
   router: any;
   dialog: any;
 
@@ -30,6 +31,8 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
 
   ngOnChanges(): void {
     console.log("CountryKeywordNewsListComponent", this.countryStr);
+    this.filteredArticles = this.articles!.filter((article: PieceOfNews ) => {
+    return article.country.toLowerCase() === this.countryStr.toLowerCase();})
     this.dataSource.filter = (this.countryStr);
     console.log(this.dataSource.filteredData)
     // this.customFilter =
