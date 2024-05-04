@@ -4,8 +4,6 @@ import pandas as pd
 import re
 import os
 
-openai.api_key = "KEY HERE"
-
 
 def get_sentiment(text):
     response = openai.ChatCompletion.create(

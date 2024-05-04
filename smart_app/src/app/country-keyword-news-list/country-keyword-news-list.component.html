@@ -8,6 +8,8 @@
           <ng-template #fullTitle>{{ element.title }}</ng-template>
         </mat-panel-title>
         <mat-panel-description>ID: {{ element.id }}</mat-panel-description>
+        <a mat-button href="{{ element.url }}" target="_blank">Source: {{ element.url }}</a>
+        <mat-panel-description>Date: {{ element.date | date: 'short' }}</mat-panel-description>
       </mat-expansion-panel-header>
 
       <table mat-table>

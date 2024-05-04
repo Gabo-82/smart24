@@ -77,10 +77,11 @@ def newsExtractContent(url):
         summary = article.summary
 
         data.append(body)
-        #data.append(summary) Maybe we'll use the short description provided by the api instead of this summary
+        data.append(summary)
     except ArticleException as e:
         print(f"Error downloading an article")
-        data = None
+        data.append("Body not available")
+        data.append("Summary not available")
     return data
 
 def getCompleteNewsData(keywords, api_key):
