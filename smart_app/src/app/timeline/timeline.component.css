@@ -2,3 +2,16 @@
     background-color: #f7d436; /* Set your desired button color */
     color: white; /* Text color for contrast */
 }
+
+.custom-button-israel:hover {
+    background-color: #d8890b; /* Set your desired button color */
+    color: rgb(8, 0, 0); /* Text color for contrast */
+}
+
+button:hover{
+    color: rgb(8, 0, 0);
+}
+
+button{
+    border-radius: 1vw;
+}

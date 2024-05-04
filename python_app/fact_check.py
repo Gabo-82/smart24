@@ -29,5 +29,3 @@ def fact_check(input):
 
     print(score)
     return score
-
-fact_check('Otso is dumb')

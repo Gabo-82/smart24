@@ -9,14 +9,14 @@
          [style.background-color]="getBubbleColor(sentiment)"
          (click)="onSelectSentiment(sentiment)">
       <span>{{ sentiment }}</span>
-      <span class="bubble-size">{{ sentimentCounts[sentiment] }}</span> <!-- Display raw sentiment count -->
+      <span class="bubble-size">Articles: {{ sentimentCounts[sentiment] }}</span> <!-- Display raw sentiment count -->
     </div>
   </ng-container>
 
   <!-- Display list of articles for selected sentiment -->
   <ng-template #newsList>
     <div class="news-list" *ngIf="selectedSentiment">
-      <h3>List of {{ selectedSentiment }} news:</h3>
+      <h3>List of {{ selectedSentiment }} news from this country:</h3>
       <ul>
         <li *ngFor="let article of getArticlesBySentiment(selectedSentiment!)">
           {{ article.title }}

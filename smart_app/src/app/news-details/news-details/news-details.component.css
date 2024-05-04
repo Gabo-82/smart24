@@ -3,20 +3,18 @@ html, body{
 }
 
 body{
-    height:200vh;
+    height:100vh;
     justify-content: center;
     background-color: #e6f1ff;
 
 }
 
-
 #main-content{
     position: absolute;
-    top: 40%;
+    padding: 5vw;
     width: 100%;
     margin: auto;
-    padding-left: 5vw;
-    padding-right: 5vw;
+
 }
 
 #footer {

@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent }, // Define AppComponent as the component for the root path
   { path: 'worldmap/:keyword', component: NewsMapComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'products', component: AboutComponent }, // for now it just takes you to the About-page
+  { path: 'home', component: HomeComponent }, 
   { path: 'details', component: NewsDetailsComponent },
 ];
 
