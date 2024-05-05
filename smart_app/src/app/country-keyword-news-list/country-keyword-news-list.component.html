@@ -1,11 +1,12 @@
 <div class="mat-elevation-z8">
-<div>
+<!-- <div>
   <p>country-keyword-news-list.component.html:</p>
   <p>CountrySrt:</p>
   <p>{{countryStr}}</p>
   <p>KeywordStr:</p>
   <p>{{keywordStr}}</p>
-</div>
+</div> -->
+
   <mat-accordion>
     <mat-expansion-panel *ngFor="let element of dataSource.data"> <!--to use data put filteredArticles-->
       <app-news-details [article]="element"></app-news-details>
