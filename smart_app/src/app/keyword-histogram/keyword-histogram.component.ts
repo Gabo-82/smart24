@@ -11,17 +11,17 @@ export class KeywordHistogramComponent {
     // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
     width: 1,
     // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
-    height: 1,
+    height: 0.7,
     overflow: false,
   };
 
   @Input() data: CloudData[] = [
-    {text: 'Weight-7-link-color', weight: 7, link: 'https://google.com', color: '#ffaaee'},
-    {text: 'Weight-10-link', weight: 10, link: 'https://google.com', color: '#ffaaee'},
-    {text: 'Weight-9-link-color', weight: 9, link: 'https://google.com', color: '#ffaaee'},
-    {text: 'Weight-2-link-color', weight: 2, link: 'https://google.com', color: '#ffaaee'},
-    {text: 'Weight-1-link-color', weight: 1, link: 'https://google.com', color: '#ffaaee'},
-    {text: 'Weight-8-link-color', weight: 8, link: 'https://google.com', color: '#ffaaee'},
+    {text: 'Weight-7-link-color', weight: 7, link: 'https://google.com'},
+    {text: 'Weight-10-link', weight: 10, link: 'https://google.com'},
+    {text: 'Weight-9-link-color', weight: 9, link: 'https://google.com'},
+    {text: 'Weight-2-link-color', weight: 2, link: 'https://google.com'},
+    {text: 'Weight-1-link-color', weight: 1, link: 'https://google.com'},
+    {text: 'Weight-8-link-color', weight: 8, link: 'https://google.com'},
     // ...
   ];
 

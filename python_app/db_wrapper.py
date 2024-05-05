@@ -156,6 +156,7 @@ def load_sentiment_to_db():
         try:
             cursor.execute("""INSERT INTO Sentiment (id, score, sentiment, goodOrbad, bias) 
                               VALUES (?, ?, ?, ?, ?)""", (article_id, score, sentiment, goodOrbad, bias))
+            #print(article_id)
         except sqlite3.Error as e:
             print(f"Error inserting sentiment into Sentiment table: {e}")
             continue
