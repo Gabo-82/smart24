@@ -39,17 +39,20 @@ export class SentimentBubbleComponent implements OnInit {
     });
 
     // Calculate sentiment counts based on NEWS_DATA
+    console.log(NEWS_DATA);
     NEWS_DATA.forEach((article : PieceOfNews) => {
       const sentiment = article.sentiment?.toLowerCase();
+      console.log(sentiment);
       if (sentiment && this.sentimentCategories.includes(sentiment)) {
         this.sentimentCounts[sentiment] += 1;
+        console.log(this.sentimentCounts[sentiment]);
       }
     });
   }
 
   getBubbleSize(sentiment: string): number {
     const count = this.sentimentCounts[sentiment] || 0;
-    
+
     // Calculate bubble size based on the count of articles for the given sentiment
     // Use a larger default size for sentiments with count 1
     const size = count > 0 ? this.defaultBubbleSize + (count - 1) * 10 : this.defaultBubbleSize;

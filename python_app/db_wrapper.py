@@ -72,7 +72,7 @@ def load_short_articles_to_db(short_data, keywords):
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
     for newsItem in short_data:
-        #print(newsItem)
+        print(newsItem)
         # 485 is last proper row
         title, country, url, key_words, date, img_url, category, description, language = newsItem
         try:

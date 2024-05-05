@@ -29,6 +29,7 @@ import { FactCheckComponent } from './fact-check/fact-check.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { KeywordHistogramComponent } from './keyword-histogram/keyword-histogram.component';
 import { TagCloudComponent } from 'angular-tag-cloud-module'
+import {MatDivider} from "@angular/material/divider";
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { TagCloudComponent } from 'angular-tag-cloud-module'
     MatPaginatorModule,
     MatTableModule,
     MatExpansionModule,
-    TagCloudComponent
+    TagCloudComponent,
+    MatDivider
   ],
   providers: [
     provideAnimationsAsync()
