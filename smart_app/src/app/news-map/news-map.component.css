@@ -14,6 +14,12 @@ body{
     align-content: center;
 }
 
+.svg{
+    margin: 10vw;
+    justify-content: center;
+    align-content: center;
+}
+
 
 #main-content{
     position: absolute;
@@ -76,6 +82,7 @@ h2{
     border-radius: 1.5vw;
     padding: 1.5vw;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-left: 2vw;
 }
 
 .sentibutton:hover{
@@ -83,10 +90,10 @@ h2{
     border-radius: 1.5vw;
 }
 
-.factbutton{
+.returnbutton{
     background-color: rgb(255, 172, 94);
     border-radius: 1.5vw;
     padding: 1.5vw;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    margin-left: 40vw;
+    margin-top: 2vw;
 }

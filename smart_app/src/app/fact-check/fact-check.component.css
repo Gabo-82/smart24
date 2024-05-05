@@ -1,0 +1,25 @@
+.theScore{
+    font-weight: bold;
+    color:rgb(5, 5, 107)
+}
+.fact-check-score-bar {
+    position: relative;
+    width: 100px; /* Adjust as needed */
+    height: 10px; /* Adjust as needed */
+    background-color: #ccc; /* Background color of the bar */
+    border-radius: 5px; /* Adjust as needed */
+}
+
+.score-dot {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px; /* Adjust as needed */
+    height: 8px; /* Adjust as needed */
+    background-color: blue; /* Color of the dot */
+    border-radius: 50%;
+}
+
+.mat-cell {
+    padding: 5px; /* Adjust as needed */
+}
