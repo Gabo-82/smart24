@@ -11,22 +11,23 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 cors = CORS(app, origins=['http://localhost:5000', 'https://example.com', 'http://localhost:4200'])
 
-scheduler = BackgroundScheduler()
-scheduler.start()
+# scheduler = BackgroundScheduler()
+# scheduler.start()
 
 api_key = newsapi_key
 
 setup_database_tables()
 
-scheduler.add_job(load_full_body_to_db, 'interval', seconds=10)
-scheduler.add_job(load_sentiment_to_db, 'interval', seconds=20, start_date=datetime.now() + timedelta(seconds=20))
+# scheduler.add_job(load_full_body_to_db, 'interval', seconds=10)
+# scheduler.add_job(load_sentiment_to_db, 'interval', seconds=20, start_date=datetime.now() + timedelta(seconds=20))
 
 keywords = "Palestine"
 
 short_data = newsFinder(keywords, api_key)
 if (short_data[0] != ""):
     load_short_articles_to_db(short_data, keywords)
-
+print("short data:")
+print(short_data)
 """ load_full_body_to_db()
 load_sentiment_to_db() """
 
@@ -105,8 +106,9 @@ def search_articles_by_keyword(keyword):
     short_data = newsFinder(keyword, api_key)
 
     if (short_data[0] != ""):
-        load_short_articles_to_db(short_data, keywords) #This is the function that loads the articles to the database
-
+        load_short_articles_to_db(short_data, keyword) #This is the function that loads the articles to the database
+        load_full_body_to_db()
+        load_sentiment_to_db()
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
 
@@ -115,7 +117,8 @@ def search_articles_by_keyword(keyword):
     JOIN ArticleKeywords as ak ON a.id = ak.id
     JOIN Keywords as k ON ak.KeywordID = k.KeywordID
     WHERE k.Keyword = ?
-    LIMIT 25"""
+    LIMIT 50;
+    """
     cursor.execute(sql_query, (keyword,))
     list_of_articles = []
     for row in cursor.fetchall():
@@ -134,6 +137,7 @@ def search_articles_by_keyword(keyword):
             article["language"] = language
             list_of_articles.append(article)
     conn.close()
+    print(list_of_articles)
     return jsonify(list_of_articles)
 
 
