@@ -82,7 +82,7 @@ def load_short_articles_to_db(short_data, keywords):
             print(er.sqlite_errorname)
         try:
             cursor.execute("""INSERT INTO Articles (title, country, url, keyWords, date, imgUrl, category, description, language)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (title, str(country), url, str(key_words), date, img_url, category, description, language))
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (title, str(country), url, str(key_words), date, img_url, str(category), description, language))
         except sqlite3.ProgrammingError as er:
             print(er.sqlite_errorcode)
             print(er.sqlite_errorname)
@@ -156,6 +156,7 @@ def load_sentiment_to_db():
         try:
             cursor.execute("""INSERT INTO Sentiment (id, score, sentiment, goodOrbad, bias) 
                               VALUES (?, ?, ?, ?, ?)""", (article_id, score, sentiment, goodOrbad, bias))
+            #print(article_id)
         except sqlite3.Error as e:
             print(f"Error inserting sentiment into Sentiment table: {e}")
             continue

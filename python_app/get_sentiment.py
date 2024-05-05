@@ -1,7 +1,8 @@
 import openai
+from api_keys import openai_key
 
 text = "IM happy"
-openai.api_key = "DONT USE THIS KEY, USE YOUR OWN"
+openai.api_key = openai_key
 
 def get_sentiment(text):
     response = openai.chat.completions.create(

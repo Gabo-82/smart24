@@ -3,13 +3,23 @@ from flask_cors import CORS
 import sqlite3
 from news_finder import newsFinder
 from db_wrapper import setup_database_tables, load_short_articles_to_db, load_full_body_to_db, load_sentiment_to_db, SQL_FILE
+from api_keys import newsapi_key
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime, timedelta
+
 
 app = Flask(__name__)
 cors = CORS(app, origins=['http://localhost:5000', 'https://example.com', 'http://localhost:4200'])
 
-api_key = 'pub_43440822cefee6d609bd2dafaa5eb09b7415c'
+scheduler = BackgroundScheduler()
+scheduler.start()
+
+api_key = newsapi_key
 
 setup_database_tables()
+
+scheduler.add_job(load_full_body_to_db, 'interval', seconds=10)
+scheduler.add_job(load_sentiment_to_db, 'interval', seconds=20, start_date=datetime.now() + timedelta(seconds=20))
 
 keywords = "Palestine"
 
@@ -17,16 +27,9 @@ short_data = newsFinder(keywords, api_key)
 if (short_data[0] != ""):
     load_short_articles_to_db(short_data, keywords)
 
-load_full_body_to_db()
-load_sentiment_to_db()
-
-""" keywords = "USA RIOTS"
-short_data = newsFinder(keywords, api_key)
-if (short_data[0] != ""):
-    load_short_articles_to_db(short_data, keywords)
-
-load_full_body_to_db()
+""" load_full_body_to_db()
 load_sentiment_to_db() """
+
 
 
 # Routing for API endpoints
@@ -98,38 +101,14 @@ def get_articles_by_keyword(keyword):
 
 @app.route('/api/searchOnline/<keyword>') # This one is for the worldmap
 def search_articles_by_keyword(keyword):
-    conn = sqlite3.connect(SQL_FILE)
-    cursor = conn.cursor()
-
-    api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
+    api_key = newsapi_key
     short_data = newsFinder(keyword, api_key)
 
-    for newsItem in short_data:
-        print(newsItem)
-        # 485 is last proper row
-        title, country, url, key_words, date, img_url, category, description, language = newsItem
-        # THIS FAILS sometimes because country is a list sometimes, news_finder has to be edited
-        try:
-            cursor.execute("""INSERT INTO Keywords (Keyword) VALUES (?)""", (keyword,))
-        except sqlite3.Error as er:
-            print(er.sqlite_errorcode)
-            print(er.sqlite_errorname)
-        try:
-            cursor.execute("""INSERT INTO Articles (title, country, url, keyWords, imgUrl, date,
-                                                                        category, description, language)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (title, str(country), url, str(key_words), date, img_url, category, description, language))
-        except sqlite3.ProgrammingError as er:
-            print(er.sqlite_errorcode)
-            print(er.sqlite_errorname)
-            for item in newsItem:
-                print(item)
-        cursor.execute("""INSERT INTO ArticleKeywords (id, KeywordID)
-        SELECT last_insert_rowid(), k.KeywordID
-        FROM Keywords as k
-        WHERE k.Keyword = ?;
-        """, (keyword,))
-    conn.commit()
+    if (short_data[0] != ""):
+        load_short_articles_to_db(short_data, keywords) #This is the function that loads the articles to the database
+
+    conn = sqlite3.connect(SQL_FILE)
+    cursor = conn.cursor()
 
     sql_query = """SELECT a.*
     FROM Articles as a
