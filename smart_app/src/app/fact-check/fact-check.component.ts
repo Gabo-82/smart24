@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Input } from '@angular/core';
+import { NewsDetailsService } from '../news-details.service';
+import { PieceOfNews } from '../piece-of-news';
 
 @Component({
   selector: 'app-fact-check',
@@ -6,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './fact-check.component.css'
 })
 export class FactCheckComponent {
+  
+  
 
 }
