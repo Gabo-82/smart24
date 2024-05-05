@@ -11,7 +11,7 @@ import { CardOfNewsComponent } from '../card-of-news/card-of-news.component';
   templateUrl: './country-keyword-news-list.component.html',
   styleUrl: './country-keyword-news-list.component.css'
 })
-export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges{
+export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges {
   @Output() sendCountryToMap = new EventEmitter<string[]>();
   @Output() sendKeywordsToMap = new EventEmitter<{ [keyword: string]: number }>();
   sentimentCounts: { [key: string]: number } = {};
@@ -25,15 +25,32 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   router: any;
   dialog: any;
 
-  constructor(private newsDetailsService: NewsDetailsService) { }
+  sentimentCategories = ['hopeful', 'celebratory', 'informative', 'critical', 'angry', 'sad'];
+  sentimentColors: { [key: string]: string } = {
+    hopeful: 'green',
+    celebratory: 'gold',
+    informative: 'blue',
+    critical: 'red',
+    angry: 'orange',
+    sad: 'purple'
+    // Add more sentiment-color mappings as needed
+  };
+
+  constructor(private newsDetailsService: NewsDetailsService) {
+  }
 
   @Input({required: true}) countryStr!: string;
   @Input({required: true}) keywordStr!: string;
 
   ngOnChanges(): void {
     console.log("CountryKeywordNewsListComponent", this.countryStr);
-    this.filteredArticles = this.articles!.filter((article: PieceOfNews ) => {
-    return article.country.toLowerCase() === this.countryStr.toLowerCase();})
+    if (this.filteredArticles && this.filteredArticles.length > 0) {
+      this.filteredArticles = this.articles!.filter((article: PieceOfNews) => {
+        return article.country.toLowerCase() === this.countryStr.toLowerCase();
+      })
+    }
+    // this.filteredArticles = this.articles!.filter((article: PieceOfNews ) => {
+    // return article.country.toLowerCase() === this.countryStr.toLowerCase();})
     this.dataSource.filter = (this.countryStr);
     console.log(this.dataSource.filteredData)
     // this.customFilter =
@@ -52,39 +69,58 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     // console.log(this.dataSource);
     this.dataSource.paginator = this.paginator!;
     // this.dataSource.filterPredicate = (data:PieceOfNews, filter:string) => (data.country.trim().toLowerCase().indexOf(filter.trim().toLowerCase()) !== -1)
-    this.dataSource.filterPredicate = function (record : PieceOfNews,filter: string) {
+    this.dataSource.filterPredicate = function (record: PieceOfNews, filter: string) {
       return record.country === filter;
     }
     // console.log("PAGINATOR:")
     // console.log(this.paginator)
-    this.articles = NEWS_DATA;
+    // this.articles = NEWS_DATA;
     //this.getArticles();
     // console.log("After get request:")
     // console.log(this.articles)
     // console.log("ARTICLES:")
     // console.log(this.articles);
-    this.displayCountry();
-    this.evaluateAndSendKeywords();
+    this.getArticles();
+    // this.displayCountry();
+    // this.evaluateAndSendKeywords();
+    // console.log("PAGINATOR:")
+    // console.log(this.paginator)
+    // // this.articles = NEWS_DATA;
+    // console.log("After get request:")
+    // console.log(this.articles)
+    // console.log("ARTICLES:")
+    // console.log(this.articles);
   }
 
-  customFilter(): (data: PieceOfNews, filter: string) => boolean {
-    let filterFunction = function (data: PieceOfNews, filter: string): boolean {
-      // return data.country.toLowerCase() == filter.toLowerCase();
-      return true;
-    }
-    return filterFunction
-  }
+  //
+  // customFilter(): (data: PieceOfNews, filter: string) => boolean {
+  //   let filterFunction = function (data: PieceOfNews, filter: string): boolean {
+  //     // return data.country.toLowerCase() == filter.toLowerCase();
+  //     return true;
+  //   }
+  //   return filterFunction
+  // }
 
 
   getArticles(): void {
     this.newsDetailsService.getShortArticles(this.countryStr, this.keywordStr)
       .subscribe(response => {
         this.articles = response;
-        // console.log("After subscribe")
-        // console.log(this.articles);
+        // for (let i = 0; i < this.articles.length; i++) {
+        //   this.articles[i].sentiment = this.sentimentCategories[~~(Math.random() * this.sentimentCategories.length)];
+        // }
+        this.articles.forEach((article: PieceOfNews) => {
+          article.sentiment = 'hopeful'
+        })
+        console.log("After subscribe")
+        console.log(this.articles);
+        console.log("After subscribe")
+        console.log(this.articles);
         this.filteredArticles = this.articles;
         // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
         this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
+        this.displayCountry();
+        this.evaluateAndSendKeywords();
       })
   }
 
@@ -123,11 +159,11 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     return count * 10; // Example scaling factor (adjust as needed)
   }
 
-  clickNews(){
+  clickNews() {
     this.router.navigate(["/details"]);
   }
 
-  openDialog(){
+  openDialog() {
     const dialogRef = this.dialog.open(CardOfNewsComponent, {
       data: {
         title: "News article with id",
@@ -137,48 +173,51 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     });
   }
 
-  displayCountry(){
-    if (this.articles){
-      for (const article of this.articles){
+  displayCountry() {
+    if (this.articles) {
+      for (const article of this.articles) {
         this.predefinedCountries.add(article.country);
       }
-      for (const country of this.predefinedCountries){
+      for (const country of this.predefinedCountries) {
         this.countriesToSend.push(country.toLowerCase());
       }
       this.sendCountryToMap.emit(this.countriesToSend);
+      console.log("hello from displayCountry")
     }
   }
 
-  evaluateAndSendKeywords(){
+  evaluateAndSendKeywords() {
     const keywordCounts: { [keyword: string]: number } = {};
-        
+
     // Extracting keywords and sending them to the map component
-    if(this.articles){
+    if (this.articles) {
       for (const article of this.articles) {
         let keywords: string[];
 
         // Check if keyWords contains '[' and ']'
         if (article.keyWords.includes("[") && article.keyWords.includes("]")) {
-            // If so, remove '[' and ']', split the string by comma and trim whitespace
-            keywords = article.keyWords
-                .replace(/'/g, "")
-                .replace("[", "")
-                .replace("]", "")
-                .split(",")
-                .map((keyword: string) => keyword.trim());
+          // If so, remove '[' and ']', split the string by comma and trim whitespace
+          keywords = article.keyWords
+            .replace(/'/g, "")
+            .replace("[", "")
+            .replace("]", "")
+            .split(",")
+            .map((keyword: string) => keyword.trim());
         } else {
-            // Otherwise, it's a single keyword
-            keywords = [article.keyWords];
+          // Otherwise, it's a single keyword
+          keywords = [article.keyWords];
         }
 
         // Iterate through each keyword
         for (const keyword of keywords) {
-            // If the keyword already exists in the keywordCounts object, increment its count
-            // Otherwise, initialize its count to 1
-            keywordCounts[keyword] = (keywordCounts[keyword] || 0) + 1;
+          // If the keyword already exists in the keywordCounts object, increment its count
+          // Otherwise, initialize its count to 1
+          keywordCounts[keyword] = (keywordCounts[keyword] || 0) + 1;
         }
-    }
-    this.sendKeywordsToMap.emit(keywordCounts);
+      }
+      this.sendKeywordsToMap.emit(keywordCounts);
+      console.log('Hello from emit:');
+      console.log(keywordCounts);
     }
   }
 
