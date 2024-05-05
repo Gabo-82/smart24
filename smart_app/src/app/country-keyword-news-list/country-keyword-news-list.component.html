@@ -7,14 +7,14 @@
   <p>{{keywordStr}}</p>
 </div>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let element of filteredArticles">
+    <mat-expansion-panel *ngFor="let element of filteredArticles"> <!--to use data put filteredArticles-->
       <app-news-details [article]="element"></app-news-details>
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header [ngStyle]="{ 'background-color': sentimentColors[element.sentiment]}" >
         <mat-panel-title>
-          <ng-container *ngIf="element.title.length > 20; else fullTitle">{{(element.url.length>60)? (element.title | slice:0:25)+'...':(element.url)}}.</ng-container>
-          <ng-template #fullTitle>{{ element.title }}</ng-template>
+          <ng-container *ngIf="element.title.length > 20; else fullTitle" >{{(element.url.length>60)? (element.title | slice:0:25)+'...':(element.url)}}.</ng-container>
+          <ng-template #fullTitle >{{ element.title }}</ng-template>
         </mat-panel-title>
-        <mat-panel-description [ngStyle]="{ 'color': sentimentColors[element.sentiment]}">ID: {{ element.id }}</mat-panel-description>
+        <mat-panel-description [ngStyle]="{ 'background-color': sentimentColors[element.sentiment], 'color': sentimentColors[element.sentiment]}">ID: {{ element.id }}</mat-panel-description>
         <a mat-button href="{{ element.url }}" target="_blank">Source: {{(element.url.length>20)? (element.url | slice:0:20)+'...':(element.url)}}</a>
         <mat-panel-description>Date: {{ element.date | date:'fullDate' }}</mat-panel-description>
       </mat-expansion-panel-header>

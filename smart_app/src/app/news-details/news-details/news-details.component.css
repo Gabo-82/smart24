@@ -3,10 +3,9 @@ html, body{
 }
 
 body{
-    height:100vh;
+    height:180vh;
     justify-content: center;
     background-color: #e6f1ff;
-
 }
 
 #main-content{
@@ -14,8 +13,9 @@ body{
     padding: 5vw;
     width: 100%;
     margin: auto;
-
+    font-weight: 100
 }
+
 
 #footer {
     position: fixed;
@@ -51,6 +51,11 @@ h2{
 #header{
     color:#091a56;
     font-weight: bold;
+    font-size: larger;
+}
+#smallerheader{
+    color:#091a56;
+    font-weight:bolder;
 }
 
 a{
@@ -58,3 +63,15 @@ a{
     font-weight: bold;
 }
 
+li{
+    font-size: 1vw;
+}
+
+mat-panel-title{
+    color:#091a56
+}
+
+#score{
+    color:rgb(255, 115, 0);
+    font-weight: bolder;
+}
