@@ -5,16 +5,17 @@ import { NewsDetailsService} from "../../news-details.service";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {NgForOf, NgIf} from "@angular/common";
 
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-news-details',
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    MatExpansionModule
   ],
   templateUrl: './news-details.component.html',
   styleUrl: './news-details.component.css'

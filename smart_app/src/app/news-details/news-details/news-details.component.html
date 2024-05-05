@@ -3,22 +3,58 @@
     <div id="main-content">
       <!--<h1>Here is a piece of news about your topic!</h1>-->
 
+
     <h2>{{ article.title }}</h2>
 
-      <ul>
+      
+        <br>
         <p id="header">Summary of the article: </p>
           <p>{{article.description}}</p><br>
-        <li><a href="{{article.url}}">Link to the article</a></li>
-      </ul>
-<br>
+        <a href="{{article.url}}">Link to the article</a>
+      
+<br><br>
      <h3 id="header">Okay, let's dive deeper.</h3>
-     <ul>Sentimental analysis on this article:</ul>
+     <ul>
+     <p id="header">Sentiment analysis on this article:</p>
      <p>{{article.sentiment}}</p>
     
 
     <br>
     <!--Fact checking-->
-    <h3 id="header">Fact checking: hover over a sentence from the summary to see its fack check score.</h3>
+    <p id="header">Fact checking</p>
+    <ul>
+    <li>The rise of fake news and misinformation is increasingly recognised in many media sources.</li>
+    <li>Here you can check how factual each sentence from the article's summary is.</li>
+    <li>The given score is by a model made in IDIR: The Innovative Data Intelligence Research Laboratory. The score is between 0.0 (non-factual, opinionated or subjective) and 1.0 (factual).</li>
+    <br>
+
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Read more about the fact check model
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>The model Claim Spotter by IDIR: Given a sentence, ClaimBuster gives it a score
+          between 0.0 and 1.0. The higher the score, the more likely the sen-
+          tence contains check-worthy factual claims. The lower the score,
+          the more non-factual, subjective and opinionated the sentence is. 
+          <br> <ul>
+            <li><a href="https://idir.uta.edu/claimbuster/">Learn more about ClaimBuster</a></li>
+            <li><a href="https://idir.uta.edu">IDIR website</a></li>
+          </ul>
+      </mat-expansion-panel>
+      
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Read more about fake news & misinformation
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>Millions of pieces of content created every day on the internet may be biased, hateful or misleading. The rise of negative content, fake news and misinformation is increasingly recognised in politics, but its reach is much wider; it can infiltrate trusted news sources, as well as smaller platforms like lifestyle blogs. While the speed and spread of information exchange can have many positive effects, it also poses a challenge to verification. It is difficult for humans alone to carefully analyse the vast amount of content on social media and news sources in order to correctly identify what information is spurious and what is trustworthy.</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ul>
      
     <!--<p (mouseover)="factCheckSentence(article.description)">
       {{ article.description }}
@@ -36,25 +72,30 @@
       Fact check score: {{ factCheckScore }}
     </div> -->
     
-
-    <div *ngFor="let sentence of article.description.split('.'); let i = index">
-      <p 
-        [style.color]="hoveredSentenceIndex === i ? 'orange' : 'black'"
-        (mouseover)="factCheck(sentence, i)" 
-        (mouseleave)="hoveredSentenceIndex = -1"
-      >
-      {{ sentence.trim() }}{{ i !== article.description.split('.').length - 1 ? '.' : '' }}
-    </div>
+<br>
+    <p id="smallerheader">Here is the fact-check-able article summary: move your mouse over a sentence to see its score.</p>
     <div>
-      Fact check score of this sentence: {{ factCheckScore }}
-    </div>
-    
-    
-    </div>
-
-
-   <!-- <footer id="footer">
-      <p id="footer-text">Built and designed by Elvi Lehtonen, Euiyoung Jin, Gabriel Díaz, Otso Luukkanen, Misaki Matsuura, Diego Campos-Velasquez
+      <p>
+        <ng-container *ngFor="let sentence of article.description.split('.'); let i = index">
+          <span 
+            [style.color]="hoveredSentenceIndex === i ? 'rgb(255, 115, 0)' : 'black'"
+            (mouseover)="factCheck(sentence, i)" 
+            (mouseleave)="hoveredSentenceIndex = -1"
+          >
+            {{ sentence.trim() }}{{ i !== article.description.split('.').length - 1 ? '.' : '' }}
+          </span>
+        </ng-container>
       </p>
-    </footer>-->
+    </div>
+    <br>
+    <div>
+      <p id="score">Fact check score of this sentence: {{ factCheckScore }} *</p>
+      <p style="font-size:1vw;">* The score is between 0.0 and 1.0. The higher the score, the more likely the content of the sentence is factual claims. The lower the score,
+        the more non-factual, opinionated and subjective the sentence seems.</p>
+
+    </div>
+    
+  </ul>
+    </div>
+
   </body>
