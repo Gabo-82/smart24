@@ -27,5 +27,4 @@ def fact_check(input):
     if (response_data['results'][0]):
         score = response_data['results'][0]['score']
 
-    print(score)
     return score
