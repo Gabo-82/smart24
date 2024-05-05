@@ -71,12 +71,10 @@ export class NewsMapComponent implements OnInit {
 
   manageKeywords(keyWordList: { [keyword: string]: number }){
     for (const keyword in keyWordList) {
-      console.log(`${keyword}: ${keyWordList[keyword]}`);
       const text = `${keyword}`;
       const weight = keyWordList[keyword];
-      const link = 'https://google.com';
-      const color = '#ffaaee';
-      this.keyWords.push({ text, weight, link, color });
+      const color = this.getRandomColor();
+      this.keyWords.push({ text, weight, color });
     }
   }
 
@@ -119,5 +117,18 @@ export class NewsMapComponent implements OnInit {
       this.showSentimentalContent = false;
       this.showNewsList = true;
     }
+
+    getRandomColor() {
+      // Generate random values for RGB components
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+  
+      // Convert RGB values to hexadecimal format
+      const color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+  
+      return color;
+  }
+  
 }
 

@@ -1,8 +1,18 @@
 div{
+    padding-top: 10vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-items: center;
     height: 100vh;
-    width: 150vh;
+    width: 100%;
+    background-color: #e6f1ff;
+}
+
+h1{
+    font-family: 'Arial', sans-serif;
+    font-size: 3rem;
+    color: #333; /* Text color */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Text shadow for a cool effect */
+    letter-spacing: 2px; /* Increase letter spacing for emphasis */
 }
