@@ -2,3 +2,5 @@
 __pycache__
 # DB files
 *.db
+#API Keys
+api_keys.py
