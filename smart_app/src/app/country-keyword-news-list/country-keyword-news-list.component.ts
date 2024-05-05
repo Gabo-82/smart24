@@ -20,7 +20,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   displayedColumns: string[] = ['id', 'title', 'date', 'url'];
   dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
 
-  articles : PieceOfNews[] | undefined;
+  articles : PieceOfNews[] = [];
   filteredArticles : PieceOfNews[] | undefined;
   router: any;
   dialog: any;
@@ -42,7 +42,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   }
 
   ngOnInit(): void {
-    this.loadArticles();
+    // this.loadArticles();
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;

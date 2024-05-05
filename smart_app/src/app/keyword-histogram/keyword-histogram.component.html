@@ -2,8 +2,6 @@
     <h1>Keyword Cloud</h1>
     <angular-tag-cloud
       [data]="data"
-      [width]="options.width"
-      [height]="options.height"
-      [overflow]="options.overflow">
+      (clicked)="searchOtherWord($event)">
     </angular-tag-cloud>
 </div>

@@ -70,18 +70,19 @@ export class NewsMapComponent implements OnInit {
    }
 
   manageKeywords(keyWordList: { [keyword: string]: number }){
+    const rootURL = 'https://localhost:4200/';
     for (const keyword in keyWordList) {
       const text = `${keyword}`;
       const weight = keyWordList[keyword];
       const color = this.getRandomColor();
-      this.keyWords.push({ text, weight, color });
+      this.keyWords.push({ text, weight, color});
     }
   }
 
    openDialog(countryName: string){
     const dialogRef = this.dialog.open(CardOfNewsComponent, {
       data: {
-        title: "News artiles from " + countryName,
+        title: "News articles from " + countryName,
         date: "Dummy date",
         description: "Dummy description"
       }
