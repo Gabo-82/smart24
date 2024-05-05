@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, SimpleChanges } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { Router } from '@angular/router';
 import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
 
@@ -9,6 +9,7 @@ import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
 })
 export class KeywordHistogramComponent {
     constructor(private router: Router){}
+    
     options: CloudOptions = {
     // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
     width: 1,
