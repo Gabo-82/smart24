@@ -179,9 +179,3 @@ if (short_data[0] != ""):
 
 load_full_body_to_db()
 load_sentiment_to_db() """
-setup_database_tables()
-
-
-
-if __name__ == "__main__":
-    setup_database_tables()
