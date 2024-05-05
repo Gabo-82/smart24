@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CardOfNewsComponent } from '../card-of-news/card-of-news.component';
 import {ActivatedRoute, Router} from "@angular/router";
 import { CountryKeywordNewsListComponent } from '../country-keyword-news-list/country-keyword-news-list.component';
+import { CloudData } from 'angular-tag-cloud-module'
 
 
 @Component({
@@ -19,6 +20,7 @@ export class NewsMapComponent implements OnInit {
   articles: any[] = [];
   countryName: string | null = "India";
   currentRoute: string;
+  keyWords: CloudData[] = [];
 
   constructor(private nyTimesService: NyTimesService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
     //this.currentRoute = router.url.split('/').pop()!;
@@ -56,10 +58,6 @@ export class NewsMapComponent implements OnInit {
       }
     }
   }
-
-
-
-
    // 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
   highlightCountries(countryList: string[]) {
     const countries = document.querySelectorAll<SVGPathElement>('path.land');
@@ -71,6 +69,17 @@ export class NewsMapComponent implements OnInit {
     })
    }
 
+  manageKeywords(keyWordList: { [keyword: string]: number }){
+    for (const keyword in keyWordList) {
+      console.log(`${keyword}: ${keyWordList[keyword]}`);
+      const text = `${keyword}`;
+      const weight = keyWordList[keyword];
+      const link = 'https://google.com';
+      const color = '#ffaaee';
+      this.keyWords.push({ text, weight, link, color });
+    }
+  }
+
    openDialog(countryName: string){
     const dialogRef = this.dialog.open(CardOfNewsComponent, {
       data: {
@@ -80,8 +89,6 @@ export class NewsMapComponent implements OnInit {
       }
     });
   }
-
-
 
     //clicking the button to show sentimental clustering
     showSentimentalContent: boolean = false;

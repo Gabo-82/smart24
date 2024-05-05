@@ -27,6 +27,8 @@ import { MatTableModule } from '@angular/material/table';
 import { SentimentBubbleComponent } from './sentiment-bubble/sentiment-bubble.component';
 import { FactCheckComponent } from './fact-check/fact-check.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { KeywordHistogramComponent } from './keyword-histogram/keyword-histogram.component';
+import { TagCloudComponent } from 'angular-tag-cloud-module'
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     CardOfNewsComponent,
     SentimentBubbleComponent,
     FactCheckComponent,
+    NewsMapComponent,
+    KeywordHistogramComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +61,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     NewsDetailsComponent,
     MatPaginatorModule,
     MatTableModule,
-    MatExpansionModule
+    MatExpansionModule,
+    TagCloudComponent
   ],
   providers: [
     provideAnimationsAsync()
