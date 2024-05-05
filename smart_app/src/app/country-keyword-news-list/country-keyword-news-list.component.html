@@ -7,8 +7,24 @@
   <p>{{keywordStr}}</p>
 </div> -->
 
+  <div>
+    <section>
+      <div class="example-label">Filter by sentiment  </div>
+      <div class="example-button-row">
+        <button mat-stroked-button [ngStyle]="{ 'color': sentimentColors[element]}"
+                *ngFor="let element of sentimentCategories"
+                (click)="filterArticlesBySentiment(element)">{{ element }}</button>
+
+      </div>
+      <div class="example-button-row2">
+        <button mat-stroked-button class="info-button">More Info</button>
+      </div>
+    </section>
+  </div>
+
+  <mat-divider></mat-divider>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let element of dataSource.data"> <!--to use data put filteredArticles-->
+    <mat-expansion-panel *ngFor="let element of filteredArticles"> <!--to use data put filteredArticles-->
       <app-news-details [article]="element"></app-news-details>
       <mat-expansion-panel-header [ngStyle]="{ 'background-color': sentimentColors[element.sentiment]}" >
         <mat-panel-title>

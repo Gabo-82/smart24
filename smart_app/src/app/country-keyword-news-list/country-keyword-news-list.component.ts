@@ -81,25 +81,11 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     // console.log("ARTICLES:")
     // console.log(this.articles);
     this.getArticles();
-    // this.displayCountry();
-    // this.evaluateAndSendKeywords();
-    // console.log("PAGINATOR:")
-    // console.log(this.paginator)
-    // // this.articles = NEWS_DATA;
-    // console.log("After get request:")
-    // console.log(this.articles)
-    // console.log("ARTICLES:")
-    // console.log(this.articles);
   }
 
-  //
-  // customFilter(): (data: PieceOfNews, filter: string) => boolean {
-  //   let filterFunction = function (data: PieceOfNews, filter: string): boolean {
-  //     // return data.country.toLowerCase() == filter.toLowerCase();
-  //     return true;
-  //   }
-  //   return filterFunction
-  // }
+  filterArticlesBySentiment(sentiment: string): void {
+    this.filteredArticles = this.articles!.filter(article => article.sentiment === sentiment);
+  }
 
 
   getArticles(): void {
