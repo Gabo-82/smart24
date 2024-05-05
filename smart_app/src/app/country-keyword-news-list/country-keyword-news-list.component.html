@@ -7,7 +7,7 @@
   <p>{{keywordStr}}</p>
 </div>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let element of filteredArticles">
+    <mat-expansion-panel *ngFor="let element of dataSource.data"> <!--to use data put filteredArticles-->
       <app-news-details [article]="element"></app-news-details>
       <mat-expansion-panel-header>
         <mat-panel-title>

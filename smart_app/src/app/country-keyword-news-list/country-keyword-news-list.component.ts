@@ -55,14 +55,14 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     this.dataSource.filterPredicate = function (record : PieceOfNews,filter: string) {
       return record.country === filter;
     }
-    // console.log("PAGINATOR:")
-    // console.log(this.paginator)
-    //this.articles = NEWS_DATA;
+    console.log("PAGINATOR:")
+    console.log(this.paginator)
+    // this.articles = NEWS_DATA;
     this.getArticles();
-    // console.log("After get request:")
-    // console.log(this.articles)
-    // console.log("ARTICLES:")
-    // console.log(this.articles);
+    console.log("After get request:")
+    console.log(this.articles)
+    console.log("ARTICLES:")
+    console.log(this.articles);
   }
 
   customFilter(): (data: PieceOfNews, filter: string) => boolean {
@@ -83,8 +83,6 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
         this.filteredArticles = this.articles;
         // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
         this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
-
-        // Extracting country sources and sending them to the map component
         if (this.articles){
           for (const article of this.articles){
             this.predefinedCountries.add(article.country);
@@ -122,7 +120,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     }
     this.sendKeywordsToMap.emit(keywordCounts);
       })
-  }
+    }
 
   loadArticles(): void {
     // Assuming you fetch articles from your service or use the predefined data
@@ -176,6 +174,14 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
 
 }
 
+
+export const NEWS_DATA: PieceOfNews[] = [
+  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy. I'm not sure if this is a fantastic idea. I'm not sure but I think the Finnish flag is green.", language: "en", body: "Hello", sentiment: "Happy"},
+  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy",},
+  {id: 1, title: "US: New York Police", country: "mexico", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy",},
+  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy",},
+]
+
 // const NEWS_DATA: PieceOfNews[] = [
 //   {id: 1, title: "hopeful news", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello", sentiment: "hopeful"},
 //   {id: 2, title: "celebratory news", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello", sentiment: "celebratory"},
@@ -184,9 +190,4 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
 //   {id: 5, title: "angry news", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello", sentiment: "angry"},
 //   {id: 6, title: "sad news", country: "india", url: "https://thenewsmill.com", keyWords: "Koira, Hauva", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", body: "Hello", sentiment: "sad"},
 // ]
-export const NEWS_DATA: PieceOfNews[] = [
-  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 1, title: "US: New York Police", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 1, title: "US: New York Police", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo e messi', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-]
+
