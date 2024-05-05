@@ -115,7 +115,7 @@ def search_articles_by_keyword(keyword):
             cursor.execute("""INSERT INTO Articles (title, country, url, keyWords, imgUrl, date,
                                                                         category, description, language)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (title, str(country), url, str(key_words), date, img_url, category, description, language))
+                    (title, str(country), url, str(key_words), date, str(img_url), str(category), str(description), str(language)))
         except sqlite3.ProgrammingError as er:
             print(er.sqlite_errorcode)
             print(er.sqlite_errorname)
@@ -124,7 +124,7 @@ def search_articles_by_keyword(keyword):
         cursor.execute("""INSERT INTO ArticleKeywords (id, KeywordID)
         SELECT last_insert_rowid(), k.KeywordID
         FROM Keywords as k
-        WHERE k.Keyword = ?;
+        WHERE k.Keyword = ?
         """, (keyword,))
     conn.commit()
 
@@ -133,7 +133,8 @@ def search_articles_by_keyword(keyword):
     JOIN ArticleKeywords as ak ON a.id = ak.id
     JOIN Keywords as k ON ak.KeywordID = k.KeywordID
     WHERE k.Keyword = ?
-    LIMIT 25"""
+    LIMIT 50;
+    """
     cursor.execute(sql_query, (keyword,))
     list_of_articles = []
     for row in cursor.fetchall():

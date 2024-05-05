@@ -67,9 +67,9 @@ def load_short_articles_to_db(short_data, keywords):
         except sqlite3.Error as er:
             print(er.sqlite_errorcode)
             print(er.sqlite_errorname)
-        try:
+        try: # category and country can be a list
             cursor.execute("""INSERT INTO Articles (title, country, url, keyWords, date, imgUrl, category, description, language)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (title, str(country), url, str(key_words), date, img_url, category, description, language))
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (title, str(country), url, str(key_words), date, img_url, str(category), description, language))
         except sqlite3.ProgrammingError as er:
             print(er.sqlite_errorcode)
             print(er.sqlite_errorname)

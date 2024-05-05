@@ -24,6 +24,17 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   router: any;
   dialog: any;
 
+  sentimentCategories = ['hopeful', 'celebratory', 'informative', 'critical', 'angry', 'sad'];
+  sentimentColors: { [key: string]: string } = {
+    hopeful: 'green',
+    celebratory: 'gold',
+    informative: 'blue',
+    critical: 'red',
+    angry: 'orange',
+    sad: 'purple'
+    // Add more sentiment-color mappings as needed
+  };
+
   constructor(private newsDetailsService: NewsDetailsService) { }
 
   @Input({required: true}) countryStr!: string;
@@ -31,8 +42,12 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
 
   ngOnChanges(): void {
     console.log("CountryKeywordNewsListComponent", this.countryStr);
-    this.filteredArticles = this.articles!.filter((article: PieceOfNews ) => {
-    return article.country.toLowerCase() === this.countryStr.toLowerCase();})
+    if (this.filteredArticles && this.filteredArticles.length > 0) {
+      this.filteredArticles = this.articles!.filter((article: PieceOfNews ) => {
+        return article.country.toLowerCase() === this.countryStr.toLowerCase();})
+    }
+    // this.filteredArticles = this.articles!.filter((article: PieceOfNews ) => {
+    // return article.country.toLowerCase() === this.countryStr.toLowerCase();})
     this.dataSource.filter = (this.countryStr);
     console.log(this.dataSource.filteredData)
     // this.customFilter =
@@ -47,21 +62,21 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   ngAfterViewInit() {
-    console.log("DATA SOURCE:")
-    console.log(this.dataSource);
+    // console.log("DATA SOURCE:")
+    // console.log(this.dataSource);
     this.dataSource.paginator = this.paginator!;
     // this.dataSource.filterPredicate = (data:PieceOfNews, filter:string) => (data.country.trim().toLowerCase().indexOf(filter.trim().toLowerCase()) !== -1)
     this.dataSource.filterPredicate = function (record : PieceOfNews,filter: string) {
       return record.country === filter;
     }
-    console.log("PAGINATOR:")
-    console.log(this.paginator)
-    // this.articles = NEWS_DATA;
+    // console.log("PAGINATOR:")
+    // console.log(this.paginator)
+    // // this.articles = NEWS_DATA;
     this.getArticles();
-    console.log("After get request:")
-    console.log(this.articles)
-    console.log("ARTICLES:")
-    console.log(this.articles);
+    // console.log("After get request:")
+    // console.log(this.articles)
+    // console.log("ARTICLES:")
+    // console.log(this.articles);
   }
 
   customFilter(): (data: PieceOfNews, filter: string) => boolean {
@@ -77,6 +92,12 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     this.newsDetailsService.getShortArticles(this.countryStr, this.keywordStr)
       .subscribe(response => {
         this.articles = response;
+        // for (let i = 0; i < this.articles.length; i++) {
+        //   this.articles[i].sentiment = this.sentimentCategories[~~(Math.random() * this.sentimentCategories.length)];
+        // }
+        this.articles.forEach((article: PieceOfNews) => {
+          article.sentiment = 'hopeful'
+        })
         console.log("After subscribe")
         console.log(this.articles);
         this.filteredArticles = this.articles;
