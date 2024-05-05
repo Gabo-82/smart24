@@ -16,7 +16,8 @@ body{
 }
 
 .svg{
-    margin: 10vw;
+    margin-left: 10vw;
+    margin-right: 10vw;
     justify-content: center;
     align-content: center;
 }
@@ -72,12 +73,12 @@ h2{
     background-color: rgb(247, 247, 249);
     width: 30vw ;
     justify-content: center;
-    padding: 1vw;
+    padding: 0.7vw;
   position: absolute;
   left: 50%;
   text-align: center;
   transform: translate(-50%, -50%);
-  top: 1050px;
+  top: 800px;
 }
 
 
@@ -96,6 +97,7 @@ h2{
     justify-content: center;
     align-items: center;
     padding-bottom: 3vw;
+    margin-top: 2vw;
 }
 
 .sentibutton{
