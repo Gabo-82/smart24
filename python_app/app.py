@@ -4,13 +4,22 @@ import sqlite3
 from news_finder import newsFinder
 from db_wrapper import setup_database_tables, load_short_articles_to_db, load_full_body_to_db, load_sentiment_to_db, SQL_FILE
 from api_keys import newsapi_key
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime, timedelta
+
 
 app = Flask(__name__)
 cors = CORS(app, origins=['http://localhost:5000', 'https://example.com', 'http://localhost:4200'])
 
+scheduler = BackgroundScheduler()
+scheduler.start()
+
 api_key = newsapi_key
 
 setup_database_tables()
+
+scheduler.add_job(load_full_body_to_db, 'interval', seconds=10)
+scheduler.add_job(load_sentiment_to_db, 'interval', seconds=20, start_date=datetime.now() + timedelta(seconds=20))
 
 keywords = "Palestine"
 
@@ -18,8 +27,8 @@ short_data = newsFinder(keywords, api_key)
 if (short_data[0] != ""):
     load_short_articles_to_db(short_data, keywords)
 
-load_full_body_to_db()
-load_sentiment_to_db()
+""" load_full_body_to_db()
+load_sentiment_to_db() """
 
 
 
