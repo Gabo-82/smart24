@@ -143,26 +143,46 @@ export class NewsMapComponent implements OnInit {
     }
    }
 
-  getArticles(): void {
+   getArticles(): void {
     this.newsDetailsService.getShortArticlesOld(this.countryName!, this.currentRoute)
-      .subscribe(response => {
-        this.articles = response;
-
-      })
-    this.newsDetailsService.getShortArticlesNew(this.countryName!, this.currentRoute)
-      .subscribe(response => {
-        const res = response 
-        console.log('response:')
-        console.log(response)
-        this.articles = this.articles.concat(res);
-        console.log('After subscribe in getSANew')
-        console.log(this.articles);
-        console.log(res);
-        this.manageKeywords();
-        this.highlightCountries();
-      })
+      .subscribe(oldArticles => {
+        console.log("Here are the articles from getShortArticlesOld: ");
+        console.log(oldArticles);
+  
+        this.newsDetailsService.getShortArticlesNew(this.countryName!, this.currentRoute)
+          .subscribe(newArticles => {
+            // Combine old and new articles
+            const allArticles = oldArticles.concat(newArticles);
+            // Filter out duplicates based on article title
+            const uniqueArticles = this.filterUniqueArticles(allArticles);
+            // Update this.articles with unique articles
+            this.articles = uniqueArticles;
+            console.log("Here are the articles from getShortArticlesNew ");
+            console.log(this.articles);
+            this.manageKeywords();
+            this.highlightCountries();
+          });
+      });
+  }
+  
+  filterUniqueArticles(articles: any[]): any[] {
+    // Create a set to keep track of unique titles
+    const uniqueTitles = new Set();
+    // Array to store unique articles
+    const uniqueArticles = [];
+  
+    for (const article of articles) {
+      if (!uniqueTitles.has(article.title)) {
+        // If title is not in the set, add it to the set and push article to uniqueArticles
+        uniqueTitles.add(article.title);
+        uniqueArticles.push(article);
+      }
+    }
+  
+    return uniqueArticles;
   }
 
+    
   manageKeywords(){
     const keywordCounts: { [keyword: string]: number } = {};
 
