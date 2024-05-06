@@ -3,6 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PieceOfNews } from '../piece-of-news';
 import { NEWS_DATA } from '../country-keyword-news-list/country-keyword-news-list.component'; // Import NEWS_DATA from the appropriate file
+import { CountryKeywordNewsListComponent } from '../country-keyword-news-list/country-keyword-news-list.component';
 
 @Component({
   selector: 'app-sentiment-bubble',
@@ -26,25 +27,26 @@ export class SentimentBubbleComponent implements OnInit {
   defaultBubbleSize = 40; // Set a default bubble size for sentiments with count 1
   selectedSentiment: string | null = null;
 
-  constructor() { }
+  constructor(private countryKeywordNewsList: CountryKeywordNewsListComponent) { }
 
   ngOnInit(): void {
     this.calculateSentimentCounts();
   }
 
-  calculateSentimentCounts() {
-    // Initialize counts for each sentiment category
-    this.sentimentCategories.forEach(sentiment => {
-      this.sentimentCounts[sentiment] = 0;
-    });
+  calculateSentimentCounts(): void {
+    const articles = this.countryKeywordNewsList.filteredArticles; // Access articles from CountryKeywordNewsListComponent
 
-    // Calculate sentiment counts based on NEWS_DATA
-    NEWS_DATA.forEach((article : PieceOfNews) => {
-      const sentiment = article.sentiment?.toLowerCase();
-      if (sentiment && this.sentimentCategories.includes(sentiment)) {
-        this.sentimentCounts[sentiment] += 1;
-      }
-    });
+    if (articles) {
+      this.sentimentCounts = {}; // Clear existing counts
+
+      articles.forEach(article => {
+        const sentiment = article.sentiment?.toLowerCase();
+
+        if (sentiment && this.sentimentCategories.includes(sentiment)) {
+          this.sentimentCounts[sentiment] = (this.sentimentCounts[sentiment] || 0) + 1;
+        }
+      });
+    }
   }
 
   getBubbleSize(sentiment: string): number {
@@ -75,5 +77,4 @@ export class SentimentBubbleComponent implements OnInit {
     }
     return NEWS_DATA.filter(article => article.sentiment?.toLowerCase() === sentiment);
   }
-
 }

@@ -57,8 +57,8 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     }
     // console.log("PAGINATOR:")
     // console.log(this.paginator)
-    this.articles = NEWS_DATA;
-    //this.getArticles();
+    //this.articles = NEWS_DATA;
+    this.getArticles();
     // console.log("After get request:")
     // console.log(this.articles)
     // console.log("ARTICLES:")
