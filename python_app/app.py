@@ -11,15 +11,15 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 cors = CORS(app, origins=['http://localhost:5000', 'https://example.com', 'http://localhost:4200'])
 
-# scheduler = BackgroundScheduler()
-# scheduler.start()
+scheduler = BackgroundScheduler()
+scheduler.start()
 
 api_key = newsapi_key
 
 setup_database_tables()
 
-# scheduler.add_job(load_full_body_to_db, 'interval', seconds=10)
-# scheduler.add_job(load_sentiment_to_db, 'interval', seconds=20, start_date=datetime.now() + timedelta(seconds=20))
+scheduler.add_job(load_full_body_to_db, 'interval', seconds=10)
+scheduler.add_job(load_sentiment_to_db, 'interval', seconds=20, start_date=datetime.now() + timedelta(seconds=20))
 
 keywords = "Palestine"
 
@@ -107,8 +107,7 @@ def search_articles_by_keyword(keyword):
 
     if (short_data[0] != ""):
         load_short_articles_to_db(short_data, keyword) #This is the function that loads the articles to the database
-        load_full_body_to_db()
-        load_sentiment_to_db()
+        
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
 

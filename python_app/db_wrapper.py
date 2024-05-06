@@ -72,38 +72,42 @@ def load_short_articles_to_db(short_data, keywords):
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
     for newsItem in short_data:
-        #print(newsItem)
-        # 485 is last proper row
+        # Extract article data
         title, country, url, key_words, date, img_url, category, description, language = newsItem
-        try:
-            cursor.execute("""INSERT OR IGNORE INTO Keywords (Keyword) VALUES (?)""", (keywords,))
-        except sqlite3.Error as er:
-            print(er.sqlite_errorcode)
-            print(er.sqlite_errorname)
-        try: # category and country can be a list
-            cursor.execute("""INSERT INTO Articles (title, country, url, keyWords, date, imgUrl, category, description, language)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (title, str(country), url, str(key_words), date, img_url, str(category), str(description or ''), language))
-        except sqlite3.ProgrammingError as er:
-            print(er.sqlite_errorcode)
-            print(er.sqlite_errorname)
-            #for item in newsItem:
-            #print(item)
-        try:
-            cursor.execute("""INSERT OR IGNORE INTO ArticleKeywords (id, KeywordID)
-            SELECT last_insert_rowid(), k.KeywordID
-            FROM Keywords as k
-            WHERE k.Keyword = ?;
-            """, (keywords,))
-        except sqlite3.IntegrityError as er:
-            print(er.sqlite_errorcode)
-            print(er.sqlite_errorname)
+        
+        # Check if the article already exists in the database based on URL
+        cursor.execute("SELECT COUNT(*) FROM Articles WHERE url = ?", (description,))
+        result = cursor.fetchone()
+        article_exists = (result[0] > 0)
 
-        score = fact_check(description)
-        cursor.execute("""INSERT INTO FactCheckScore (score)
-        VALUES (?)""", (score,))
-
-        conn.commit()
-        print('Articles loaded successfully!')
+        if not article_exists:
+            try:
+                # Insert keywords into Keywords table
+                cursor.execute("""INSERT OR IGNORE INTO Keywords (Keyword) VALUES (?)""", (keywords.lower(),))
+                
+                # Insert article into Articles table    
+                cursor.execute("""INSERT INTO Articles (title, country, url, keyWords, date, imgUrl, category, description, language)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (title, str(country), url, str(key_words).lower(), date, img_url, str(category), str(description or ''), language))
+                
+                # Map article to keywords in ArticleKeywords table
+                cursor.execute("""INSERT OR IGNORE INTO ArticleKeywords (id, KeywordID)
+                    SELECT last_insert_rowid(), k.KeywordID
+                    FROM Keywords as k
+                    WHERE k.Keyword = ?;
+                """, (keywords.lower(),))
+                
+                # Perform fact checking and insert score into FactCheckScore table
+                score = fact_check(description)
+                cursor.execute("""INSERT INTO FactCheckScore (score)
+                    VALUES (?)""", (score,))
+                
+                # Commit changes to the database
+                conn.commit()
+                
+            except sqlite3.Error as er:
+                print(f"Error inserting article: {er}")
+    
+    # Close database connection
     conn.close()
 
 def load_full_body_to_db():
