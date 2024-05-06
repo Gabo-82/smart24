@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <header></header>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montaga&family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Montaga&family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+
+  </header>
   <body>
     <app-navbar></app-navbar>
     <div id="main-content">
-      <h1>The highlighted countries have news about {{ currentRoute }}</h1>
+      <h1>The highlighted countries have news about <i>{{ currentRoute }}</i></h1>
       <p class="p1">Click on a country to see more!</p>
       <div class="svg">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="width: 1106px; height: 800px">
@@ -286,9 +300,10 @@
       </svg>
     </div>
 
+    <div class="info">
       <h2>Your keyword: {{ currentRoute }}</h2>
       <h2>Country of news: {{ countryName }}</h2>
-
+    </div>
 <!-- Using if-statements to show correct components based on what button is clicked -->
 
     <div class="sentidiv">

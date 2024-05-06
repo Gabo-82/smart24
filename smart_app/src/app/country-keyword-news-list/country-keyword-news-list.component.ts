@@ -34,18 +34,38 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
     sad: 'purple'
     // Add more sentiment-color mappings as needed
   };
+  filteredArticles: PieceOfNews[] | undefined;
 
   constructor(private newsDetailsService: NewsDetailsService) {
   }
 
   @Input({required: true}) countryStr!: string;
   @Input({required: true}) keywordStr!: string;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
+    // console.log("DATA SOURCE:")
+    // console.log(this.dataSource);
+    this.dataSource.paginator = this.paginator!;
+    // this.dataSource.filterPredicate = (data:PieceOfNews, filter:string) => (data.country.trim().toLowerCase().indexOf(filter.trim().toLowerCase()) !== -1)
+    this.dataSource.filterPredicate = function (record: PieceOfNews, filter: string) {
+      return record.country === filter;
+    }
+    // console.log("PAGINATOR:")
+    // console.log(this.paginator)
+    // this.articles = NEWS_DATA;
+    //this.getArticles();
+    // console.log("After get request:")
+    // console.log(this.articles)
+    // console.log("ARTICLES:")
+    // console.log(this.articles);
     this.getArticles();
   }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  filterArticlesBySentiment(sentiment: string): void {
+    this.filteredArticles = this.articles!.filter(article => article.sentiment === sentiment);
+  }
+
 
   getArticles(): void {
     this.newsDetailsService.getShortArticles(this.countryStr, this.keywordStr)

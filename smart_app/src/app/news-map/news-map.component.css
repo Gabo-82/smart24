@@ -1,5 +1,6 @@
 html, body{
     min-height:100%;
+    font-family: "Montaga", serif;
 }
 
 body{
@@ -15,7 +16,8 @@ body{
 }
 
 .svg{
-    margin: 10vw;
+    margin-left: 10vw;
+    margin-right: 10vw;
     justify-content: center;
     align-content: center;
 }
@@ -45,6 +47,7 @@ body{
     text-align: center;
     padding-bottom: 10%;
     font-weight: bolder;
+    font-family: "Cormorant SC", serif;
 }
 
 #footer-text{
@@ -57,14 +60,31 @@ h1{
     font-weight: bold;
     text-align: center;
     margin-bottom: 0;
+    font-family: "Cormorant SC", serif;
 }
 
 h2{
-    padding-left: 5vw;
+    text-align: center;
+    font-family: "Cormorant SC", serif;
 }
+
+.info{
+    box-shadow: #f7d436 0px 3px 8px;
+    background-color: rgb(247, 247, 249);
+    width: 30vw ;
+    justify-content: center;
+    padding: 0.7vw;
+  position: absolute;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  top: 800px;
+}
+
 
 .p1{
     text-align: center;
+    font-weight: lighter;
 }
 
 .table{
@@ -73,8 +93,11 @@ h2{
 }
 
 .sentidiv{
-    margin-left: 5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding-bottom: 3vw;
+    margin-top: 2vw;
 }
 
 .sentibutton{
@@ -82,12 +105,16 @@ h2{
     border-radius: 1.5vw;
     padding: 1.5vw;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    margin-left: 2vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    box-shadow: #f7d436 0px 3px 8px
+    
 }
 
 .sentibutton:hover{
     background-color: rgb(238, 205, 173);
     border-radius: 1.5vw;
+    box-shadow: #f7d436 0px 0px 0px
 }
 
 .returnbutton{
@@ -96,4 +123,5 @@ h2{
     padding: 1.5vw;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin-top: 2vw;
+    box-shadow: #f7d436 0px 3px 8px
 }

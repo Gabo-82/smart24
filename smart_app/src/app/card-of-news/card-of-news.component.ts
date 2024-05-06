@@ -26,7 +26,7 @@ export class CardOfNewsComponent implements OnInit{
     private router: Router // Inject Router
   ) {}
   ngOnInit(): void {
-    this.getArticle();
+    // this.getArticle();
   }
   getArticle(): void {
     this.newsDetailsService.getArticle(1)
