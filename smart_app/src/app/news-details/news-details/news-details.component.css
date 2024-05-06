@@ -3,7 +3,7 @@ html, body{
 }
 
 body{
-    height:180vh;
+    height:150vw;
     justify-content: center;
     background-color: #e6f1ff;
 }
@@ -44,14 +44,14 @@ h3{
 
 h2{
     font-weight:bold;
-    color:#091a56;
     font-size:xx-large;
+    color:#091a56;
 }
 
 #header{
     color:#091a56;
     font-weight: bold;
-    font-size: larger;
+    font-size: x-large;
 }
 #smallerheader{
     color:#091a56;
@@ -74,4 +74,8 @@ mat-panel-title{
 #score{
     color:rgb(255, 115, 0);
     font-weight: bolder;
+}
+
+.deeper{
+    padding-top: 2vw;
 }

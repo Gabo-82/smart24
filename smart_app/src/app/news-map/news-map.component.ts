@@ -21,11 +21,10 @@ import { Observable, of } from 'rxjs';
 export class NewsMapComponent implements OnInit {
   @ViewChild(CountryKeywordNewsListComponent) KeyWordListComponent: CountryKeywordNewsListComponent | undefined;
   predefinedCountries = new Set<string>();
-  ml5Version: string = "";
-  // articles: any[] = [];
   countryName: string | null = '';
   currentRoute: string;
   keyWords: CloudData[] = [];
+  countriesToSend: string[] = [];
 
   // Previously in country-keyword-news-list
   dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
@@ -41,7 +40,6 @@ export class NewsMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.loadArticles();
     this.getArticles();
   }
 
@@ -72,59 +70,137 @@ export class NewsMapComponent implements OnInit {
     }
   }
    // 미리 정의된 국가들을 찾아서 지도상에서 강조하여 표시하는 함수
-  highlightCountries(countryList: string[]) {
-    const countries = document.querySelectorAll<SVGPathElement>('path.land');
-    countries.forEach((country)=>{
-      const countryName = country.getAttribute('countryName');
-      if ((countryName) && (countryList.includes(countryName.toLowerCase()))){
-        country.style.fill = 'yellow';
+  highlightCountries() {
+    if (this.articles) {
+      const sentimentCountByCountry: { [country: string]: { [sentiment: string]: number } } = {};
+  
+      // Count the number of articles with each sentiment for each country
+      for (const article of this.articles) {
+        const country = article.country.toLowerCase();
+        const sentiment = article.sentiment.toLowerCase();
+  
+        // Initialize count object for the country if it doesn't exist
+        if (!sentimentCountByCountry[country]) {
+          sentimentCountByCountry[country] = {};
+        }
+  
+        // Increment sentiment count for the country
+        sentimentCountByCountry[country][sentiment] = (sentimentCountByCountry[country][sentiment] || 0) + 1;
       }
-    })
+  
+      // Determine the predominant sentiment for each country
+      const predominantSentimentByCountry: { [country: string]: string } = {};
+      for (const country in sentimentCountByCountry) {
+        const sentiments = sentimentCountByCountry[country];
+        let predominantSentiment = '';
+        let maxCount = 0;
+        for (const sentiment in sentiments) {
+          if (sentiments[sentiment] > maxCount) {
+            maxCount = sentiments[sentiment];
+            predominantSentiment = sentiment;
+          }
+        }
+        predominantSentimentByCountry[country] = predominantSentiment;
+      }
+  
+      // Change the color of countries on the map based on the predominant sentiment
+      const countries = document.querySelectorAll<SVGPathElement>('path.land');
+      countries.forEach((country) => {
+        const countryName = country.getAttribute('countryName');
+        if (countryName) {
+          const countryCode = countryName.toLowerCase();
+          const predominantSentiment = predominantSentimentByCountry[countryCode];
+          if (predominantSentiment) {
+            // Set color based on predominant sentiment
+            let color = '';
+            switch (predominantSentiment) {
+              case 'hopeful':
+                color = '#90f488';
+                break;
+              case 'celebratory':
+                color = '#fff684';
+                break;
+              case 'informative':
+                color = '#e1e8ea';
+                break;
+              case 'critical':
+                color = '#fa956c';
+                break;
+              case 'angry':
+                color = '#f85f52';
+                break;
+              case 'sad':
+                color = '#9eddff';
+                break;
+              // Add more cases for other sentiments if needed
+              default:
+                color = 'grey'; // Default color if sentiment is unknown
+            }
+            country.style.fill = color;
+          }
+        }
+      });
+    }
    }
 
   getArticles(): void {
     this.newsDetailsService.getShortArticlesOld(this.countryName!, this.currentRoute)
       .subscribe(response => {
         this.articles = response;
-        // for (let i = 0; i < this.articles.length; i++) {
-        //   this.articles[i].sentiment = this.sentimentCategories[~~(Math.random() * this.sentimentCategories.length)];
-        // }
-        this.articles.forEach((article: PieceOfNews) => {
-          article.sentiment = 'hopeful'
-        })
-        console.log("After subscribe")
-        console.log(this.articles);
-        // console.log("After subscribe")
-        // console.log(this.articles);
-        // this.filteredArticles = this.articles;
-        // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
-        // this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
-        // this.displayCountry();
-        // this.evaluateAndSendKeywords();
 
       })
     this.newsDetailsService.getShortArticlesNew(this.countryName!, this.currentRoute)
       .subscribe(response => {
-        const res = response
-        this.articles.forEach((article: PieceOfNews) => {
-          article.sentiment = 'critical'
-        })
+        const res = response 
+        console.log('response:')
+        console.log(response)
         this.articles = this.articles.concat(res);
         console.log('After subscribe in getSANew')
         console.log(this.articles);
         console.log(res);
+        this.manageKeywords();
+        this.highlightCountries();
       })
   }
 
-  manageKeywords(keyWordList: { [keyword: string]: number }){
+  manageKeywords(){
+    const keywordCounts: { [keyword: string]: number } = {};
+
+    // Extracting keywords and sending them to the map component
+    if (this.articles) {
+      for (const article of this.articles) {
+        let keywords: string[];
+
+        // Check if keyWords contains '[' and ']'
+        if (article.keyWords.includes("[") && article.keyWords.includes("]")) {
+          // If so, remove '[' and ']', split the string by comma and trim whitespace
+          keywords = article.keyWords
+            .replace(/'/g, "")
+            .replace("[", "")
+            .replace("]", "")
+            .split(",")
+            .map((keyword: string) => keyword.trim());
+        } else {
+          // Otherwise, it's a single keyword
+          keywords = [article.keyWords];
+        }
+
+        // Iterate through each keyword
+        for (const keyword of keywords) {
+          // If the keyword already exists in the keywordCounts object, increment its count
+          // Otherwise, initialize its count to 1
+          keywordCounts[keyword] = (keywordCounts[keyword] || 0) + 1;
+        }
+      }
+    }
     const newKeyWords: CloudData[] = [];
-    for (const keyword in keyWordList) {
+    for (const keyword in keywordCounts) {
       const text = `${keyword}`;
-      const weight = keyWordList[keyword];
+      const weight = keywordCounts[keyword];
       const color = this.getRandomColor();
 
       // Check if the text is "None", if not, add it to the newKeyWords array
-      if (text !== "None") {
+      if ((text != "None")&&(text!="none")) {
         newKeyWords.push({ text, weight, color });
       }
     }

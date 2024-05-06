@@ -147,7 +147,7 @@ def newsExtractContent(url):
         data.append(body)
         data.append(summary)
     except ArticleException as e:
-        print(f"Error downloading an article")
+        print(f"Error downloading an article, URL:", url)
         data.append("Body not available")
         data.append("Summary not available")
     return data
