@@ -73,21 +73,21 @@ export class NewsMapComponent implements OnInit {
   highlightCountries() {
     if (this.articles) {
       const sentimentCountByCountry: { [country: string]: { [sentiment: string]: number } } = {};
-  
+
       // Count the number of articles with each sentiment for each country
       for (const article of this.articles) {
         const country = article.country.toLowerCase();
         const sentiment = article.sentiment.toLowerCase();
-  
+
         // Initialize count object for the country if it doesn't exist
         if (!sentimentCountByCountry[country]) {
           sentimentCountByCountry[country] = {};
         }
-  
+
         // Increment sentiment count for the country
         sentimentCountByCountry[country][sentiment] = (sentimentCountByCountry[country][sentiment] || 0) + 1;
       }
-  
+
       // Determine the predominant sentiment for each country
       const predominantSentimentByCountry: { [country: string]: string } = {};
       for (const country in sentimentCountByCountry) {
@@ -102,7 +102,7 @@ export class NewsMapComponent implements OnInit {
         }
         predominantSentimentByCountry[country] = predominantSentiment;
       }
-  
+
       // Change the color of countries on the map based on the predominant sentiment
       const countries = document.querySelectorAll<SVGPathElement>('path.land');
       countries.forEach((country) => {
@@ -115,22 +115,22 @@ export class NewsMapComponent implements OnInit {
             let color = '';
             switch (predominantSentiment) {
               case 'hopeful':
-                color = 'green';
+                color = '#90f488';
                 break;
               case 'celebratory':
-                color = 'yellow';
+                color = '#fff684';
                 break;
               case 'informative':
-                color = 'blue';
+                color = '#e1e8ea';
                 break;
               case 'critical':
-                color = 'red';
+                color = '#fa956c';
                 break;
               case 'angry':
-                color = 'orange';
+                color = '#f85f52';
                 break;
               case 'sad':
-                color = 'purple';
+                color = '#9eddff';
                 break;
               // Add more cases for other sentiments if needed
               default:
@@ -297,4 +297,3 @@ export class NewsMapComponent implements OnInit {
   }
 
 }
-

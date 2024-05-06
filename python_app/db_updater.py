@@ -1,7 +1,7 @@
 import sqlite3
 
 # Connect to the database
-conn = sqlite3.connect('news_articles2.db')
+conn = sqlite3.connect('../news_articles2.db')
 cursor = conn.cursor()
 
 # List of columns to update
@@ -13,6 +13,7 @@ for column in columns:
     cursor.execute("UPDATE Sentiment SET {} = 'n' WHERE {} = '-'".format(column, column))
     cursor.execute("UPDATE Sentiment SET {} = 'n' WHERE {} = ' -'".format(column, column))
     cursor.execute("UPDATE Sentiment SET {} = 'n' WHERE {} = ' - '".format(column, column))
+    cursor.execute("UPDATE Sentiment SET {} = 'n' WHERE {} = ' n'".format(column, column))
     
 update_queries = [
     "UPDATE Sentiment SET sentiment = 'hopeful' WHERE sentiment = ' hopeful'",

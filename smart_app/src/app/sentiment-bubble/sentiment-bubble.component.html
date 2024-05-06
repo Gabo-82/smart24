@@ -1,9 +1,8 @@
 <!-- sentiment-bubble.component.html -->
-
 <div class="sentiment-bubbles">
   <ng-container *ngIf="!selectedSentiment; else newsList">
     <!-- Display sentiment bubbles with raw sentiment counts -->
-    <div *ngFor="let sentiment of sentimentCategories" class="bubble" 
+    <div *ngFor="let sentiment of sentimentCategories" class="bubble"
          [style.width.px]="sentimentCounts[sentiment] * 10"
          [style.height.px]="sentimentCounts[sentiment] * 10"
          [style.background-color]="getBubbleColor(sentiment)"

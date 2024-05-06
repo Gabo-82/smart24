@@ -30,6 +30,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { KeywordHistogramComponent } from './keyword-histogram/keyword-histogram.component';
 import { TagCloudComponent } from 'angular-tag-cloud-module'
 import {MatDivider} from "@angular/material/divider";
+import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -64,7 +65,9 @@ import {MatDivider} from "@angular/material/divider";
     MatTableModule,
     MatExpansionModule,
     TagCloudComponent,
-    MatDivider
+    MatDivider,
+    MatButtonToggleGroup,
+    MatButtonToggle
   ],
   providers: [
     provideAnimationsAsync()

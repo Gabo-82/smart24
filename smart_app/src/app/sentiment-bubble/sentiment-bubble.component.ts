@@ -3,7 +3,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { PieceOfNews } from '../piece-of-news';
 import { NEWS_DATA } from '../country-keyword-news-list/country-keyword-news-list.component'; // Import NEWS_DATA from the appropriate file
-import { CountryKeywordNewsListComponent } from '../country-keyword-news-list/country-keyword-news-list.component';
+// import { CountryKeywordNewsListComponent } from '../country-keyword-news-list/country-keyword-news-list.component';
 
 @Component({
   selector: 'app-sentiment-bubble',
@@ -27,7 +27,7 @@ export class SentimentBubbleComponent implements OnInit {
   defaultBubbleSize = 40; // Set a default bubble size for sentiments with count 1
   selectedSentiment: string | null = null;
 
-  constructor(private countryKeywordNewsList: CountryKeywordNewsListComponent) { }
+  constructor() { }
 
   @Input({required: true}) articles2!: PieceOfNews[];
 
@@ -40,7 +40,7 @@ export class SentimentBubbleComponent implements OnInit {
   }
 
   calculateSentimentCounts(): void {
-    const articles = NEWS_DATA // Access articles from CountryKeywordNewsListComponent
+    const articles = this.articles2 // Access articles from CountryKeywordNewsListComponent
 
     if (articles) {
       this.sentimentCounts = {}; // Clear existing counts

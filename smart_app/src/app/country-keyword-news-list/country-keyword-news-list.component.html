@@ -9,23 +9,38 @@
 
   <div>
     <section>
-      <div class="example-label">Filter by sentiment  </div>
+      <div class="example-label">Filter the results</div>
       <div class="example-button-row">
-        <button mat-stroked-button [ngStyle]="{ 'color': sentimentColors[element]}"
+        <button mat-stroked-button  [ngStyle]="{ 'color': sentimentColors[element], 'background-color':'#c8c9c7'}"
                 *ngFor="let element of sentimentCategories"
                 (click)="filterArticlesBySentiment(element)">{{ element }}</button>
-
       </div>
       <div class="example-button-row2">
-        <button mat-stroked-button class="info-button"  >More Info</button>
+        <button (click)="resetSentimentFilter()" mat-stroked-button class="info-button">Reset All</button>
       </div>
     </section>
+  </div>
+  <div>
+    <div class="example-label">Filter good and bad news | Filter neutral and biased</div>
+    <div class="example-button-row">
+    <mat-button-toggle-group [(value)]="selectedOptionsGB" name="ingredients" aria-label="Ingredients" multiple>
+      <mat-button-toggle value="{{gbItem}}" *ngFor="let gbItem of goodBadCategories"
+      (click)="filterArticlesByNeutralBiased()">
+        {{gbItem}}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+    <mat-button-toggle-group [(value)]="selectedOptionsBias" name="ingredients" aria-label="Ingredients" multiple>
+      <mat-button-toggle value="{{nbItem}}" *ngFor="let nbItem of neutralBiasedCategories"
+      (click)="filterArticlesByNeutralBiased()">{{nbItem}}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+    </div>
   </div>
   <mat-divider></mat-divider>
   <mat-accordion>
     <mat-expansion-panel *ngFor="let element of filteredArticles"> <!--to use data put filteredArticles-->
       <app-news-details [article]="element"></app-news-details>
-      <mat-expansion-panel-header [ngStyle]="{ 'background-color': sentimentColors[element.sentiment]}">
+      <mat-expansion-panel-header [ngStyle]="{ 'background-color': sentimentColors[element.sentiment]}" >
         <mat-panel-title>
           <ng-container *ngIf="element.title.length > 20; else fullTitle" >{{(element.url.length>60)? (element.title | slice:0:25)+'...':(element.url)}}.</ng-container>
           <ng-template #fullTitle >{{ element.title }}</ng-template>
