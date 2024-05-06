@@ -70,7 +70,7 @@ def get_single_article(id):
     return jsonify(article)
 
 
-@app.route('/api/articles/<keyword>') # This one is for the worldmap
+@app.route('/api/articles/<keyword>') # GET
 def get_articles_by_keyword(keyword):
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
@@ -100,7 +100,7 @@ def get_articles_by_keyword(keyword):
     return jsonify(list_of_articles)
 
 
-@app.route('/api/searchOnline/<keyword>') # This one is for the worldmap
+@app.route('/api/searchOnline/<keyword>') # SEARCH
 def search_articles_by_keyword(keyword):
     api_key = newsapi_key
     short_data = newsFinder(keyword, api_key)
