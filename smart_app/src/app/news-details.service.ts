@@ -24,7 +24,7 @@ export class NewsDetailsService {
     )
   }
 
-  getShortArticles(country: string = "mexico", keyword: string = "Palestine"): Observable<PieceOfNews[]> {
+  getShortArticles(country: string = "mexico", keyword: string = "palestine"): Observable<PieceOfNews[]> {
     const url = `${this.apiUrl}/api/searchOnline/${keyword}`;
     return this.http.get<PieceOfNews[]>(url).pipe(
       tap(response => console.log(response)), 
