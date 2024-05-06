@@ -18,7 +18,7 @@ export class TimelineComponent implements OnInit{
             description: "Stay informed about the complex and evolving dynamics of the Israel-Palestine conflict, with in-depth coverage of geopolitical tensions, peace efforts, and humanitarian issues affecting the region. Explore diverse perspectives and ongoing developments shaping this enduring conflict.",
             ButtonColor: "custom-button-israel",
             imageUrl: "../../assets/images/israel-palestine.jpg",
-            subtopics: ["Gaza Strip", "West Bank", "Two-state solution", "Jerusalem tensions", "Palestinian refugee crisis"],
+            subtopics: ["Palestine", "Gaza Strip", "West Bank", "Two-state solution", "Jerusalem tensions", "Palestinian refugee crisis"],
             onClick: () => {
               this.openDialog(0);
             }
