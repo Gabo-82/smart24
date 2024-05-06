@@ -1,10 +1,15 @@
 import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { NyTimesService } from '../ny-times.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CardOfNewsComponent } from '../card-of-news/card-of-news.component';
 import {ActivatedRoute, Router} from "@angular/router";
-import { CountryKeywordNewsListComponent } from '../country-keyword-news-list/country-keyword-news-list.component';
+import {
+  CountryKeywordNewsListComponent,
+  NEWS_DATA
+} from '../country-keyword-news-list/country-keyword-news-list.component';
 import { CloudData } from 'angular-tag-cloud-module'
+import {PieceOfNews} from "../piece-of-news";
+import {MatTableDataSource} from "@angular/material/table";
+import {NewsDetailsService} from "../news-details.service";
 import { Observable, of } from 'rxjs';
 
 
@@ -13,19 +18,31 @@ import { Observable, of } from 'rxjs';
   templateUrl: './news-map.component.html',
   styleUrl: './news-map.component.css'
 })
-export class NewsMapComponent {
+export class NewsMapComponent implements OnInit {
   @ViewChild(CountryKeywordNewsListComponent) KeyWordListComponent: CountryKeywordNewsListComponent | undefined;
   predefinedCountries = new Set<string>();
   ml5Version: string = "";
-  articles: any[] = [];
+  // articles: any[] = [];
   countryName: string | null = "India";
   currentRoute: string;
   keyWords: CloudData[] = [];
 
-  constructor(private cdr: ChangeDetectorRef, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
+  // Previously in country-keyword-news-list
+  dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
+  articles : PieceOfNews[] = [];
+  filteredArticles : PieceOfNews[] | undefined;
+
+
+  constructor(private cdr: ChangeDetectorRef, private newsDetailsService: NewsDetailsService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
+  // constructor(private cdr: ChangeDetectorRef, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
     //this.currentRoute = router.url.split('/').pop()!;
     this.currentRoute = decodeURIComponent(router.url.split('/').pop()!);
 
+  }
+
+  ngOnInit(): void {
+    // this.loadArticles();
+    this.getArticles();
   }
 
   onRegionClick_first_version(event: MouseEvent){
@@ -65,37 +82,59 @@ export class NewsMapComponent {
     })
    }
 
-   manageKeywords(keyWordList: { [keyword: string]: number }) {
+  getArticles(): void {
+    this.newsDetailsService.getShortArticles(this.countryName!, this.currentRoute)
+      .subscribe(response => {
+        this.articles = response;
+        // for (let i = 0; i < this.articles.length; i++) {
+        //   this.articles[i].sentiment = this.sentimentCategories[~~(Math.random() * this.sentimentCategories.length)];
+        // }
+        this.articles.forEach((article: PieceOfNews) => {
+          article.sentiment = 'hopeful'
+        })
+        console.log("After subscribe")
+        console.log(this.articles);
+        // console.log("After subscribe")
+        // console.log(this.articles);
+        // this.filteredArticles = this.articles;
+        // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
+        // this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
+        // this.displayCountry();
+        // this.evaluateAndSendKeywords();
+      })
+  }
+
+  manageKeywords(keyWordList: { [keyword: string]: number }){
     const newKeyWords: CloudData[] = [];
     for (const keyword in keyWordList) {
       const text = `${keyword}`;
       const weight = keyWordList[keyword];
       const color = this.getRandomColor();
-  
+
       // Check if the text is "None", if not, add it to the newKeyWords array
       if (text !== "None") {
         newKeyWords.push({ text, weight, color });
       }
     }
-  
+
     // Sort the newKeyWords array based on the weight in descending order
     newKeyWords.sort((a, b) => b.weight - a.weight);
-  
+
     // Determine the number of elements to display (minimum of 15 or the length of the array)
     const displayCount = Math.min(newKeyWords.length, 15);
-  
+
     // Select the first 'displayCount' elements
     const limitedKeyWords = newKeyWords.slice(0, displayCount);
-  
+
     // Create an observable from the limitedKeyWords array
     const changedData$: Observable<CloudData[]> = of(limitedKeyWords);
-  
+
     // Subscribe to the observable and update keyWords when new data is emitted
     changedData$.subscribe(res => {
       this.keyWords = res; // Update keyWords with the new data
     });
   }
-  
+
 
    openDialog(countryName: string){
     const dialogRef = this.dialog.open(CardOfNewsComponent, {
@@ -142,12 +181,12 @@ export class NewsMapComponent {
       const r = Math.floor(Math.random() * 256);
       const g = Math.floor(Math.random() * 256);
       const b = Math.floor(Math.random() * 256);
-  
+
       // Convert RGB values to hexadecimal format
       const color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
-  
+
       return color;
   }
-  
+
 }
 

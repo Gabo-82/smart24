@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, OnChanges} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {PieceOfNews} from "../piece-of-news";
@@ -11,7 +11,7 @@ import { CardOfNewsComponent } from '../card-of-news/card-of-news.component';
   templateUrl: './country-keyword-news-list.component.html',
   styleUrl: './country-keyword-news-list.component.css'
 })
-export class CountryKeywordNewsListComponent implements AfterViewInit {
+export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges {
   @Output() sendCountryToMap = new EventEmitter<string[]>();
   @Output() sendKeywordsToMap = new EventEmitter<{ [keyword: string]: number }>();
   sentimentCounts: { [key: string]: number } = {};
@@ -21,6 +21,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
 
   articles : PieceOfNews[] = [];
+  filteredArticles : PieceOfNews[] | undefined;
   router: any;
   dialog: any;
 
@@ -34,13 +35,40 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
     sad: 'purple'
     // Add more sentiment-color mappings as needed
   };
-  filteredArticles: PieceOfNews[] | undefined;
 
   constructor(private newsDetailsService: NewsDetailsService) {
   }
 
   @Input({required: true}) countryStr!: string;
   @Input({required: true}) keywordStr!: string;
+  @Input({required: true}) articles2!: PieceOfNews[];
+
+  ngOnChanges(): void {
+    console.log("CountryKeywordNewsListComponent", this.countryStr);
+    this.articles = this.articles2
+    this.articles.forEach((article: PieceOfNews) => {
+      article.sentiment = 'hopeful'
+    })
+    this.filteredArticles = this.articles;
+    this.sendCountriesAndKeys()
+    console.log("cknl articles: ", this.articles);
+    console.log("cknl articless2:", this.articles2);
+    if (this.filteredArticles && this.filteredArticles.length > 0) {
+      this.filteredArticles = this.articles!.filter((article: PieceOfNews) => {
+        return article.country.toLowerCase() === this.countryStr.toLowerCase();
+      })
+    }
+    this.dataSource.filter = (this.countryStr);
+    console.log(this.dataSource.filteredData)
+    // this.customFilter =
+    // this.dataSourcefilter(article => article.country === this.countryStr.toLowerCase()
+    // this.dataSource.filter((article: PieceOfNews) => article.country === this.countryStr.toLowerCase());
+  }
+
+  ngOnInit(): void {
+    // this.loadArticles();
+  }
+
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   ngAfterViewInit() {
@@ -53,37 +81,47 @@ export class CountryKeywordNewsListComponent implements AfterViewInit {
     }
     // console.log("PAGINATOR:")
     // console.log(this.paginator)
-    //this.articles = NEWS_DATA;
-    this.getArticles();
+    // this.articles = NEWS_DATA;
+    //this.getArticles();
     // console.log("After get request:")
     // console.log(this.articles)
     // console.log("ARTICLES:")
     // console.log(this.articles);
-    this.getArticles();
+    // this.getArticles();
   }
 
   filterArticlesBySentiment(sentiment: string): void {
     this.filteredArticles = this.articles!.filter(article => article.sentiment === sentiment);
   }
 
-
-  getArticles(): void {
-    this.newsDetailsService.getShortArticles(this.countryStr, this.keywordStr)
-      .subscribe(response => {
-        this.articles = response;
-        // for (let i = 0; i < this.articles.length; i++) {
-        //   this.articles[i].sentiment = this.sentimentCategories[~~(Math.random() * this.sentimentCategories.length)];
-        // }
-        this.articles.forEach((article: PieceOfNews) => {
-          article.sentiment = 'hopeful'
-        })
-
-        // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
-        this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
-        this.displayCountry();
-        this.evaluateAndSendKeywords();
-      })
+  sendCountriesAndKeys(): void {
+    this.displayCountry();
+    this.evaluateAndSendKeywords();
   }
+  // getArticles(): void {
+  //   // this.articles = this.articles2;
+  //   this.displayCountry();
+  //   this.evaluateAndSendKeywords();
+  //   this.newsDetailsService.getShortArticles(this.countryStr, this.keywordStr)
+  //     .subscribe(response => {
+  //       this.articles = response;
+  //       // for (let i = 0; i < this.articles.length; i++) {
+  //       //   this.articles[i].sentiment = this.sentimentCategories[~~(Math.random() * this.sentimentCategories.length)];
+  //       // }
+  //       this.articles.forEach((article: PieceOfNews) => {
+  //         article.sentiment = 'hopeful'
+  //       })
+  //       console.log("After subscribe")
+  //       console.log(this.articles);
+  //       console.log("After subscribe")
+  //       console.log(this.articles);
+  //       this.filteredArticles = this.articles;
+  //       // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
+  //       this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
+  //       this.displayCountry();
+  //       this.evaluateAndSendKeywords();
+  //     })
+  // }
 
   loadArticles(): void {
     // Assuming you fetch articles from your service or use the predefined data

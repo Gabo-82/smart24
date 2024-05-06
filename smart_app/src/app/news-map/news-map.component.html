@@ -3,11 +3,11 @@
   <header><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-  
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montaga&family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-  
+
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +22,7 @@
       <p class="p1">Click on a country to see more!</p>
       <div class="svg">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="width: 1106px; height: 800px">
-      
+
         <defs>
           <style type="text/css">
             .land
@@ -311,10 +311,10 @@
       <button class="sentibutton" (click)="openFactCheck()" *ngIf="showNewsList">See fact checking</button>
     </div>
     <div class="table">
-      <app-country-keyword-news-list (sendCountryToMap)="highlightCountries($event)" (sendKeywordsToMap)="manageKeywords($event)" *ngIf="showNewsList" countryStr="{{countryName}}" keywordStr="{{currentRoute}}">
+      <app-country-keyword-news-list (sendCountryToMap)="highlightCountries($event)" (sendKeywordsToMap)="manageKeywords($event)" *ngIf="showNewsList" countryStr="{{countryName}}" keywordStr="{{currentRoute}}" [articles2]="articles">
       </app-country-keyword-news-list>
       <app-sentiment-bubble *ngIf="showSentimentalContent"></app-sentiment-bubble>
-      <app-fact-check *ngIf="showFactCheck"></app-fact-check>
+      <app-fact-check *ngIf="showFactCheck" countryStr="{{countryName}}" keywordStr="{{currentRoute}}" [articles2]="articles"></app-fact-check>
       <button class="returnbutton" (click)="goBack()" *ngIf="showSentimentalContent || showFactCheck">Return to list of news</button>
     </div>
     <app-keyword-histogram [data]="keyWords"></app-keyword-histogram>
