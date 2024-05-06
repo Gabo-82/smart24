@@ -28,12 +28,12 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   sentimentCategories = ['hopeful', 'celebratory', 'informative', 'critical', 'angry', 'sad','n'];
 
   sentimentColors: { [key: string]: string } = {
-    hopeful: 'green',
-    celebratory: 'gold',
-    informative: 'blue',
-    critical: 'red',
-    angry: 'orange',
-    sad: 'purple',
+    hopeful: '#90f488',
+    celebratory: '#fff684',
+    informative: '#b8daec',
+    critical: '#fa956c',
+    angry: '#f85f52',
+    sad: '#9eddff',
     n : 'grey'
     
     // Add more sentiment-color mappings as needed
