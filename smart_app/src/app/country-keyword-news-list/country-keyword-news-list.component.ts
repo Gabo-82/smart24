@@ -17,7 +17,6 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   sentimentCounts: { [key: string]: number } = {};
   predefinedCountries = new Set<string>();
   countriesToSend: string[] = [];
-  displayedColumns: string[] = ['id', 'title', 'date', 'url'];
   dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
 
   articles : PieceOfNews[] = [];
@@ -41,16 +40,23 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
 
   @Input({required: true}) countryStr!: string;
   @Input({required: true}) keywordStr!: string;
+  @Input({required: true}) articles2!: PieceOfNews[];
 
   ngOnChanges(): void {
     console.log("CountryKeywordNewsListComponent", this.countryStr);
+    this.articles = this.articles2
+    this.articles.forEach((article: PieceOfNews) => {
+      article.sentiment = 'hopeful'
+    })
+    this.filteredArticles = this.articles;
+    this.sendCountriesAndKeys()
+    console.log("cknl articles: ", this.articles);
+    console.log("cknl articless2:", this.articles2);
     if (this.filteredArticles && this.filteredArticles.length > 0) {
       this.filteredArticles = this.articles!.filter((article: PieceOfNews) => {
         return article.country.toLowerCase() === this.countryStr.toLowerCase();
       })
     }
-    // this.filteredArticles = this.articles!.filter((article: PieceOfNews ) => {
-    // return article.country.toLowerCase() === this.countryStr.toLowerCase();})
     this.dataSource.filter = (this.countryStr);
     console.log(this.dataSource.filteredData)
     // this.customFilter =
@@ -80,35 +86,41 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     // console.log(this.articles)
     // console.log("ARTICLES:")
     // console.log(this.articles);
-    this.getArticles();
+    // this.getArticles();
   }
 
   filterArticlesBySentiment(sentiment: string): void {
     this.filteredArticles = this.articles!.filter(article => article.sentiment === sentiment);
   }
 
-
-  getArticles(): void {
-    this.newsDetailsService.getShortArticles(this.countryStr, this.keywordStr)
-      .subscribe(response => {
-        this.articles = response;
-        // for (let i = 0; i < this.articles.length; i++) {
-        //   this.articles[i].sentiment = this.sentimentCategories[~~(Math.random() * this.sentimentCategories.length)];
-        // }
-        this.articles.forEach((article: PieceOfNews) => {
-          article.sentiment = 'hopeful'
-        })
-        console.log("After subscribe")
-        console.log(this.articles);
-        console.log("After subscribe")
-        console.log(this.articles);
-        this.filteredArticles = this.articles;
-        // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
-        this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
-        this.displayCountry();
-        this.evaluateAndSendKeywords();
-      })
+  sendCountriesAndKeys(): void {
+    this.displayCountry();
+    this.evaluateAndSendKeywords();
   }
+  // getArticles(): void {
+  //   // this.articles = this.articles2;
+  //   this.displayCountry();
+  //   this.evaluateAndSendKeywords();
+  //   this.newsDetailsService.getShortArticles(this.countryStr, this.keywordStr)
+  //     .subscribe(response => {
+  //       this.articles = response;
+  //       // for (let i = 0; i < this.articles.length; i++) {
+  //       //   this.articles[i].sentiment = this.sentimentCategories[~~(Math.random() * this.sentimentCategories.length)];
+  //       // }
+  //       this.articles.forEach((article: PieceOfNews) => {
+  //         article.sentiment = 'hopeful'
+  //       })
+  //       console.log("After subscribe")
+  //       console.log(this.articles);
+  //       console.log("After subscribe")
+  //       console.log(this.articles);
+  //       this.filteredArticles = this.articles;
+  //       // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
+  //       this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
+  //       this.displayCountry();
+  //       this.evaluateAndSendKeywords();
+  //     })
+  // }
 
   loadArticles(): void {
     // Assuming you fetch articles from your service or use the predefined data
