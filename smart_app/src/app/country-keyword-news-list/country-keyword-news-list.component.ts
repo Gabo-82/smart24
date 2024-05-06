@@ -1,10 +1,8 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, OnChanges} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 import {PieceOfNews} from "../piece-of-news";
 import {NewsDetailsService} from "../news-details.service";
-import {DatePipe, SlicePipe} from "@angular/common";
-import { CardOfNewsComponent } from '../card-of-news/card-of-news.component';
 
 @Component({
   selector: 'app-country-keyword-news-list',
@@ -35,6 +33,17 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     sad: 'purple'
     // Add more sentiment-color mappings as needed
   };
+  goodBadCategories = ['good', 'bad'];
+  neutralBiasedCategories = ['neutral', 'biased'];
+
+  // Button initialized state
+  // isToggled = false;
+  isToggled = {
+    goodOrbad: false,
+    biased: false
+  }
+  selectedOptionsGB = [];
+  selectedOptionsBias = []
 
   constructor(private newsDetailsService: NewsDetailsService) {
   }
@@ -99,6 +108,47 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   filterArticlesBySentiment(sentiment: string): void {
     this.filteredArticles = this.articles!.filter(article => article.sentiment === sentiment);
   }
+
+  filterArticlesByNeutralBiased(): void {
+    console.log(this.articles);
+    // console.log(this.filteredArticles);
+    this.filteredArticles = this.articles!
+    console.log(this.selectedOptionsGB);
+    if (this.selectedOptionsGB.length > 0) {
+      // filter by if either selected option is a substring of article.bias
+      this.filteredArticles = this.articles!.filter(article => {
+        return this.selectedOptionsGB.some((substring: string) => article.goodOrbad.trim().toLowerCase().indexOf(substring.toLowerCase()) > -1)
+      });
+    }
+    // console.log(this.selectedOptionsBias);
+    if (this.selectedOptionsBias.length > 0) {
+      this.filteredArticles = this.articles!.filter(article => {
+        // console.log("ret", ret);
+        return this.selectedOptionsBias.some((substring: string) => {
+          // console.log("substring",substring);
+          // console.log(article.bias);
+          // const bigString = article.bias.trim().toLowerCase().indexOf(substring.toLowerCase());
+          // console.log("bigString",bigString);
+          // console.log(article.bias.trim().toLowerCase().indexOf(substring.toLowerCase()) > -1);
+          return article.bias.trim().toLowerCase().indexOf(substring.toLowerCase()) > -1
+
+        });
+      })
+    }
+    console.log(this.filteredArticles);
+  }
+
+  filterArticlesByGoodBad(): void {
+    console.log('filterArticlesByNeutralBiased');
+    console.log(this.filteredArticles);
+    console.log(this.selectedOptionsGB);
+    this.filteredArticles = this.articles!.filter(article => {
+      // return article.goodOrbad.trim().toLowerCase().indexOf(category.trim().toLowerCase()) !== -1;
+    });
+    console.log(this.filteredArticles);
+  }
+
+
 
   sendCountriesAndKeys(): void {
     this.displayCountry();
