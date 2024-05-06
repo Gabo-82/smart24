@@ -15,7 +15,7 @@ os.makedirs(os.path.dirname(SQL_FILE), exist_ok=True)
 
 # Connect to database (create if it doesn't exist), create table, and insert data (MAIN TABLE)
 def setup_database_tables():
-    print('Setting up database tables...')
+    # print('Setting up database tables...')
     os.makedirs(os.path.dirname(SQL_FILE), exist_ok=True)
    
     conn = sqlite3.connect(SQL_FILE)
@@ -68,7 +68,7 @@ def setup_database_tables():
 
 # Load short articles to database
 def load_short_articles_to_db(short_data, keywords):
-    print('Loading articles into database...')
+    # print('Loading articles into database...')
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
     for newsItem in short_data:
@@ -111,7 +111,7 @@ def load_short_articles_to_db(short_data, keywords):
     conn.close()
 
 def load_full_body_to_db():
-    print('Loading full body into database...')
+    # print('Loading full body into database...')
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
 
@@ -135,11 +135,11 @@ def load_full_body_to_db():
                 continue
 
     conn.commit()
-    print('Full body loaded successfully!')
+    # print('Full body loaded successfully!')
     conn.close()
 
 def load_sentiment_to_db():
-    print('Loading sentiment into database...')
+    # print('Loading sentiment into database...')
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
 
@@ -168,7 +168,7 @@ def load_sentiment_to_db():
             continue
 
     conn.commit()
-    print('Sentiments loaded successfully!')
+    # print('Sentiments loaded successfully!')
     conn.close()
 
 

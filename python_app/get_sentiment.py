@@ -12,7 +12,7 @@ def get_sentiment(text):
                    Thirdly, tell me if it's good news or bad news for a general citizen. You must answer with only "good" or "bad". 
                    Lastly, tell me if this article seems biased or neutral. Also in this case you must answer with one of those two words.
                    Please seperate your answer with comas. For example, '5, inspiring, good, neutral
-                   If you cant access to the text, just answer -, -, -, -\n{text}\n"""}]
+                   If you cant access to the text, just answer n, n, n, n\n{text}\n"""}]
                   )
     sentiment = response.choices[0].message.content
     score, sentiment, goodOrbad, bias = sentiment.split(",") 
