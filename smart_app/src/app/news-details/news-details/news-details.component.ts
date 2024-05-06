@@ -35,7 +35,7 @@ export class NewsDetailsComponent implements OnInit{
     private http: HttpClient
     ) { }
   ngOnInit(): void {
-    this.getArticle();
+    // this.getArticle();
   }
   getArticle(): void {
     this.newsDetailsService.getArticle(1)
@@ -57,8 +57,11 @@ export class NewsDetailsComponent implements OnInit{
       category: 'Dummy Category',
       description: 'Finland is a country. We are happy.',
       language: 'English',
-      body: 'This is a dummy article body.',
       sentiment: 'neutral',
+      goodOrbad: "good",
+      summary: "Yes",
+      bias: "neutral",
+      score: 5,
       factCheckScore: 0.5
     };
 

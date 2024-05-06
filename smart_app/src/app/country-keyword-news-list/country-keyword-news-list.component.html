@@ -21,10 +21,9 @@
       </div>
     </section>
   </div>
-
   <mat-divider></mat-divider>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let element of articles"> <!--to use data put filteredArticles-->
+    <mat-expansion-panel *ngFor="let element of filteredArticles"> <!--to use data put filteredArticles-->
       <app-news-details [article]="element"></app-news-details>
       <mat-expansion-panel-header [ngStyle]="{ 'background-color': sentimentColors[element.sentiment]}" >
         <mat-panel-title>
