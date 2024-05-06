@@ -40,7 +40,7 @@ export class SentimentBubbleComponent implements OnInit {
   }
 
   calculateSentimentCounts(): void {
-    const articles = this.articles2 // Access articles from CountryKeywordNewsListComponent
+    const articles = NEWS_DATA // Access articles from CountryKeywordNewsListComponent
 
     if (articles) {
       this.sentimentCounts = {}; // Clear existing counts
