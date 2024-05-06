@@ -86,12 +86,13 @@ export class NewsMapComponent implements OnInit {
     this.newsDetailsService.getShortArticlesOld(this.countryName!, this.currentRoute)
       .subscribe(response => {
         this.articles = response;
+        
         // for (let i = 0; i < this.articles.length; i++) {
         //   this.articles[i].sentiment = this.sentimentCategories[~~(Math.random() * this.sentimentCategories.length)];
         // }
-        this.articles.forEach((article: PieceOfNews) => {
-          article.sentiment = 'hopeful'
-        })
+        /* this.articles.forEach((article: PieceOfNews) => {
+          article.sentiment = 'informative'
+        }) */
         console.log("After subscribe")
         console.log(this.articles);
         // console.log("After subscribe")
