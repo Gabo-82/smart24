@@ -25,14 +25,17 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   router: any;
   dialog: any;
 
-  sentimentCategories = ['hopeful', 'celebratory', 'informative', 'critical', 'angry', 'sad'];
+  sentimentCategories = ['hopeful', 'celebratory', 'informative', 'critical', 'angry', 'sad','n'];
+
   sentimentColors: { [key: string]: string } = {
     hopeful: 'green',
     celebratory: 'gold',
     informative: 'blue',
     critical: 'red',
     angry: 'orange',
-    sad: 'purple'
+    sad: 'purple',
+    n : 'grey'
+    
     // Add more sentiment-color mappings as needed
   };
 
@@ -46,9 +49,6 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   ngOnChanges(): void {
     console.log("CountryKeywordNewsListComponent", this.countryStr);
     this.articles = this.articles2
-    this.articles.forEach((article: PieceOfNews) => {
-      article.sentiment = 'hopeful'
-    })
     this.filteredArticles = this.articles;
     this.sendCountriesAndKeys()
     // console.log("cknl articles: ", this.articles);
