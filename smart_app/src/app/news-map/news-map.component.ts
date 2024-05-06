@@ -123,7 +123,7 @@ export class NewsMapComponent implements OnInit {
       const color = this.getRandomColor();
 
       // Check if the text is "None", if not, add it to the newKeyWords array
-      if (text !== "None") {
+      if (text != "None") {
         newKeyWords.push({ text, weight, color });
       }
     }
