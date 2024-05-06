@@ -46,7 +46,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     biased: false
   }
   selectedOptionsGB = [];
-  selectedOptionsBias = []
+  selectedOptionsBias = [];
 
   constructor(private newsDetailsService: NewsDetailsService) {
   }
@@ -84,6 +84,12 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
 
   filterArticlesBySentiment(sentiment: string): void {
     this.filteredArticles = this.articles!.filter(article => article.sentiment === sentiment);
+  }
+
+  resetSentimentFilter(): void {
+    this.filteredArticles = this.articles
+    this.selectedOptionsGB = [];
+    this.selectedOptionsBias = [];
   }
 
   filterArticlesByNeutralBiased(): void {

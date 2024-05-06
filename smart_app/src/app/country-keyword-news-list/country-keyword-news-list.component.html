@@ -11,12 +11,12 @@
     <section>
       <div class="example-label">Filter the results</div>
       <div class="example-button-row">
-        <button mat-stroked-button [ngStyle]="{ 'color': sentimentColors[element]}"
+        <button mat-stroked-button  [ngStyle]="{ 'color': sentimentColors[element], 'background-color':'#c8c9c7'}"
                 *ngFor="let element of sentimentCategories"
                 (click)="filterArticlesBySentiment(element)">{{ element }}</button>
       </div>
       <div class="example-button-row2">
-        <button mat-stroked-button class="info-button">More Info</button>
+        <button (click)="resetSentimentFilter()" mat-stroked-button class="info-button">Reset All</button>
       </div>
     </section>
   </div>

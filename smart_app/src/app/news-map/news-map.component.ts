@@ -73,21 +73,21 @@ export class NewsMapComponent implements OnInit {
   highlightCountries() {
     if (this.articles) {
       const sentimentCountByCountry: { [country: string]: { [sentiment: string]: number } } = {};
-  
+
       // Count the number of articles with each sentiment for each country
       for (const article of this.articles) {
         const country = article.country.toLowerCase();
         const sentiment = article.sentiment.toLowerCase();
-  
+
         // Initialize count object for the country if it doesn't exist
         if (!sentimentCountByCountry[country]) {
           sentimentCountByCountry[country] = {};
         }
-  
+
         // Increment sentiment count for the country
         sentimentCountByCountry[country][sentiment] = (sentimentCountByCountry[country][sentiment] || 0) + 1;
       }
-  
+
       // Determine the predominant sentiment for each country
       const predominantSentimentByCountry: { [country: string]: string } = {};
       for (const country in sentimentCountByCountry) {
@@ -102,7 +102,7 @@ export class NewsMapComponent implements OnInit {
         }
         predominantSentimentByCountry[country] = predominantSentiment;
       }
-  
+
       // Change the color of countries on the map based on the predominant sentiment
       const countries = document.querySelectorAll<SVGPathElement>('path.land');
       countries.forEach((country) => {
@@ -146,12 +146,13 @@ export class NewsMapComponent implements OnInit {
   getArticles(): void {
     this.newsDetailsService.getShortArticlesOld(this.countryName!, this.currentRoute)
       .subscribe(response => {
+        console.log("NewsMap response", response);
         this.articles = response;
 
       })
     this.newsDetailsService.getShortArticlesNew(this.countryName!, this.currentRoute)
       .subscribe(response => {
-        const res = response 
+        const res = response
         console.log('response:')
         console.log(response)
         this.articles = this.articles.concat(res);
