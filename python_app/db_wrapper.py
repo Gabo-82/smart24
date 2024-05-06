@@ -103,6 +103,7 @@ def load_short_articles_to_db(short_data, keywords):
         VALUES (?)""", (score,))
 
         conn.commit()
+        print('Articles loaded successfully!')
     conn.close()
 
 def load_full_body_to_db():
@@ -130,6 +131,7 @@ def load_full_body_to_db():
                 continue
 
     conn.commit()
+    print('Full body loaded successfully!')
     conn.close()
 
 def load_sentiment_to_db():
@@ -162,6 +164,7 @@ def load_sentiment_to_db():
             continue
 
     conn.commit()
+    print('Sentiments loaded successfully!')
     conn.close()
 
 
