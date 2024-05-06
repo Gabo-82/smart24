@@ -168,7 +168,7 @@ def search_old_articles_by_keyword(keyword):
                    LEFT JOIN Sentiment AS s ON a.id = s.id
                    WHERE k.Keyword = ?
                    ORDER BY a.id DESC
-                   LIMIT 5;"""
+                   LIMIT 300;"""
     cursor.execute(sql_query, (keyword.lower(),))
     list_of_articles = []
     for row in cursor.fetchall():
