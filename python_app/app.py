@@ -21,7 +21,7 @@ setup_database_tables()
 """ scheduler.add_job(load_full_body_to_db, 'interval', seconds=10)
 scheduler.add_job(load_sentiment_to_db, 'interval', seconds=20, start_date=datetime.now() + timedelta(seconds=20)) """
 
-keywords = "Palestine"
+keywords = "palestine"
 
 """ short_data = newsFinder(keywords, api_key)
 if (short_data[0] != ""):
