@@ -115,22 +115,22 @@ export class NewsMapComponent implements OnInit {
             let color = '';
             switch (predominantSentiment) {
               case 'hopeful':
-                color = 'green';
+                color = '#90f488';
                 break;
               case 'celebratory':
-                color = 'yellow';
+                color = '#fff684';
                 break;
               case 'informative':
-                color = 'blue';
+                color = '#e1e8ea';
                 break;
               case 'critical':
-                color = 'red';
+                color = '#fa956c';
                 break;
               case 'angry':
-                color = 'orange';
+                color = '#f85f52';
                 break;
               case 'sad':
-                color = 'purple';
+                color = '#9eddff';
                 break;
               // Add more cases for other sentiments if needed
               default:
@@ -277,4 +277,3 @@ export class NewsMapComponent implements OnInit {
   }
 
 }
-
