@@ -105,10 +105,9 @@ export class NewsMapComponent implements OnInit {
       })
     this.newsDetailsService.getShortArticlesNew(this.countryName!, this.currentRoute)
       .subscribe(response => {
-        const res = response
-        this.articles.forEach((article: PieceOfNews) => {
-          article.sentiment = 'critical'
-        })
+        const res = response 
+        console.log('response:')
+        console.log(response)
         this.articles = this.articles.concat(res);
         console.log('After subscribe in getSANew')
         console.log(this.articles);

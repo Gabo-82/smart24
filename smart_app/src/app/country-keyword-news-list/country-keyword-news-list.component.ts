@@ -21,18 +21,21 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
 
   articles : PieceOfNews[] = [];
-  filteredArticles : PieceOfNews[] | undefined;
+  filteredArticles : PieceOfNews[] = [];
   router: any;
   dialog: any;
 
-  sentimentCategories = ['hopeful', 'celebratory', 'informative', 'critical', 'angry', 'sad'];
+  sentimentCategories = ['hopeful', 'celebratory', 'informative', 'critical', 'angry', 'sad','n'];
+
   sentimentColors: { [key: string]: string } = {
     hopeful: 'green',
     celebratory: 'gold',
     informative: 'blue',
     critical: 'red',
     angry: 'orange',
-    sad: 'purple'
+    sad: 'purple',
+    n : 'grey'
+    
     // Add more sentiment-color mappings as needed
   };
 
@@ -46,17 +49,17 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   ngOnChanges(): void {
     console.log("CountryKeywordNewsListComponent", this.countryStr);
     this.articles = this.articles2
-    this.articles.forEach((article: PieceOfNews) => {
-      article.sentiment = 'hopeful'
-    })
     this.filteredArticles = this.articles;
     this.sendCountriesAndKeys()
     // console.log("cknl articles: ", this.articles);
     // console.log("cknl articless2:", this.articles2);
     if (this.filteredArticles && this.filteredArticles.length > 0) {
       this.filteredArticles = this.articles!.filter((article: PieceOfNews) => {
-        if (this.countryStr !== "") return true;
-        return article.country.toLowerCase() === this.countryStr.toLowerCase();
+        if (this.countryStr === "") {
+          return true;
+        } else {
+          return article.country.toLowerCase() === this.countryStr.toLowerCase();
+        }
       })
     }
     this.dataSource.filter = (this.countryStr);
@@ -89,6 +92,8 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     // console.log("ARTICLES:")
     // console.log(this.articles);
     // this.getArticles();
+    this.articles = this.articles2;
+    this.filteredArticles = this.articles;
   }
 
   filterArticlesBySentiment(sentiment: string): void {
