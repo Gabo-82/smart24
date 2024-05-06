@@ -9,14 +9,14 @@
 
   <div>
     <section>
-      <div class="example-label">Filter by sentiment  </div>
+      <div class="example-label">Filter the results</div>
       <div class="example-button-row">
         <button mat-stroked-button [ngStyle]="{ 'color': sentimentColors[element]}"
                 *ngFor="let element of sentimentCategories"
                 (click)="filterArticlesBySentiment(element)">{{ element }}</button>
       </div>
       <div class="example-button-row2">
-        <button mat-stroked-button class="info-button"  >More Info</button>
+        <button mat-stroked-button class="info-button">More Info</button>
       </div>
     </section>
   </div>
@@ -40,7 +40,7 @@
   <mat-accordion>
     <mat-expansion-panel *ngFor="let element of filteredArticles"> <!--to use data put filteredArticles-->
       <app-news-details [article]="element"></app-news-details>
-      <mat-expansion-panel-header [ngStyle]="{ 'background-color': sentimentColors[element.sentiment]}">
+      <mat-expansion-panel-header [ngStyle]="{ 'background-color': sentimentColors[element.sentiment]}" >
         <mat-panel-title>
           <ng-container *ngIf="element.title.length > 20; else fullTitle" >{{(element.url.length>60)? (element.title | slice:0:25)+'...':(element.url)}}.</ng-container>
           <ng-template #fullTitle >{{ element.title }}</ng-template>

@@ -1,4 +1,26 @@
-<h1>Here is the list of articles arranged based on their fact check score which is given based on the article's description.</h1>
+<h1>Articles with their fact check score</h1>
+<mat-accordion>
+    <mat-expansion-panel style="background-color: rgb(248, 236, 218);">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Learn more about this fact checking
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+        <ul>
+            <li>The rise of fake news and misinformation is increasingly recognised in many media sources.</li>
+            <li>Here you can check how factual each article seems <span style="font-style: italic;">based on its short description</span>.</li>
+            <li>The given score is by a model made in IDIR: The Innovative Data Intelligence Research Laboratory. The score is
+              between 0.0 (non-factual, opinionated or subjective) and 1.0 (factual). Here the score is visualised on a scale.
+            </li>
+            <li>When the scale shows the dot on the right side of the scale, the more likely the content of
+                the description is factual claims. The lower the score, so the more left the dot is,
+                the more non-factual, opinionated and subjective the sentence seems.</li>
+            <br>
+          </ul>
+          <li><a style="color:rgb(145, 58, 0)" href="https://idir.uta.edu/claimbuster/">Learn more about this model called ClaimBuster</a></li>
+          <li><a style="color:rgb(145, 58, 0)" href="https://idir.uta.edu">IDIR website</a></li>
+    </mat-expansion-panel>
+  </mat-accordion>
 <div class="mat-elevation-z8">
 <!--    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
     <table mat-table [dataSource]="filteredArticles!" class="mat-elevation-z8">
@@ -19,6 +41,7 @@
             </td>
         </ng-container>
 
+
         <!-- Date Column -->
         <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef>Date</th>
@@ -29,7 +52,7 @@
         <ng-container matColumnDef="source">
             <th mat-header-cell *matHeaderCellDef>Source</th>
             <td mat-cell *matCellDef="let article">
-                <a href="{{ article.url }}" target="_blank">{{ article.url }}</a>
+                <a href="{{ article.url }}" target="_blank">{{(article.url.length>20)? (article.url | slice:0:20)+'...':(article.url)}}</a>
             </td>
         </ng-container>
 

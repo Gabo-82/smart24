@@ -33,3 +33,12 @@
 a{
   color: #e6f1ff;
 }
+
+.logo{
+  padding-left: 25vw;
+  font-family: "Space Mono", monospace;
+  color: #e6f1ff;
+  font-size: 2vw;
+  font-weight: bold;
+  margin : auto 4px;
+}
