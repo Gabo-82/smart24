@@ -313,7 +313,9 @@
     <div class="table">
       <app-country-keyword-news-list (sendCountryToMap)="highlightCountries($event)" (sendKeywordsToMap)="manageKeywords($event)" *ngIf="showNewsList" countryStr="{{countryName}}" keywordStr="{{currentRoute}}" [articles2]="articles">
       </app-country-keyword-news-list>
-      <app-sentiment-bubble [articles2]="articles" *ngIf="showSentimentalContent"></app-sentiment-bubble>
+      <app-sentiment-bubble [articles2]="articles"
+      *ngIf="showSentimentalContent">
+      </app-sentiment-bubble>
       <app-fact-check *ngIf="showFactCheck" countryStr="{{countryName}}" keywordStr="{{currentRoute}}" [articles2]="articles"></app-fact-check>
       <button class="returnbutton" (click)="goBack()" *ngIf="showSentimentalContent || showFactCheck">Return to list of news</button>
     </div>
