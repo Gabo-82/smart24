@@ -17,6 +17,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   sentimentCounts: { [key: string]: number } = {};
   predefinedCountries = new Set<string>();
   countriesToSend: string[] = [];
+  displayedColumns: string[] = ['id', 'title', 'date', 'url'];
   dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
 
   articles : PieceOfNews[] = [];
@@ -161,16 +162,6 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     this.router.navigate(["/details"]);
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(CardOfNewsComponent, {
-      data: {
-        title: "News article with id",
-        date: "Dummy date",
-        description: "Dummy description"
-      }
-    });
-  }
-
   displayCountry() {
     if (this.articles) {
       for (const article of this.articles) {
@@ -214,7 +205,6 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
         }
       }
       this.sendKeywordsToMap.emit(keywordCounts);
-      console.log('Hello from emit:');
       console.log(keywordCounts);
     }
   }
