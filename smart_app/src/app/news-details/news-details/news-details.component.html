@@ -8,14 +8,14 @@
   <img src="{{ article.imgUrl }}" alt="Article image" style="max-width:100%; height:auto;"/>
 
 
-  <br>
+  <br><br><br><br>
   <p id="header">Summary of the article: </p>
-  <p>{{ article.description }}</p><br>
+  <p>{{ article.summary }}</p><br>
   <a href="{{article.url}}">Link to the article</a>
 
   <br><br>
-  <h3 id="header">Okay, let's dive deeper.</h3>
-    <p id="header">Sentiment analysis on this article: {{ article.sentiment }}</p>
+  <p class="deeper">Okay, let's dive deeper.</p>
+    <p id="header">Sentiment analysis on this article: <span style="font-style: italic; color:rgb(255, 115, 0);">{{ article.sentiment }}</span></p>
 
     <mat-accordion>
       <mat-expansion-panel>
@@ -34,48 +34,8 @@
     <br><br>
     <!--Fact checking-->
     <p id="header">Fact checking</p>
-    <ul>
-      <li>The rise of fake news and misinformation is increasingly recognised in many media sources.</li>
-      <li>Here you can check how factual each sentence from the article's summary is.</li>
-      <li>The given score is by a model made in IDIR: The Innovative Data Intelligence Research Laboratory. The score is
-        between 0.0 (non-factual, opinionated or subjective) and 1.0 (factual).
-      </li>
-      <br>
-    </ul>
-      <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Read more about the fact check model
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <p>The model ClaimBuster: Given a sentence, ClaimBuster gives it a score
-            between 0.0 and 1.0. The higher the score, the more likely the sentence contains check-worthy factual claims. The lower the score,
-            the more non-factual, subjective and opinionated the sentence is.
-            <br>The model is by IDIR: The Innovative Data Intelligence Research Laboratory from The University of Texas at Arlington, department of Computer Sciene and Engineering.
-            <br>
-          <ul>
-            <li><a href="https://idir.uta.edu/claimbuster/">Learn more about ClaimBuster</a></li>
-            <li><a href="https://idir.uta.edu">IDIR website</a></li>
-          </ul>
-        </mat-expansion-panel>
 
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Read more about fake news & misinformation
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <p>Millions of pieces of content created every day on the internet may be biased, hateful or misleading. The
-            rise of negative content, fake news and misinformation is increasingly recognised in politics, but its reach
-            is much wider; it can infiltrate trusted news sources, as well as smaller platforms like lifestyle blogs.
-            While the speed and spread of information exchange can have many positive effects, it also poses a challenge
-            to verification. It is difficult for humans alone to carefully analyse the vast amount of content on social
-            media and news sources in order to correctly identify what information is spurious and what is
-            trustworthy.</p>
-        </mat-expansion-panel>
-      </mat-accordion>
-
+    
     <!--<p (mouseover)="factCheckSentence(article.description)">
       {{ article.description }}
     </p>
@@ -92,18 +52,18 @@
        Fact check score: {{ factCheckScore }}
      </div> -->
 
-    <br>
-    <p id="smallerheader">Here is the fact-check-able article summary: move your mouse over a sentence to see its
-      score.</p>
+    
+    <p id="smallerheader">Here is a fact-check-able article summary: move your mouse over a sentence to check it's objectivity.
+     </p>
     <div>
       <p>
-        <ng-container *ngFor="let sentence of article.description.split('.'); let i = index">
+        <ng-container *ngFor="let sentence of article.summary.split('.'); let i = index">
           <span
             [style.color]="hoveredSentenceIndex === i ? 'rgb(255, 115, 0)' : 'black'"
             (mouseover)="factCheck(sentence, i)"
             (mouseleave)="hoveredSentenceIndex = -1"
           >
-            {{ sentence.trim() }}{{ i !== article.description.split('.').length - 1 ? '.' : '' }}
+            {{ sentence.trim() }}{{ i !== article.summary.split('.').length - 1 ? '.' : '' }}
           </span>
         </ng-container>
       </p>
@@ -116,6 +76,49 @@
         the more non-factual, opinionated and subjective the sentence seems.</p>
 
     </div>
+
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            How does this fact checking work?
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          <ul>
+            <li>The rise of fake news and misinformation is increasingly recognised in many media sources.</li>
+            <li>Here you can check how factual each sentence from the article's summary is.</li>
+            <li>The given score is by a model made in IDIR: The Innovative Data Intelligence Research Laboratory. The score is
+              between 0.0 (non-factual, opinionated or subjective) and 1.0 (factual).
+            </li>
+            <br>
+          </ul>The model ClaimBuster: Given a sentence, ClaimBuster gives it a score
+          between 0.0 and 1.0. The higher the score, the more likely the sentence contains check-worthy factual claims. The lower the score,
+          the more non-factual, subjective and opinionated the sentence is.
+          <br>The model is by IDIR: The Innovative Data Intelligence Research Laboratory from The University of Texas at Arlington, department of Computer Sciene and Engineering.
+          <br>
+        <ul>
+          <li><a href="https://idir.uta.edu/claimbuster/">Learn more about ClaimBuster</a></li>
+          <li><a href="https://idir.uta.edu">IDIR website</a></li>
+        </ul>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Read more about fake news & misinformation
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>Millions of pieces of content created every day on the internet may be biased, hateful or misleading. The
+          rise of negative content, fake news and misinformation is increasingly recognised in politics, but its reach
+          is much wider; it can infiltrate trusted news sources, as well as smaller platforms like lifestyle blogs.
+          While the speed and spread of information exchange can have many positive effects, it also poses a challenge
+          to verification. It is difficult for humans alone to carefully analyse the vast amount of content on social
+          media and news sources in order to correctly identify what information is spurious and what is
+          trustworthy.</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+
 
 
 </div>
