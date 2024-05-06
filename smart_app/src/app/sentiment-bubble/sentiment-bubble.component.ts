@@ -1,6 +1,6 @@
 // sentiment-bubble.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { PieceOfNews } from '../piece-of-news';
 import { NEWS_DATA } from '../country-keyword-news-list/country-keyword-news-list.component'; // Import NEWS_DATA from the appropriate file
 import { CountryKeywordNewsListComponent } from '../country-keyword-news-list/country-keyword-news-list.component';
@@ -29,12 +29,18 @@ export class SentimentBubbleComponent implements OnInit {
 
   constructor(private countryKeywordNewsList: CountryKeywordNewsListComponent) { }
 
+  @Input({required: true}) articles2!: PieceOfNews[];
+
+  ngOnChange(): void {
+    this.calculateSentimentCounts()
+  }
+
   ngOnInit(): void {
     this.calculateSentimentCounts();
   }
 
   calculateSentimentCounts(): void {
-    const articles = this.countryKeywordNewsList.filteredArticles; // Access articles from CountryKeywordNewsListComponent
+    const articles = this.articles2 // Access articles from CountryKeywordNewsListComponent
 
     if (articles) {
       this.sentimentCounts = {}; // Clear existing counts
