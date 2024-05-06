@@ -120,7 +120,7 @@ def search_articles_by_keyword(keyword):
     WHERE k.Keyword = ?
     LIMIT 50;
     """
-    cursor.execute(sql_query, (keyword,))
+    cursor.execute(sql_query, (keyword.lower(),))
     list_of_articles = []
     for row in cursor.fetchall():
         article = {}
