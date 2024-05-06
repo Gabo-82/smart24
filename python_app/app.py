@@ -107,8 +107,8 @@ def search_articles_by_keyword(keyword):
 
     if (short_data[0] != ""):
         load_short_articles_to_db(short_data, keyword) #This is the function that loads the articles to the database
-        load_full_body_to_db()
-        load_sentiment_to_db()
+        # load_full_body_to_db()
+        # load_sentiment_to_db()
     conn = sqlite3.connect(SQL_FILE)
     cursor = conn.cursor()
 
