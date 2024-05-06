@@ -51,15 +51,15 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     })
     this.filteredArticles = this.articles;
     this.sendCountriesAndKeys()
-    console.log("cknl articles: ", this.articles);
-    console.log("cknl articless2:", this.articles2);
+    // console.log("cknl articles: ", this.articles);
+    // console.log("cknl articless2:", this.articles2);
     if (this.filteredArticles && this.filteredArticles.length > 0) {
       this.filteredArticles = this.articles!.filter((article: PieceOfNews) => {
         return article.country.toLowerCase() === this.countryStr.toLowerCase();
       })
     }
     this.dataSource.filter = (this.countryStr);
-    console.log(this.dataSource.filteredData)
+    // console.log(this.dataSource.filteredData)
     // this.customFilter =
     // this.dataSourcefilter(article => article.country === this.countryStr.toLowerCase()
     // this.dataSource.filter((article: PieceOfNews) => article.country === this.countryStr.toLowerCase());

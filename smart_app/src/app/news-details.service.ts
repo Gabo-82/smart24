@@ -19,7 +19,7 @@ export class NewsDetailsService {
     const first = this.http.get<any>(url);
     first.subscribe(response => {console.log(response)})
     return this.http.get<PieceOfNews>(url).pipe(
-      tap(_ => console.log(_)),
+      // tap(_ => console.log(_)),
       catchError(this.handleError<PieceOfNews>("getHeroes", ))
     )
   }
@@ -27,7 +27,7 @@ export class NewsDetailsService {
   getShortArticles(country: string = "mexico", keyword: string = "Palestine"): Observable<PieceOfNews[]> {
     const url = `${this.apiUrl}/api/searchOnline/${keyword}`;
     return this.http.get<PieceOfNews[]>(url).pipe(
-      tap(response => console.log(response)), 
+      // tap(response => console.log(response)),
       catchError(this.handleError<PieceOfNews[]>("getShortArticles"))
     );
   }

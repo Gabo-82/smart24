@@ -35,7 +35,7 @@ export class NewsDetailsComponent implements OnInit{
     private http: HttpClient
     ) { }
   ngOnInit(): void {
-    this.getArticle();
+    // this.getArticle();
   }
   getArticle(): void {
     this.newsDetailsService.getArticle(1)
