@@ -8,6 +8,9 @@ import {NgForOf, NgIf} from "@angular/common";
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { KeywordHistogramComponent } from 'src/app/keyword-histogram/keyword-histogram.component';
+
+
 
 @Component({
   selector: 'app-news-details',
@@ -55,7 +58,8 @@ export class NewsDetailsComponent implements OnInit{
       description: 'Finland is a country. We are happy.',
       language: 'English',
       body: 'This is a dummy article body.',
-      sentiment: 'neutral'
+      sentiment: 'neutral',
+      factCheckScore: 0.5
     };
 
     // Assigning the dummy data to selectedArticle
@@ -91,8 +95,6 @@ export class NewsDetailsComponent implements OnInit{
 
       this.hoveredSentenceIndex = index;
   }
-
-
 
 
 }

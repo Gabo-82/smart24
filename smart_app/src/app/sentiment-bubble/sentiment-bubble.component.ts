@@ -51,7 +51,7 @@ export class SentimentBubbleComponent implements OnInit {
 
   getBubbleSize(sentiment: string): number {
     const count = this.sentimentCounts[sentiment] || 0;
-    
+
     // Calculate bubble size based on the count of articles for the given sentiment
     // Use a larger default size for sentiments with count 1
     const size = count > 0 ? this.defaultBubbleSize + (count - 1) * 10 : this.defaultBubbleSize;

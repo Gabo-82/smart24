@@ -26,12 +26,10 @@ export class NewsDetailsService {
 
   getShortArticles(country: string = "mexico", keyword: string = "Palestine"): Observable<PieceOfNews[]> {
     const url = `${this.apiUrl}/api/searchOnline/${keyword}`;
-    const articleList = this.http.get<any>(url);
-    articleList.subscribe(response => {console.log(response)})
     return this.http.get<PieceOfNews[]>(url).pipe(
-      tap(_ => console.log(_)),
-      catchError(this.handleError<PieceOfNews[]>("getShortArticles", ))
-    )
+      tap(response => console.log(response)), 
+      catchError(this.handleError<PieceOfNews[]>("getShortArticles"))
+    );
   }
 
   getArticleByCountry(country: string): Observable<PieceOfNews> {

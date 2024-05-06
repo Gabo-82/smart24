@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, OnChanges} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {PieceOfNews} from "../piece-of-news";
@@ -11,7 +11,7 @@ import { CardOfNewsComponent } from '../card-of-news/card-of-news.component';
   templateUrl: './country-keyword-news-list.component.html',
   styleUrl: './country-keyword-news-list.component.css'
 })
-export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges{
+export class CountryKeywordNewsListComponent implements AfterViewInit {
   @Output() sendCountryToMap = new EventEmitter<string[]>();
   @Output() sendKeywordsToMap = new EventEmitter<{ [keyword: string]: number }>();
   sentimentCounts: { [key: string]: number } = {};
@@ -21,30 +21,26 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
 
   articles : PieceOfNews[] = [];
-  filteredArticles : PieceOfNews[] | undefined;
   router: any;
   dialog: any;
 
-  constructor(private newsDetailsService: NewsDetailsService) { }
+  sentimentCategories = ['hopeful', 'celebratory', 'informative', 'critical', 'angry', 'sad'];
+  sentimentColors: { [key: string]: string } = {
+    hopeful: 'green',
+    celebratory: 'gold',
+    informative: 'blue',
+    critical: 'red',
+    angry: 'orange',
+    sad: 'purple'
+    // Add more sentiment-color mappings as needed
+  };
+  filteredArticles: PieceOfNews[] | undefined;
+
+  constructor(private newsDetailsService: NewsDetailsService) {
+  }
 
   @Input({required: true}) countryStr!: string;
   @Input({required: true}) keywordStr!: string;
-
-  ngOnChanges(): void {
-    console.log("CountryKeywordNewsListComponent", this.countryStr);
-    this.filteredArticles = this.articles!.filter((article: PieceOfNews ) => {
-    return article.country.toLowerCase() === this.countryStr.toLowerCase();})
-    this.dataSource.filter = (this.countryStr);
-    console.log(this.dataSource.filteredData)
-    // this.customFilter =
-    // this.dataSourcefilter(article => article.country === this.countryStr.toLowerCase()
-    // this.dataSource.filter((article: PieceOfNews) => article.country === this.countryStr.toLowerCase());
-  }
-
-  ngOnInit(): void {
-    // this.loadArticles();
-  }
-
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   ngAfterViewInit() {
@@ -52,7 +48,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     // console.log(this.dataSource);
     this.dataSource.paginator = this.paginator!;
     // this.dataSource.filterPredicate = (data:PieceOfNews, filter:string) => (data.country.trim().toLowerCase().indexOf(filter.trim().toLowerCase()) !== -1)
-    this.dataSource.filterPredicate = function (record : PieceOfNews,filter: string) {
+    this.dataSource.filterPredicate = function (record: PieceOfNews, filter: string) {
       return record.country === filter;
     }
     // console.log("PAGINATOR:")
@@ -63,16 +59,11 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     // console.log(this.articles)
     // console.log("ARTICLES:")
     // console.log(this.articles);
-    this.displayCountry();
-    this.evaluateAndSendKeywords();
+    this.getArticles();
   }
 
-  customFilter(): (data: PieceOfNews, filter: string) => boolean {
-    let filterFunction = function (data: PieceOfNews, filter: string): boolean {
-      // return data.country.toLowerCase() == filter.toLowerCase();
-      return true;
-    }
-    return filterFunction
+  filterArticlesBySentiment(sentiment: string): void {
+    this.filteredArticles = this.articles!.filter(article => article.sentiment === sentiment);
   }
 
 
@@ -80,11 +71,17 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     this.newsDetailsService.getShortArticles(this.countryStr, this.keywordStr)
       .subscribe(response => {
         this.articles = response;
-        // console.log("After subscribe")
-        // console.log(this.articles);
-        this.filteredArticles = this.articles;
+        // for (let i = 0; i < this.articles.length; i++) {
+        //   this.articles[i].sentiment = this.sentimentCategories[~~(Math.random() * this.sentimentCategories.length)];
+        // }
+        this.articles.forEach((article: PieceOfNews) => {
+          article.sentiment = 'hopeful'
+        })
+
         // with dummy: this.dataSource = new MatTableDataSource<PieceOfNews>(NEWS_DATA);
         this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
+        this.displayCountry();
+        this.evaluateAndSendKeywords();
       })
   }
 
@@ -123,98 +120,90 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     return count * 10; // Example scaling factor (adjust as needed)
   }
 
-  clickNews(){
+  clickNews() {
     this.router.navigate(["/details"]);
   }
 
-  openDialog(){
-    const dialogRef = this.dialog.open(CardOfNewsComponent, {
-      data: {
-        title: "News article with id",
-        date: "Dummy date",
-        description: "Dummy description"
-      }
-    });
-  }
-
-  displayCountry(){
-    if (this.articles){
-      for (const article of this.articles){
+  displayCountry() {
+    if (this.articles) {
+      for (const article of this.articles) {
         this.predefinedCountries.add(article.country);
       }
-      for (const country of this.predefinedCountries){
+      for (const country of this.predefinedCountries) {
         this.countriesToSend.push(country.toLowerCase());
       }
       this.sendCountryToMap.emit(this.countriesToSend);
+      console.log("hello from displayCountry")
     }
   }
 
-  evaluateAndSendKeywords(){
+  evaluateAndSendKeywords() {
     const keywordCounts: { [keyword: string]: number } = {};
-        
+
     // Extracting keywords and sending them to the map component
-    if(this.articles){
+    if (this.articles) {
       for (const article of this.articles) {
         let keywords: string[];
 
         // Check if keyWords contains '[' and ']'
         if (article.keyWords.includes("[") && article.keyWords.includes("]")) {
-            // If so, remove '[' and ']', split the string by comma and trim whitespace
-            keywords = article.keyWords
-                .replace(/'/g, "")
-                .replace("[", "")
-                .replace("]", "")
-                .split(",")
-                .map((keyword: string) => keyword.trim());
+          // If so, remove '[' and ']', split the string by comma and trim whitespace
+          keywords = article.keyWords
+            .replace(/'/g, "")
+            .replace("[", "")
+            .replace("]", "")
+            .split(",")
+            .map((keyword: string) => keyword.trim());
         } else {
-            // Otherwise, it's a single keyword
-            keywords = [article.keyWords];
+          // Otherwise, it's a single keyword
+          keywords = [article.keyWords];
         }
 
         // Iterate through each keyword
         for (const keyword of keywords) {
-            // If the keyword already exists in the keywordCounts object, increment its count
-            // Otherwise, initialize its count to 1
-            keywordCounts[keyword] = (keywordCounts[keyword] || 0) + 1;
+          // If the keyword already exists in the keywordCounts object, increment its count
+          // Otherwise, initialize its count to 1
+          keywordCounts[keyword] = (keywordCounts[keyword] || 0) + 1;
         }
-    }
-    this.sendKeywordsToMap.emit(keywordCounts);
+      }
+      this.sendKeywordsToMap.emit(keywordCounts);
+      console.log(keywordCounts);
     }
   }
 
 
 }
 export const NEWS_DATA: PieceOfNews[] = [
-  {id: 1, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 2, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 3, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 4, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 5, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 6, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 7, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 8, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 1, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 2, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 3, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 4, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 5, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 6, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 7, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 8, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 1, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 2, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'eden hazard']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 3, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 4, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 5, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 6, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['jude belligham', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 7, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 8, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 1, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 2, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 3, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 4, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 5, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 6, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 7, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
-  {id: 8, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy"},
+  {id: 1, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 2, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 3, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 4, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 5, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 6, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 7, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 8, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 1, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 2, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 3, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 4, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 5, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 6, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 7, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 8, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 1, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 2, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'eden hazard']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 3, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 4, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 5, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 6, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['jude belligham', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 7, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 8, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 1, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 2, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 3, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 4, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 5, title: "US: New York Police 1", country: "peru", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "Finland is a country. You are always happy.", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 6, title: "US: New York Police 2", country: "india", url: "https://thenewsmill.com", keyWords: "['soccer', 'ronaldo']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 7, title: "US: New York Police 3", country: "mexico", url: "https://thenewsmill.com", keyWords: "soccer", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
+  {id: 8, title: "US: New York Police 4", country: "russia", url: "https://thenewsmill.com", keyWords: "['soccer', 'zinedine zidane', 'messi']", date: new Date("2024-05-01 09:05:32+05:30"), imgUrl: "https://example.com", category: "Hello", description: "juuba", language: "en", body: "Hello", sentiment: "Happy", factCheckScore: 0.1},
 ]

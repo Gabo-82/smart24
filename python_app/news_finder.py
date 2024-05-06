@@ -3,12 +3,15 @@ from newspaper import Article
 from newspaper.article import ArticleException
 import nltk
 import sys
+from getimage import extract_meta_image
 
 # Cambia la codificación de salida a UTF-8
 sys.stdout.reconfigure(encoding='utf-8')
 
 
 def newsFinder(keywords, api_key):
+    print(keywords)
+    print(api_key)
     url = f"https://newsdata.io/api/1/news?apikey={api_key}&q={keywords}&language=en"
     response = requests.get(url)
     if response.status_code >= 400:
@@ -27,6 +30,10 @@ def newsFinder(keywords, api_key):
             key_words = article.get("keywords", "Keywords not available")
             pub_date = article.get("pubDate", "Published date not available")
             image_url = article.get("image_url", "Image URL not available")
+            if image_url == None:
+                # print(image_url)
+                image_url = extract_meta_image(url)
+                # print(f"after{image_url}")
             category = article.get("category", "Category not available")
             description = article.get("description", "Description not available")
             language = article.get("language", "Language nos available")
@@ -95,13 +102,3 @@ def getCompleteNewsData(keywords, api_key):
             completeNewsItem = [title, country, url, key_words, pub_date, image_url, category, description, language] + contentData
             completeData.append(completeNewsItem)
     return completeData
-
-
-if __name__ == "__main__":
-    # Ejemplo de uso de las funciones si se ejecuta este archivo directamente
-    keywords = "Palestine"
-    api_key = 'pub_43149e792f981a89e8244c3d6ec8030fae0da'
-    completeData = getCompleteNewsData(keywords, api_key)
-    print(completeData)
-
-#bonjour

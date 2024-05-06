@@ -1,22 +1,39 @@
 <div class="mat-elevation-z8">
-<div>
+<!-- <div>
   <p>country-keyword-news-list.component.html:</p>
   <p>CountrySrt:</p>
   <p>{{countryStr}}</p>
   <p>KeywordStr:</p>
   <p>{{keywordStr}}</p>
-</div>
+</div> -->
+
+  <div>
+    <section>
+      <div class="example-label">Filter by sentiment  </div>
+      <div class="example-button-row">
+        <button mat-stroked-button [ngStyle]="{ 'color': sentimentColors[element]}"
+                *ngFor="let element of sentimentCategories"
+                (click)="filterArticlesBySentiment(element)">{{ element }}</button>
+
+      </div>
+      <div class="example-button-row2">
+        <button mat-stroked-button class="info-button">More Info</button>
+      </div>
+    </section>
+  </div>
+
+  <mat-divider></mat-divider>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let element of dataSource.data"> <!--to use data put filteredArticles-->
+    <mat-expansion-panel *ngFor="let element of articles"> <!--to use data put filteredArticles-->
       <app-news-details [article]="element"></app-news-details>
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header [ngStyle]="{ 'background-color': sentimentColors[element.sentiment]}" >
         <mat-panel-title>
-          <ng-container *ngIf="element.title.length > 20; else fullTitle">{{(element.url.length>60)? (element.title | slice:0:25)+'...':(element.url)}}.</ng-container>
-          <ng-template #fullTitle>{{ element.title }}</ng-template>
+          <ng-container *ngIf="element.title.length > 20; else fullTitle" >{{(element.url.length>60)? (element.title | slice:0:25)+'...':(element.url)}}.</ng-container>
+          <ng-template #fullTitle >{{ element.title }}</ng-template>
         </mat-panel-title>
-        <mat-panel-description>ID: {{ element.id }}</mat-panel-description>
+        <mat-panel-description [ngStyle]="{ 'background-color': sentimentColors[element.sentiment], 'color': sentimentColors[element.sentiment]}">ID: {{ element.id }}</mat-panel-description>
         <a mat-button href="{{ element.url }}" target="_blank">Source: {{(element.url.length>20)? (element.url | slice:0:20)+'...':(element.url)}}</a>
-        <mat-panel-description>Date: {{ element.date | date: 'short' }}</mat-panel-description>
+        <mat-panel-description>Date: {{ element.date | date:'fullDate' }}</mat-panel-description>
       </mat-expansion-panel-header>
     </mat-expansion-panel>
   </mat-accordion>

@@ -11,4 +11,5 @@ export interface PieceOfNews {
   language: string;
   body: string;
   sentiment: string;
+  factCheckScore: number;
 }
