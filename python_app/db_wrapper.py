@@ -75,8 +75,8 @@ def load_short_articles_to_db(short_data, keywords):
         # Extract article data
         title, country, url, key_words, date, img_url, category, description, language = newsItem
         
-        # Check if the article already exists in the database based on URL
-        cursor.execute("SELECT COUNT(*) FROM Articles WHERE url = ?", (description,))
+        # Check if the article already exists in the database based on description
+        cursor.execute("SELECT COUNT(*) FROM Articles WHERE description = ?", (description,))
         result = cursor.fetchone()
         article_exists = (result[0] > 0)
 
