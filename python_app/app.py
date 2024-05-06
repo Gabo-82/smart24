@@ -148,7 +148,7 @@ def search_new_articles_by_keyword(keyword):
             article["bias"] = bias if bias else "Bias not available"
             list_of_articles.append(article)
     conn.close()
-    print(list_of_articles)
+    # print(list_of_articles)
     return jsonify(list_of_articles)
 
 
@@ -168,7 +168,7 @@ def search_old_articles_by_keyword(keyword):
                    LEFT JOIN Sentiment AS s ON a.id = s.id
                    WHERE k.Keyword = ?
                    ORDER BY a.id DESC
-                   LIMIT 100;"""
+                   LIMIT 5;"""
     cursor.execute(sql_query, (keyword.lower(),))
     list_of_articles = []
     for row in cursor.fetchall():
@@ -192,7 +192,7 @@ def search_old_articles_by_keyword(keyword):
             article["bias"] = bias if bias else "Bias not available"
             list_of_articles.append(article)
     conn.close()
-    print(list_of_articles)
+    # print(list_of_articles)
     return jsonify(list_of_articles)
 
 """ @app.route('/api/searchOnline/<keyword>') """ # COPY OF THE ORIGINAL ONE

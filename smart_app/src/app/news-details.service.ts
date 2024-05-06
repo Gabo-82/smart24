@@ -24,8 +24,16 @@ export class NewsDetailsService {
     )
   }
 
-  getShortArticles(country: string = "mexico", keyword: string = "Palestine"): Observable<PieceOfNews[]> {
-    const url = `${this.apiUrl}/api/searchOnline/${keyword}`;
+  getShortArticlesOld(country: string = "mexico", keyword: string = "Palestine"): Observable<PieceOfNews[]> {
+    const url = `${this.apiUrl}/api/searchOnlineOld/${keyword}`;
+    return this.http.get<PieceOfNews[]>(url).pipe(
+      // tap(response => console.log(response)),
+      catchError(this.handleError<PieceOfNews[]>("getShortArticles"))
+    );
+  }
+
+  getShortArticlesNew(country: string = "mexico", keyword: string = "Palestine"): Observable<PieceOfNews[]> {
+    const url = `${this.apiUrl}/api/searchOnlineNew/${keyword}`;
     return this.http.get<PieceOfNews[]>(url).pipe(
       // tap(response => console.log(response)),
       catchError(this.handleError<PieceOfNews[]>("getShortArticles"))

@@ -23,7 +23,7 @@ export class NewsMapComponent implements OnInit {
   predefinedCountries = new Set<string>();
   ml5Version: string = "";
   // articles: any[] = [];
-  countryName: string | null = "India";
+  countryName: string | null = '';
   currentRoute: string;
   keyWords: CloudData[] = [];
 
@@ -83,7 +83,7 @@ export class NewsMapComponent implements OnInit {
    }
 
   getArticles(): void {
-    this.newsDetailsService.getShortArticles(this.countryName!, this.currentRoute)
+    this.newsDetailsService.getShortArticlesOld(this.countryName!, this.currentRoute)
       .subscribe(response => {
         this.articles = response;
         // for (let i = 0; i < this.articles.length; i++) {
@@ -101,6 +101,18 @@ export class NewsMapComponent implements OnInit {
         // this.dataSource = new MatTableDataSource<PieceOfNews>(this.articles);
         // this.displayCountry();
         // this.evaluateAndSendKeywords();
+
+      })
+    this.newsDetailsService.getShortArticlesNew(this.countryName!, this.currentRoute)
+      .subscribe(response => {
+        const res = response
+        this.articles.forEach((article: PieceOfNews) => {
+          article.sentiment = 'critical'
+        })
+        this.articles = this.articles.concat(res);
+        console.log('After subscribe in getSANew')
+        console.log(this.articles);
+        console.log(res);
       })
   }
 
