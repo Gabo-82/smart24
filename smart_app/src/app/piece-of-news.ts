@@ -9,7 +9,10 @@ export interface PieceOfNews {
   category: string;
   description: string;
   language: string;
-  body: string;
+  summary: string;
+  score: number;
   sentiment: string;
+  goodOrbad: string;
+  bias: string;
   factCheckScore: number;
 }
