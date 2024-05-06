@@ -76,25 +76,25 @@ def load_short_articles_to_db(short_data, keywords):
         title, country, url, key_words, date, img_url, category, description, language = newsItem
         
         # Check if the article already exists in the database based on URL
-        cursor.execute("SELECT COUNT(*) FROM Articles WHERE url = ?", (url,))
+        cursor.execute("SELECT COUNT(*) FROM Articles WHERE url = ?", (description,))
         result = cursor.fetchone()
         article_exists = (result[0] > 0)
 
         if not article_exists:
             try:
                 # Insert keywords into Keywords table
-                cursor.execute("""INSERT OR IGNORE INTO Keywords (Keyword) VALUES (?)""", (keywords,))
+                cursor.execute("""INSERT OR IGNORE INTO Keywords (Keyword) VALUES (?)""", (keywords.lower(),))
                 
-                # Insert article into Articles table
+                # Insert article into Articles table    
                 cursor.execute("""INSERT INTO Articles (title, country, url, keyWords, date, imgUrl, category, description, language)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (title, str(country), url, str(key_words), date, img_url, str(category), str(description or ''), language))
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (title, str(country), url, str(key_words).lower(), date, img_url, str(category), str(description or ''), language))
                 
                 # Map article to keywords in ArticleKeywords table
                 cursor.execute("""INSERT OR IGNORE INTO ArticleKeywords (id, KeywordID)
                     SELECT last_insert_rowid(), k.KeywordID
                     FROM Keywords as k
                     WHERE k.Keyword = ?;
-                """, (keywords,))
+                """, (keywords.lower(),))
                 
                 # Perform fact checking and insert score into FactCheckScore table
                 score = fact_check(description)
@@ -135,6 +135,7 @@ def load_full_body_to_db():
                 continue
 
     conn.commit()
+    print('Full body loaded successfully!')
     conn.close()
 
 def load_sentiment_to_db():
@@ -167,6 +168,7 @@ def load_sentiment_to_db():
             continue
 
     conn.commit()
+    print('Sentiments loaded successfully!')
     conn.close()
 
 
