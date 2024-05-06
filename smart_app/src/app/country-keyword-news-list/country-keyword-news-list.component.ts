@@ -30,11 +30,11 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   sentimentColors: { [key: string]: string } = {
     hopeful: '#90f488',
     celebratory: '#fff684',
-    informative: '#b8daec',
+    informative: '#e1e8ea',
     critical: '#fa956c',
     angry: '#f85f52',
     sad: '#9eddff',
-    n : 'grey'
+    n : 'white'
     
     // Add more sentiment-color mappings as needed
   };
