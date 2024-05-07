@@ -91,6 +91,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     this.filteredArticles = this.articles
     this.selectedOptionsGB = [];
     this.selectedOptionsBias = [];
+    this.selectedSentiments = [];
   }
 
   filterArticlesByNeutralBiased(): void {
