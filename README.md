@@ -1,4 +1,4 @@
-# SMART 2024 Template Repository
+# SMART 2024
 # Perspective Portal
 
 ![Insalogo](./images/logo-insa_0.png)
