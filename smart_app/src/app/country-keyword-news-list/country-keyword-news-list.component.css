@@ -51,6 +51,12 @@ section {
   max-width: 900px;
 }
 
+.example-button-row3 {
+  /*display: inline-block;*/
+  display: flex;
+  gap: 40px;
+}
+
 .info-button {
   color: white;
   background-color: gray;
