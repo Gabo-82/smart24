@@ -15,12 +15,12 @@ export class SentimentBubbleComponent implements OnInit {
   sentimentCategories = ['hopeful', 'celebratory', 'informative', 'critical', 'angry', 'sad'];
   sentimentCounts: { [key: string]: number } = {};
   sentimentColors: { [key: string]: string } = {
-    hopeful: 'green',
-    celebratory: 'gold',
-    informative: 'blue',
-    critical: 'red',
-    angry: 'orange',
-    sad: 'purple'
+    hopeful: '#90f488',
+    celebratory: '#fff684',
+    informative: '#e1e8ea',
+    critical: '#fa956c',
+    angry: '#f85f52',
+    sad: '#9eddff',
     // Add more sentiment-color mappings as needed
   };
 
