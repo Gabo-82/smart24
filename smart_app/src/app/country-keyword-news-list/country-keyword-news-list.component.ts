@@ -45,6 +45,7 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
     goodOrbad: false,
     biased: false
   }
+  selectedSentiments = [];
   selectedOptionsGB = [];
   selectedOptionsBias = [];
 
@@ -93,19 +94,19 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
   }
 
   filterArticlesByNeutralBiased(): void {
-    console.log(this.articles);
-    // console.log(this.filteredArticles);
-    this.filteredArticles = this.articles!
+    console.log("START filterArticlesByNeutralBiased");
+    console.log("All articles",this.articles);
+    this.filteredArticles = this.articles
     console.log(this.selectedOptionsGB);
     if (this.selectedOptionsGB.length > 0) {
       // filter by if either selected option is a substring of article.bias
-      this.filteredArticles = this.articles!.filter(article => {
+      this.filteredArticles = this.filteredArticles.filter(article => {
         return this.selectedOptionsGB.some((substring: string) => article.goodOrbad.trim().toLowerCase().indexOf(substring.toLowerCase()) > -1)
       });
     }
     // console.log(this.selectedOptionsBias);
     if (this.selectedOptionsBias.length > 0) {
-      this.filteredArticles = this.articles!.filter(article => {
+      this.filteredArticles = this.filteredArticles.filter(article => {
         // console.log("ret", ret);
         return this.selectedOptionsBias.some((substring: string) => {
           // console.log("substring",substring);
@@ -116,6 +117,17 @@ export class CountryKeywordNewsListComponent implements AfterViewInit, OnChanges
           return article.bias.trim().toLowerCase().indexOf(substring.toLowerCase()) > -1
 
         });
+      })
+    }
+    console.log(this.articles);
+    console.log(this.selectedSentiments);
+    if(this.selectedSentiments.length > 0) {
+      this.filteredArticles = this.filteredArticles.filter(article => {
+        return this.selectedSentiments.some((substring: string) => {
+          // console.log("inside some")
+          // console.log(article.sentiment);
+          return article.sentiment === substring;
+        })
       })
     }
     console.log(this.filteredArticles);
